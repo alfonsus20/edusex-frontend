@@ -33,7 +33,7 @@ const Home = () => {
                 Asik
               </Text>{" "}
               dan{" "}
-              <Text color="yellow.300" as="span">
+              <Text color="yellow.400" as="span">
                 Menyenangkan
               </Text>
             </Heading>
@@ -51,14 +51,23 @@ const Home = () => {
             src={Home1Image}
             alt="home_1"
             width={60}
+            height="23rem"
             alignSelf="flex-start"
             zIndex={10}
           />
-          <Image src={Home2Image} alt="home_2" width={60} mt={10} zIndex={10} />
+          <Image
+            src={Home2Image}
+            alt="home_2"
+            width={60}
+            mt={10}
+            zIndex={10}
+            height="23rem"
+          />
           <Image
             src={Home3Image}
             alt="home_3"
             width={60}
+            height="23rem"
             alignSelf="flex-start"
             zIndex={10}
           />
@@ -172,8 +181,22 @@ const Home = () => {
             personal
           </Text>
           <ButtonGroup>
-            <Button colorScheme="yellow" rounded='full' size='lg' px={6} color='white'>Lihat Forum</Button>
-            <Button colorScheme="yellow" variant="outline" rounded='full' size='lg' px={6}>
+            <Button
+              colorScheme="yellow"
+              rounded="full"
+              size="lg"
+              px={6}
+              color="white"
+            >
+              Lihat Forum
+            </Button>
+            <Button
+              colorScheme="yellow"
+              variant="outline"
+              rounded="full"
+              size="lg"
+              px={6}
+            >
               Konsultasi Personal
             </Button>
           </ButtonGroup>
