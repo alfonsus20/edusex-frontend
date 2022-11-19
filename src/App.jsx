@@ -6,6 +6,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Material from "./pages/Material";
 import MaterialDetail from "./pages/MaterialDetail";
+import Quiz from "./pages/Quiz";
+import QuizInfo from "./pages/QuizInfo";
+import QuizResult from "./pages/QuizResult";
 import Register from "./pages/Register";
 import Topic from "./pages/Topic";
 
@@ -21,6 +24,12 @@ function App() {
           <Route path="/topic" element={<Topic />} />
           <Route path="/topic/:topicId/material" element={<Material />} />
           <Route path="/material/:materialId" element={<MaterialDetail />} />
+          <Route
+            path="/material/:materialId/quiz-info"
+            element={<QuizInfo />}
+          />
+          <Route path="/material/:materialId/quiz" element={<Quiz />} />
+          <Route path="/quiz-result/:resultId" element={<QuizResult />} />
         </Routes>
       </Box>
       <Footer />

@@ -161,7 +161,7 @@ const Home = () => {
           />
         </Flex>
       </Box>
-      <Flex alignItems="center" maxW="8xl" mx="auto" py={12} px={4}>
+      <Flex alignItems="center" maxW="7xl" mx="auto" py={12} px={4}>
         <Image
           src={ForumDiskusiImage}
           width="32rem"

@@ -8,7 +8,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getEmbedYoutubeURL } from "../utils/helper";
 import ornament from "../assets/kerjakan_kuis_ornament.svg";
 
@@ -71,7 +71,14 @@ const MaterialDetail = () => {
         py={20}
         pos="relative"
       >
-        <Image src={ornament} alt="ornament" pos="absolute" right={0} top={0} width={40} />
+        <Image
+          src={ornament}
+          alt="ornament"
+          pos="absolute"
+          right={0}
+          top={0}
+          width={40}
+        />
         <Text mb={4} fontSize="3xl" fontWeight="semibold">
           Yuk, Kerjakan Mini Kuis
         </Text>
@@ -79,7 +86,13 @@ const MaterialDetail = () => {
           Terdapat mini kuis yang dapat kamu kerjakan untuk menguji pemahamanmu
           terkait materi yang baru kamu pelajari
         </Text>
-        <Button colorScheme="pink" rounded="full" px={6}>
+        <Button
+          colorScheme="pink"
+          rounded="full"
+          px={6}
+          as={Link}
+          to={`/material/${materialId}/quiz-info`}
+        >
           Kerjakan Kuis
         </Button>
       </Flex>
