@@ -5,9 +5,11 @@ import { FaChevronDown } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <Box as='nav'>
+    <Box as="nav" pos="sticky" top={0} zIndex={90} bg="white">
       <Flex justifyContent="space-between" py={4} px={4} maxW="8xl" mx="auto">
-        <Image src={logo} alt="logo" width={28} height={12} />
+        <Link to="/">
+          <Image src={logo} alt="logo" width={28} height={12} />
+        </Link>
         <HStack fontWeight={500} spacing={6}>
           <Link to="/">
             <Text>Beranda</Text>
@@ -22,7 +24,9 @@ const Navbar = () => {
             <Text>Konsultasi Personal</Text>
           </Link>
         </HStack>
-        <Button colorScheme="blue">Login</Button>
+        <Button colorScheme="blue" px={6} as={Link} to="/login">
+          Login
+        </Button>
         {/* <Flex alignItems="center">
           <Image
             src="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/default-avatar.png"
