@@ -58,6 +58,7 @@ const MaterialDetail = () => {
             src={getEmbedYoutubeURL(
               "https://www.youtube.com/watch?v=vEIPJyYOSJI"
             )}
+            allowFullScreen
           />
         </AspectRatio>
       </Box>

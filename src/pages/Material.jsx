@@ -39,6 +39,7 @@ const Material = () => {
           <Image
             src="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/material-ilustration/Basketball-rafiki%201.png?t=2022-11-19T09%3A13%3A39.663Z"
             width={80}
+            style={{ aspectRatio: "1" }}
           />
         </Flex>
       </Box>
