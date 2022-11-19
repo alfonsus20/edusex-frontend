@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Material from "./pages/Material";
+import MaterialDetail from "./pages/MaterialDetail";
 import Register from "./pages/Register";
 import Topic from "./pages/Topic";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/topic" element={<Topic />} />
           <Route path="/topic/:topicId/material" element={<Material />} />
+          <Route path="/material/:materialId" element={<MaterialDetail />} />
         </Routes>
       </Box>
       <Footer />

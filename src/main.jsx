@@ -10,6 +10,7 @@ const theme = extendTheme({
       500: "#5B8FF9",
       600: "#3878FC",
       700: "#226BFF",
+      800: "#7262FD",
     },
     yellow: {
       400: "#F6BD16",
@@ -20,6 +21,11 @@ const theme = extendTheme({
       500: "#F6903D",
       600: "#FF7E14",
       700: "#FF7402",
+    },
+    pink: {
+      500: "#F08BB4",
+      600: "#E883AC",
+      700: "#D9789F",
     },
   },
 });
