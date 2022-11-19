@@ -10,7 +10,14 @@ const Topic = () => {
         </Text>{" "}
         yang Bisa Kamu Pelajari
       </Heading>
-      <Flex flexWrap="wrap" w="full" mx="auto" maxW="7xl">
+      <Flex
+        flexWrap="wrap"
+        w="full"
+        mx="auto"
+        maxW="7xl"
+        gap={6}
+        justifyContent="center"
+      >
         {Array(10)
           .fill(null)
           .map((item, idx) => (

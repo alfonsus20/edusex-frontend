@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Material from "./pages/Material";
 import Register from "./pages/Register";
 import Topic from "./pages/Topic";
 
@@ -16,7 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/topik" element={<Topic />} />
+          <Route path="/topic" element={<Topic />} />
+          <Route path="/topic/:topicId/material" element={<Material />} />
         </Routes>
       </Box>
       <Footer />

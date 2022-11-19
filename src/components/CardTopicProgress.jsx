@@ -9,8 +9,8 @@ const CardTopicProgress = ({
   totalMaterials,
 }) => {
   return (
-    <Box w="33%" p={4} as={Link} to={`/topic/${id}`}>
-      <Flex shadow="md" px={6} py={4} alignItems="center">
+    <Box flex="0 1 25rem"  as={Link} to={`/topic/${id}/material`}>
+      <Flex shadow="md" p={4} alignItems="center">
         <Image src={image} alt={topic} width={32} height={32} mr={4} />
         <Box flex="1 1 auto">
           <Text fontWeight={600} fontSize="lg" mb={2}>

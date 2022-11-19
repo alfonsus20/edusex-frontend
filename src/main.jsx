@@ -16,6 +16,11 @@ const theme = extendTheme({
       500: "#FABB02",
       600: "#FBBC03",
     },
+    orange: {
+      500: "#F6903D",
+      600: "#FF7E14",
+      700: "#FF7402",
+    },
   },
 });
 
