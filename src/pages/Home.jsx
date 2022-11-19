@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Circle,
   Flex,
   Heading,
@@ -10,11 +11,13 @@ import {
 import Home1Image from "../assets/home_1.png";
 import Home2Image from "../assets/home_2.png";
 import Home3Image from "../assets/home_3.png";
+import CardTopicMini from "../components/CardTopicMini";
+import ForumDiskusiImage from "../assets/forum_diskusi.png";
 
 const Home = () => {
   return (
     <Box>
-      <Box position="relative" maxW='8xl' mx='auto'>
+      <Box position="relative" maxW="8xl" mx="auto" pb={12}>
         <Flex
           flexDirection="column"
           alignItems="center"
@@ -30,7 +33,7 @@ const Home = () => {
                 Asik
               </Text>{" "}
               dan{" "}
-              <Text color="orange.300" as="span">
+              <Text color="yellow.300" as="span">
                 Menyenangkan
               </Text>
             </Heading>
@@ -67,7 +70,7 @@ const Home = () => {
             right={12}
           />
           <Circle
-            bgColor="orange.400"
+            bgColor="yellow.400"
             size={12}
             pos="absolute"
             top={-8}
@@ -95,7 +98,7 @@ const Home = () => {
             left={12}
           />
           <Circle
-            bgColor="orange.300"
+            bgColor="yellow.300"
             size={8}
             pos="absolute"
             top={-12}
@@ -103,6 +106,79 @@ const Home = () => {
           />
         </Flex>
       </Box>
+      <Box py={12}>
+        <Heading as="h2" size="xl" textAlign="center" mb={6}>
+          <Text as="span" color="blue.400">
+            Topik-Topik
+          </Text>{" "}
+          yang Bisa Kamu Pelajari
+        </Heading>
+        <Flex
+          flexWrap="wrap"
+          maxW="6xl"
+          justifyContent="center"
+          mx="auto"
+          pos="relative"
+        >
+          {Array(8)
+            .fill(null)
+            .map((item, idx) => (
+              <CardTopicMini
+                topic="Pubertas"
+                image="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/pubertas?t=2022-11-19T02%3A43%3A24.960Z"
+              />
+            ))}
+          <Circle bg="cyan.400" size={8} pos="absolute" left={16} top={-8} />
+          <Circle
+            bg="purple.400"
+            size={6}
+            pos="absolute"
+            right={16}
+            top={-10}
+          />
+          <Circle
+            bg="pink.400"
+            size={6}
+            pos="absolute"
+            right={24}
+            bottom={-8}
+          />
+          <Circle
+            bg="yellow.400"
+            size={6}
+            pos="absolute"
+            left={24}
+            bottom={-6}
+          />
+        </Flex>
+      </Box>
+      <Flex alignItems="center" maxW="8xl" mx="auto" py={12} px={4}>
+        <Image
+          src={ForumDiskusiImage}
+          width="32rem"
+          alt="konsultasi"
+          mr="6rem"
+        />
+        <Box>
+          <Text color="yellow.400" fontWeight={700} mb={2}>
+            FORUM DISKUSI
+          </Text>
+          <Heading as="h3" size="xl" mb={2}>
+            Konsultasi dengan Ahlinya
+          </Heading>
+          <Text fontSize="xl" mb={4}>
+            Kami menyediakan forum bagi kamu untuk bertanya dan berdiskusi
+            bersama psikolog seputar seksualitas serta fitur konsultasi secara
+            personal
+          </Text>
+          <ButtonGroup>
+            <Button colorScheme="yellow" rounded='full' size='lg' px={6} color='white'>Lihat Forum</Button>
+            <Button colorScheme="yellow" variant="outline" rounded='full' size='lg' px={6}>
+              Konsultasi Personal
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </Flex>
     </Box>
   );
 };

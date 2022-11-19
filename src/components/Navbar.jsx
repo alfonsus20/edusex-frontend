@@ -5,7 +5,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <Box>
+    <Box as='nav'>
       <Flex justifyContent="space-between" py={4} px={4} maxW="8xl" mx="auto">
         <Image src={logo} alt="logo" width={28} height={12} />
         <HStack fontWeight={500} spacing={6}>

@@ -7,9 +7,14 @@ import "./index.css";
 const theme = extendTheme({
   colors: {
     blue: {
-      500 : "#5B8FF9",
-      600 : "#3878FC",
-      700 : "#226BFF"
+      500: "#5B8FF9",
+      600: "#3878FC",
+      700: "#226BFF",
+    },
+    yellow: {
+      400: "#F6BD16",
+      500: "#FABB02",
+      600: "#FBBC03",
     },
   },
 });
