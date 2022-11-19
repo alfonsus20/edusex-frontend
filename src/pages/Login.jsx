@@ -14,7 +14,12 @@ import loginImage from "../assets/login.png";
 const Login = () => {
   return (
     <Flex maxW="6xl" mx="auto" pt={4} pb={10}>
-      <Image src={loginImage} alt="login" width="50%" />
+      <Image
+        src={loginImage}
+        style={{ aspectRatio: "1/1" }}
+        alt="login"
+        width="50%"
+      />
       <Flex width="50%" alignItems="center" justifyContent="center">
         <Box shadow="lg" w="full" maxW="md" px={8} py={10}>
           <Heading as="h2" size="xl" mb={8} fontWeight={500}>
