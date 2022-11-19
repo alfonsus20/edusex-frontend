@@ -45,7 +45,7 @@ const Register = () => {
               <Input type="password" />
             </Box>
             <Button colorScheme="blue" w="full">
-              Register
+              Daftar
             </Button>
             <Text textAlign="center">
               Sudah punya akun?{" "}

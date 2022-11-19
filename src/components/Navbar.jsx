@@ -14,7 +14,7 @@ const Navbar = () => {
           <Link to="/">
             <Text>Beranda</Text>
           </Link>
-          <Link to="/">
+          <Link to="/topik">
             <Text>Topik Materi</Text>
           </Link>
           <Link to="/">
