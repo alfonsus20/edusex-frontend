@@ -29,7 +29,7 @@ function App() {
             element={<QuizInfo />}
           />
           <Route path="/material/:materialId/quiz" element={<Quiz />} />
-          <Route path="/quiz-result/:resultId" element={<QuizResult />} />
+          <Route path="/quiz-result/:attemptId" element={<QuizResult />} />
         </Routes>
       </Box>
       <Footer />
