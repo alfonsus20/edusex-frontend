@@ -17,7 +17,7 @@ const Navbar = () => {
           <Link to="/topic">
             <Text>Topik Materi</Text>
           </Link>
-          <Link to="/">
+          <Link to="/forum">
             <Text>Forum Diskusi</Text>
           </Link>
           <Link to="/">
