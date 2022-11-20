@@ -12,12 +12,14 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Badge,
 } from "@chakra-ui/react";
+import { Link, useParams } from "react-router-dom";
 
 const QuizInfo = () => {
+  const { materialId } = useParams();
+
   return (
     <Box mx="auto" maxW="6xl" pt={8}>
       <Box mb={6}>
@@ -41,7 +43,14 @@ const QuizInfo = () => {
           <Text>Selamat Mengerjakan!</Text>
         </VStack>
         <Flex>
-          <Button colorScheme="blue" ml="auto" size="lg" px={12}>
+          <Button
+            colorScheme="blue"
+            ml="auto"
+            size="lg"
+            px={12}
+            as={Link}
+            to={`/material/${materialId}/quiz`}
+          >
             Mulai
           </Button>
         </Flex>
