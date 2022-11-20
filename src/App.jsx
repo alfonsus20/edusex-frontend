@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Forum from "./pages/Forum";
+import ForumAskQuestion from "./pages/ForumAskQuestion";
+import ForumQuestionDetail from "./pages/ForumQuestionDetail";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Material from "./pages/Material";
@@ -32,6 +34,14 @@ function App() {
           <Route path="/material/:materialId/quiz" element={<Quiz />} />
           <Route path="/quiz-result/:attemptId" element={<QuizResult />} />
           <Route path="/forum" element={<Forum />} />
+          <Route
+            path="/forum/questions/:questionId"
+            element={<ForumQuestionDetail />}
+          />
+          <Route
+            path="/forum/ask"
+            element={<ForumAskQuestion />}
+          />
         </Routes>
       </Box>
       <Footer />

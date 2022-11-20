@@ -83,6 +83,7 @@ const Forum = () => {
           question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
           numberOfRespond={1}
           psychologistName="William"
+          questionId={1}
         />
         <CardDiscussion
           questionerName="Alfonsus"
@@ -90,6 +91,7 @@ const Forum = () => {
           question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
           numberOfRespond={1}
           psychologistName="William"
+          questionId={1}
         />
         <CardDiscussion
           questionerName="Alfonsus"
@@ -97,6 +99,7 @@ const Forum = () => {
           question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
           numberOfRespond={1}
           psychologistName="William"
+          questionId={1}
         />
       </Box>
     </Box>
