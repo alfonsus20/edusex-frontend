@@ -17,6 +17,7 @@ import { BsChatSquareDotsFill } from "react-icons/bs";
 import { RiPencilFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
 import CardDiscussion from "../components/CardDiscussion";
+import { Link } from "react-router-dom";
 
 const Forum = () => {
   return (
@@ -30,6 +31,8 @@ const Forum = () => {
           colorScheme="blue"
           variant="outline"
           size="lg"
+          as={Link}
+          to="/forum/ask"
         >
           Buat Pertanyaan
         </Button>
@@ -37,6 +40,8 @@ const Forum = () => {
           colorScheme="blue"
           size="lg"
           leftIcon={<Icon as={BsChatSquareDotsFill} />}
+          as={Link}
+          to="/forum/my-questions"
         >
           Pertanyaan Saya
         </Button>
@@ -57,7 +62,7 @@ const Forum = () => {
             Cari
           </Button>
         </Flex>
-        <Flex alignItems="center" >
+        <Flex alignItems="center">
           <Text mr={3}>Topik: </Text>
           <Tabs variant="soft-rounded" colorScheme="orange">
             <TabList gap={2}>

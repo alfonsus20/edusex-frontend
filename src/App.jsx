@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Forum from "./pages/Forum";
 import ForumAskQuestion from "./pages/ForumAskQuestion";
+import ForumMyQuestions from "./pages/ForumMyQuestions";
 import ForumQuestionDetail from "./pages/ForumQuestionDetail";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -41,6 +42,10 @@ function App() {
           <Route
             path="/forum/ask"
             element={<ForumAskQuestion />}
+          />
+          <Route
+            path="/forum/my-questions"
+            element={<ForumMyQuestions />}
           />
         </Routes>
       </Box>
