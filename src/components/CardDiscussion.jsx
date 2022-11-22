@@ -22,7 +22,7 @@ const CardDiscussion = ({
       as={Link}
       to={`/forum/questions/${questionId}`}
     >
-      <Box pos="relative" mr={8}>
+      <Box pos="relative" mr={8} alignSelf='flex-start'>
         <Circle size={16} bg="blue.200" fontSize="3xl" color="white">
           A
         </Circle>
@@ -35,8 +35,8 @@ const CardDiscussion = ({
           h={12}
           rounded="full"
           pos="absolute"
-          bottom={-4}
-          right={-3}
+          bottom={-5}
+          right={-4}
         />
       </Box>
       <Box flex="auto">

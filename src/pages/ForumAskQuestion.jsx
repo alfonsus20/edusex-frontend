@@ -8,7 +8,6 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import CardDiscussion from "../components/CardDiscussion";
 import { DEFAULT_AVATAR } from "../utils/constant";
 
 const ForumAskQuestion = () => {

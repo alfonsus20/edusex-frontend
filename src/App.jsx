@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Material from "./pages/Material";
 import MaterialDetail from "./pages/MaterialDetail";
+import Profile from "./pages/Profile";
 import Quiz from "./pages/Quiz";
 import QuizInfo from "./pages/QuizInfo";
 import QuizResult from "./pages/QuizResult";
@@ -46,6 +47,10 @@ function App() {
           <Route
             path="/forum/my-questions"
             element={<ForumMyQuestions />}
+          />
+          <Route
+            path="/profile"
+            element={<Profile />}
           />
         </Routes>
       </Box>
