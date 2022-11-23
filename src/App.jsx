@@ -24,6 +24,10 @@ import PsikologQuestionDetail from "./pages/PsikologQuestionDetail";
 import PsikologProfile from "./pages/PsikologProfile";
 import PsikologPersonalChat from "./pages/PsikologPersonalChat";
 import PsikologPersonalChatDetail from "./pages/PsikologPersonalChatDetail";
+import AdminMaterialManagement from "./pages/AdminMaterialManagement";
+import AdminPsikologManagement from "./pages/AdminPsikologManagement";
+import AdminPsikologForm from "./pages/AdminPsikologForm";
+import AdminMaterialForm from "./pages/AdminMaterialForm";
 
 function App() {
   return (
@@ -80,9 +84,28 @@ function App() {
               path="/psikolog/personal-chat/:roomId"
               element={<PsikologPersonalChatDetail />}
             />
+            <Route path="/psikolog/profile" element={<PsikologProfile />} />
+          </Route>
+          <Route element={<AdminRoute />}>
             <Route
-              path="/psikolog/profile"
-              element={<PsikologProfile />}
+              path="/admin/material-management"
+              element={<AdminMaterialManagement />}
+            />
+            <Route
+              path="/admin/material-management/add"
+              element={<AdminMaterialForm />}
+            />
+            <Route
+              path="/admin/material-management/:materialId/edit"
+              element={<AdminMaterialForm />}
+            />
+            <Route
+              path="/admin/psikolog-management"
+              element={<AdminPsikologManagement />}
+            />
+            <Route
+              path="/admin/psikolog-management/new-psikolog"
+              element={<AdminPsikologForm />}
             />
           </Route>
         </Routes>
