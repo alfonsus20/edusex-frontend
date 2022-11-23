@@ -8,19 +8,13 @@ const ChatRoom = ({
   lastMessage,
   numberOfUnreadMessage,
   time,
-  roomId,
+  path,
 }) => {
   return (
-    <Flex
-      py={2}
-      alignItems="center"
-      cursor="pointer"
-      as={Link}
-      to={`/personal-consultation/${roomId}`}
-    >
+    <Flex py={2} alignItems="center" cursor="pointer" as={Link} to={path}>
       <Image
-        w={14}
-        h={14}
+        w={12}
+        h={12}
         rounded="full"
         src={avatar || DEFAULT_AVATAR}
         alt="avatar"

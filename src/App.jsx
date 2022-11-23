@@ -17,6 +17,13 @@ import QuizInfo from "./pages/QuizInfo";
 import QuizResult from "./pages/QuizResult";
 import Register from "./pages/Register";
 import Topic from "./pages/Topic";
+import AdminRoute from "./routes/AdminRoute";
+import PsikologDiscussion from "./pages/PsikologDiscussion";
+import PsikologRoute from "./routes/PsikologRoute";
+import PsikologQuestionDetail from "./pages/PsikologQuestionDetail";
+import PsikologProfile from "./pages/PsikologProfile";
+import PsikologPersonalChat from "./pages/PsikologPersonalChat";
+import PsikologPersonalChatDetail from "./pages/PsikologPersonalChatDetail";
 
 function App() {
   return (
@@ -41,14 +48,8 @@ function App() {
             path="/forum/questions/:questionId"
             element={<ForumQuestionDetail />}
           />
-          <Route
-            path="/forum/ask"
-            element={<ForumAskQuestion />}
-          />
-          <Route
-            path="/forum/my-questions"
-            element={<ForumMyQuestions />}
-          />
+          <Route path="/forum/ask" element={<ForumAskQuestion />} />
+          <Route path="/forum/my-questions" element={<ForumMyQuestions />} />
           <Route
             path="/personal-consultation"
             element={<PersonalConsultation />}
@@ -57,10 +58,33 @@ function App() {
             path="/personal-consultation/:roomId"
             element={<PersonalConsultation />}
           />
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
+          <Route path="/profile" element={<Profile />} />
+          <Route element={<PsikologRoute />}>
+            <Route
+              path="/psikolog/discussion"
+              element={<PsikologDiscussion />}
+            />
+            <Route
+              path="/psikolog/discussion/:questionId"
+              element={<PsikologQuestionDetail />}
+            />
+            <Route
+              path="/psikolog/discussion/:questionId"
+              element={<PsikologQuestionDetail />}
+            />
+            <Route
+              path="/psikolog/personal-chat"
+              element={<PsikologPersonalChat />}
+            />
+            <Route
+              path="/psikolog/personal-chat/:roomId"
+              element={<PsikologPersonalChatDetail />}
+            />
+            <Route
+              path="/psikolog/profile"
+              element={<PsikologProfile />}
+            />
+          </Route>
         </Routes>
       </Box>
       <Footer />
