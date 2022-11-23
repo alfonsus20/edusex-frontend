@@ -20,7 +20,7 @@ const Navbar = () => {
           <Link to="/forum">
             <Text>Forum Diskusi</Text>
           </Link>
-          <Link to="/">
+          <Link to="/personal-consultation">
             <Text>Konsultasi Personal</Text>
           </Link>
         </HStack>

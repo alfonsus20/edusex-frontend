@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Material from "./pages/Material";
 import MaterialDetail from "./pages/MaterialDetail";
+import PersonalConsultation from "./pages/PersonalConsultation";
 import Profile from "./pages/Profile";
 import Quiz from "./pages/Quiz";
 import QuizInfo from "./pages/QuizInfo";
@@ -47,6 +48,14 @@ function App() {
           <Route
             path="/forum/my-questions"
             element={<ForumMyQuestions />}
+          />
+          <Route
+            path="/personal-consultation"
+            element={<PersonalConsultation />}
+          />
+          <Route
+            path="/personal-consultation/:roomId"
+            element={<PersonalConsultation />}
           />
           <Route
             path="/profile"
