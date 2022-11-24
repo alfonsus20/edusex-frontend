@@ -77,7 +77,7 @@ const AdminMaterialManagement = () => {
                     <Button
                       colorScheme="yellow"
                       as={Link}
-                      to={`/psikolog/discussion/1`}
+                      to={`/admin/material-management/1/edit`}
                       color="white"
                     >
                       Edit
