@@ -13,8 +13,12 @@ import Home2Image from "../assets/home_2.png";
 import Home3Image from "../assets/home_3.png";
 import CardTopicMini from "../components/CardTopicMini";
 import ForumDiskusiImage from "../assets/forum_diskusi.png";
+import { useTopicContext } from "../context/topicContext";
+import { Link } from "react-router-dom";
 
 const Home = () => {
+  const { topics } = useTopicContext();
+
   return (
     <Box>
       <Box position="relative" maxW="8xl" mx="auto" pb={12}>
@@ -129,14 +133,13 @@ const Home = () => {
           mx="auto"
           pos="relative"
         >
-          {Array(8)
-            .fill(null)
-            .map((item, idx) => (
-              <CardTopicMini
-                topic="Pubertas"
-                image="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/pubertas?t=2022-11-19T02%3A43%3A24.960Z"
-              />
-            ))}
+          {topics.map((topic) => (
+            <CardTopicMini
+              key={topic.id}
+              topic={topic.name}
+              image={topic.icon_url}
+            />
+          ))}
           <Circle bg="cyan.400" size={8} pos="absolute" left={16} top={-8} />
           <Circle
             bg="purple.400"
@@ -187,6 +190,8 @@ const Home = () => {
               size="lg"
               px={6}
               color="white"
+              as={Link}
+              to="/forum"
             >
               Lihat Forum
             </Button>
@@ -196,6 +201,8 @@ const Home = () => {
               rounded="full"
               size="lg"
               px={6}
+              as={Link}
+              to="/personal-consultation"
             >
               Konsultasi Personal
             </Button>

@@ -2,6 +2,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { TopicWrapper } from "./context/topicContext";
 import "./index.css";
 
 const theme = extendTheme({
@@ -36,6 +37,8 @@ const theme = extendTheme({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider theme={theme}>
-    <App />
+    <TopicWrapper>
+      <App />
+    </TopicWrapper>
   </ChakraProvider>
 );

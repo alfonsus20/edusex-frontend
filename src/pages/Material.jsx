@@ -11,12 +11,42 @@ import {
   InputLeftElement,
   Text,
 } from "@chakra-ui/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { getTopicById } from "../api-fetch/topic";
 import CardMaterial from "../components/CardMaterial";
 
 const Material = () => {
   const { topicId } = useParams();
+  const [topic, setTopic] = useState({});
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const searchBoxRef = useRef();
+
+  const filteredTopics = useMemo(
+    () =>
+      topic.materials?.filter((material) =>
+        material.title.includes(searchKeyword)
+      ),
+    [topic, searchKeyword]
+  );
+
+  useEffect(() => {
+    const fetchTopicDetail = async () => {
+      try {
+        const { data } = await getTopicById(topicId);
+        setTopic(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchTopicDetail();
+  }, []);
+
+  const handleSearch = () => {
+    setSearchKeyword(searchBoxRef?.current.value);
+  };
 
   return (
     <Box>
@@ -29,17 +59,14 @@ const Material = () => {
         >
           <Box color="white" maxW="sm">
             <Heading mb={3} as="h2" fontWeight={500}>
-              Pubertas
+              {topic.name}
             </Heading>
-            <Text>
-              Merupakan tanda-tanda yang dialami ketika dalam masa transisi dari
-              anak-anak ke dewasa.
-            </Text>
+            <Text>{topic.description}</Text>
           </Box>
           <Image
-            src="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/material-ilustration/Basketball-rafiki%201.png?t=2022-11-19T09%3A13%3A39.663Z"
+            src={topic.illustration_url}
             width={80}
-            style={{ aspectRatio: "1" }}
+            style={{ aspectRatio: 1 }}
           />
         </Flex>
       </Box>
@@ -50,9 +77,9 @@ const Material = () => {
               pointerEvents="none"
               children={<Icon as={FaSearch} color="gray.300" />}
             />
-            <Input mr={4} placeholder="Cari materi...." />
+            <Input ref={searchBoxRef} mr={4} placeholder="Cari materi...." />
           </InputGroup>
-          <Button colorScheme="orange" px={10}>
+          <Button colorScheme="orange" px={10} onClick={handleSearch}>
             Cari
           </Button>
         </Flex>
@@ -64,11 +91,12 @@ const Material = () => {
         mx="auto"
         pb={12}
       >
-        {[1, 2, 3, 4, 5].map((item) => (
+        {filteredTopics?.map((material) => (
           <CardMaterial
-            id={3}
-            title="lore upsma asdal asdmasd asdasd"
-            image="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/material-thumbnail/image%2028.png?t=2022-11-19T09%3A24%3A53.285Z"
+            key={material.id}
+            id={material.id}
+            title={material.title}
+            image={material.illustration_url}
           />
         ))}
       </Grid>
