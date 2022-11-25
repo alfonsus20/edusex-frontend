@@ -11,9 +11,25 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { getEmbedYoutubeURL } from "../utils/helper";
 import ornament from "../assets/kerjakan_kuis_ornament.svg";
+import { useEffect, useState } from "react";
+import { getMaterialById } from "../api-fetch/material";
 
 const MaterialDetail = () => {
   const { materialId } = useParams();
+  const [material, setMaterial] = useState({});
+
+  useEffect(() => {
+    const fetchMaterial = async () => {
+      try {
+        const { data } = await getMaterialById(materialId);
+        setMaterial(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchMaterial();
+  }, []);
 
   return (
     <Box>
@@ -21,7 +37,7 @@ const MaterialDetail = () => {
         <Box mb={4}>
           <Box mb={2}>
             <Heading as="h2" size="lg" mb={2}>
-              Kenapa Seseorang Bisa Mimpi Basah? Begini Penjelasannya
+              {material.title}
             </Heading>
             <Text>Minggu, 14 Oktober 2022</Text>
           </Box>
