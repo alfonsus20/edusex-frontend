@@ -1,6 +1,13 @@
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuthContext } from "../context/authContext";
+
 const AuthRoute = () => {
-  return (
-    <div>AuthRoute</div>
-  )
-}
-export default AuthRoute
+  const { isAuthenticated } = useAuthContext();
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
+  return <Outlet />;
+};
+export default AuthRoute;

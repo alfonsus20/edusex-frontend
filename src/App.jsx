@@ -28,6 +28,7 @@ import AdminMaterialManagement from "./pages/AdminMaterialManagement";
 import AdminPsikologManagement from "./pages/AdminPsikologManagement";
 import AdminPsikologForm from "./pages/AdminPsikologForm";
 import AdminMaterialForm from "./pages/AdminMaterialForm";
+import AuthRoute from "./routes/AuthRoute";
 
 function App() {
   return (
@@ -35,18 +36,20 @@ function App() {
       <Navbar />
       <Box minH="calc(100vh - 140px)">
         <Routes>
+          <Route element={<AuthRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/topic" element={<Topic />} />
           <Route path="/topic/:topicId/material" element={<Material />} />
           <Route path="/material/:materialId" element={<MaterialDetail />} />
           <Route
-            path="/material/:materialId/quiz-info"
+            path="/quiz/:quizId/quiz-info"
             element={<QuizInfo />}
           />
-          <Route path="/material/:materialId/quiz" element={<Quiz />} />
-          <Route path="/quiz-result/:attemptId" element={<QuizResult />} />
+          <Route path="/quiz/:quizId/do" element={<Quiz />} />
+          <Route path="/quiz/:attemptId/result" element={<QuizResult />} />
           <Route path="/forum" element={<Forum />} />
           <Route
             path="/forum/questions/:questionId"

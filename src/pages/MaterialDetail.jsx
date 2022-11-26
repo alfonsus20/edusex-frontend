@@ -6,13 +6,16 @@ import {
   Heading,
   Image,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { getEmbedYoutubeURL } from "../utils/helper";
 import ornament from "../assets/kerjakan_kuis_ornament.svg";
 import { useEffect, useState } from "react";
 import { getMaterialById } from "../api-fetch/material";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
+
+dayjs.locale("id");
 
 const MaterialDetail = () => {
   const { materialId } = useParams();
@@ -39,31 +42,18 @@ const MaterialDetail = () => {
             <Heading as="h2" size="lg" mb={2}>
               {material.title}
             </Heading>
-            <Text>Minggu, 14 Oktober 2022</Text>
+            <Text>
+              {dayjs(material.created_at).format("dddd, DD MMMM YYYY")}
+            </Text>
           </Box>
           <Image
-            src="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/material-thumbnail/image%2028.png?t=2022-11-19T09%3A24%3A53.285Z"
+            src={material.illustration_url}
             w="full"
             style={{ aspectRatio: "16/9" }}
             mx="auto"
+            mb={2}
           />
-          <VStack>
-            {[1, 2, 3, 4].map((t) => (
-              <Box>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
-                debitis sit illum laudantium delectus, minima possimus, quasi
-                animi ipsa beatae, placeat quae eius aperiam rerum totam
-                veritatis dolore accusantium? Ullam. Quisquam sunt nulla rerum
-                corrupti, dolor placeat fugit distinctio veniam at. Officiis
-                veniam tempora ipsum eum, recusandae architecto cum aliquam
-                earum maxime magni dolore quaerat quasi laborum? Impedit, ipsam
-                amet? Nihil eligendi eveniet molestiae cum magnam qui numquam
-                repellendus? Adipisci aut obcaecati dicta unde. Dicta, placeat?
-                Nihil eos deserunt nulla quos omnis exercitationem a maxime,
-                incidunt quidem repudiandae accusantium aspernatur? Incidunt
-              </Box>
-            ))}
-          </VStack>
+          <Box dangerouslySetInnerHTML={{ __html: material.content }} />
         </Box>
         <Heading as="h3" size="lg" mb={4}>
           Video
@@ -71,9 +61,7 @@ const MaterialDetail = () => {
         <AspectRatio w="full" ratio={16 / 9} mb={10}>
           <iframe
             title="video"
-            src={getEmbedYoutubeURL(
-              "https://www.youtube.com/watch?v=vEIPJyYOSJI"
-            )}
+            src={getEmbedYoutubeURL(material.video_url || "")}
             allowFullScreen
           />
         </AspectRatio>
@@ -107,7 +95,7 @@ const MaterialDetail = () => {
           rounded="full"
           px={6}
           as={Link}
-          to={`/material/${materialId}/quiz-info`}
+          to={`/quiz/${material.quiz?.id}/quiz-info`}
         >
           Kerjakan Kuis
         </Button>
