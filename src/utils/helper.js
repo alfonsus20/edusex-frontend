@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import Pusher from "pusher-js";
 
 export const getEmbedYoutubeURL = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -21,3 +22,5 @@ export const removeAuthToken = () => {
   localStorage.removeItem("token");
   delete axiosInstance.defaults.headers.common["Authorization"];
 };
+
+export const pusherInstance = new Pusher("2dfeb759d06c4752990a", { cluster: "ap1" })

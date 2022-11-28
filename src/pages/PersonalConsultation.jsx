@@ -25,22 +25,58 @@ import chooseChatImg from "../assets/choose-chat.svg";
 import { useParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import { DEFAULT_AVATAR } from "../utils/constant";
+import { getChatRooms } from "../api-fetch/personal-consultation";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../context/authContext";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import { pusherInstance } from "../utils/helper";
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 const PersonalConsultation = () => {
   const { roomId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [rooms, setRooms] = useState([]);
+  const { userInfo } = useAuthContext();
+
+  const fetchChatRooms = async () => {
+    try {
+      const { data } = await getChatRooms();
+      setRooms(data.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  useEffect(() => {
+    fetchChatRooms();
+  }, []);
+
+  useEffect(() => {
+    const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
+
+    channel.bind("fetch-chat-rooms", () => {
+      fetchChatRooms();
+    });
+
+    return () => {
+      pusherInstance.unsubscribe(`room-${roomId}`);
+    };
+  }, [userInfo.id]);
 
   return (
     <Flex
       flexDir="column"
       pt={4}
-      pb={10}
+      pb={6}
       mx="auto"
       maxW="7xl"
-      maxH="calc(100vh - 140px)"
-      h="full"
+      h="calc(100vh - 140px)"
     >
-      <Heading size="lg" mb={4}>
+      <Heading size="lg" mb={3}>
         Konsultasi Personal
       </Heading>
       <Flex overflow="hidden" flex="auto">
@@ -66,17 +102,21 @@ const PersonalConsultation = () => {
             />
           </Flex>
           <Box overflow="hidden">
-            {[1, 2, 3, 4, 5, 6, 7].map((item) => (
-              <ChatRoom
-                name="William"
-                lastMessage="apa kareba"
-                numberOfUnreadMessage={1}
-                time="08:00"
-                avatar=""
-                roomId={item}
-                path={`/personal-consultation/1`}
-              />
-            ))}
+            {rooms.map((room) => {
+              return (
+                <ChatRoom
+                  name={room.psikolog?.name}
+                  lastMessage={room.last_message || ""}
+                  numberOfUnreadMessage={1}
+                  time={dayjs(room.updated_at)
+                    .utc(true)
+                    .utcOffset(0)
+                    .format("HH:mm")}
+                  avatar={room.psikolog?.avatar_url}
+                  path={`/personal-consultation/${room.id}`}
+                />
+              );
+            })}
           </Box>
         </Box>
         <Flex

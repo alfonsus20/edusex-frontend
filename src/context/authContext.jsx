@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { authLogin, authRegister } from "../api-fetch/auth";
+import { getProfile } from "../api-fetch/profile";
 import useError from "../hooks/useError";
 import {
   removeAuthToken,
@@ -58,6 +59,20 @@ export const AuthWrapper = ({ children }) => {
       setDefaultToken();
     }
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchProfile = async () => {
+        try {
+          const { data } = await getProfile();
+          setUserInfo(data.data);
+        } catch (error) {
+          console.log({ error });
+        }
+      };
+      fetchProfile();
+    }
+  }, [isAuthenticated]);
 
   const logout = () => {
     setIsAuthenticated(false);

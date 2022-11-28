@@ -1,13 +1,23 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+import { useAuthContext } from "../context/authContext";
 import { DEFAULT_AVATAR } from "../utils/constant";
 
 const ChatItem = ({ ownerId, ownerAvatar, message }) => {
-  const loggedInUserId = 2;
+  const {
+    userInfo: { id: loggedInUserId },
+  } = useAuthContext();
+  const ref = useRef();
 
   const isOwnerCurrentUser = ownerId === loggedInUserId;
 
+  useEffect(() => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <Flex
+      ref={ref}
       alignItems="flex-end"
       maxW="80%"
       alignSelf={isOwnerCurrentUser ? "flex-end" : "flex-start"}
