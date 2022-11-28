@@ -1,7 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { DEFAULT_AVATAR } from "../utils/constant";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
 
-const QuestionReply = ({ reply, userName, role, date, time, avatar }) => {
+const QuestionReply = ({ reply, userName, role, date, avatar }) => {
   return (
     <Box>
       <Flex gap={4} mb={2} alignItems="center">
@@ -17,8 +19,12 @@ const QuestionReply = ({ reply, userName, role, date, time, avatar }) => {
           <Text>{role}</Text>
         </Box>
         <Box textAlign="right">
-          <Text>{date}</Text>
-          <Text>{time}</Text>
+          <Text>
+            {dayjs(date).utc(true).tz("Asia/Jakarta").format("DD MMMM YYYY")}
+          </Text>
+          <Text>
+            {dayjs(date).utc(true).tz("Asia/Jakarta").format("HH:mm")}
+          </Text>
         </Box>
       </Flex>
       <Text>{reply}</Text>

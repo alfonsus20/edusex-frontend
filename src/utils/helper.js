@@ -23,4 +23,4 @@ export const removeAuthToken = () => {
   delete axiosInstance.defaults.headers.common["Authorization"];
 };
 
-export const pusherInstance = new Pusher("2dfeb759d06c4752990a", { cluster: "ap1" })
+export const pusherInstance = new Pusher(import.meta.env.VITE_PUSHER_KEY, { cluster: "ap1" })

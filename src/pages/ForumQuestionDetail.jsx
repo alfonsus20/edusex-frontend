@@ -7,15 +7,77 @@ import {
   Image,
   Text,
   Textarea,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getQuestionDetail, postQuestionReply } from "../api-fetch/discussion";
 import QuestionReply from "../components/QuestionReply";
 import { DEFAULT_AVATAR } from "../utils/constant";
+import { useAuthContext } from "../context/authContext";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
+
+dayjs.locale("id");
 
 const ForumQuestionDetail = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
+  const [questionDetail, setQuestionDetail] = useState({});
+  const { userInfo } = useAuthContext();
+  const [reply, setReply] = useState("");
+  const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchQuestionDetail = useCallback(async () => {
+    try {
+      const { data } = await getQuestionDetail(questionId);
+      setQuestionDetail(data.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  }, []);
+
+  const getUserRole = useCallback(
+    (role) => {
+      switch (role) {
+        case "psikolog":
+          return "Psikolog";
+        case "user":
+          if (questionDetail.user?.id === userInfo.id) {
+            return "Penanya";
+          } else {
+            return "Anggota";
+          }
+        default:
+          return "";
+      }
+    },
+    [questionDetail, userInfo]
+  );
+
+  const handleSubmitReply = useCallback(async () => {
+    try {
+      setIsSubmitting(true);
+      await postQuestionReply({ reply }, questionId);
+      toast({
+        status: "success",
+        title: "Sukses",
+        description: "Balasan berhasil terkirim",
+      });
+      setReply("");
+      await fetchQuestionDetail();
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [reply, questionId]);
+
+  useEffect(() => {
+    fetchQuestionDetail();
+  }, []);
 
   return (
     <Box pt={8} pb={12} mx="auto" maxW="6xl">
@@ -28,38 +90,43 @@ const ForumQuestionDetail = () => {
       <Box mb={4}>
         <Flex gap={4} mb={2} alignItems="center">
           <Circle size={14} bg="blue.200" fontSize="3xl" color="white">
-            A
+            {questionDetail.user?.name[0]}
           </Circle>
           <Box flex="auto">
-            <Text fontWeight="bold">Alfons</Text>
+            <Text fontWeight="bold"> {questionDetail.user?.name}</Text>
             <Text>Penanya</Text>
           </Box>
           <Box textAlign="right">
-            <Text>27 September 2022</Text>
-            <Text>16:00</Text>
+            <Text>
+              {dayjs(questionDetail.created_at)
+                .utc(true)
+                .tz("Asia/Jakarta")
+                .format("DD MMMM YYYY")}
+            </Text>
+            <Text>
+              {dayjs(questionDetail.created_at)
+                .utc(true)
+                .tz("Asia/Jakarta")
+                .format("HH:mm")}
+            </Text>
           </Box>
         </Flex>
-        <Text>Bagaimana mencegah terjadinya penyakit HIV/AIDS?</Text>
+        <Text>{questionDetail.question}</Text>
       </Box>
       <Box ml={4} mb={8}>
         <Heading size="sm" mb={4}>
           Balasan
         </Heading>
-        <VStack spacing={6} mb={6}>
-          <QuestionReply
-            reply="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec neque leo sed nec placerat vel, morbi ut. Sit vel porta placerat vulputate nullam a et sit sit. Pretium accumsan, vitae integer mauris, vestibulum tincidunt proin sed. Eget tempor non consequat consequat, tellus non tortor, sit. Velit aenean ullamcorper elit, vel turpis fames. Sollicitudin lacus, euismod nibh tincidunt felis egestas. Massa integer faucibus vitae gravida placerat eleifend amet, sit."
-            userName="William Setiawan"
-            role="Psikolog"
-            date="27 September 2022"
-            time="16:00"
-          />
-          <QuestionReply
-            reply="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec neque leo sed nec placerat vel, morbi ut. Sit vel porta placerat vulputate nullam a et sit sit. Pretium accumsan, vitae integer mauris, vestibulum tincidunt proin sed. Eget tempor non consequat consequat, tellus non tortor, sit. Velit aenean ullamcorper elit, vel turpis fames. Sollicitudin lacus, euismod nibh tincidunt felis egestas. Massa integer faucibus vitae gravida placerat eleifend amet, sit."
-            userName="William Setiawan"
-            role="Psikolog"
-            date="27 September 2022"
-            time="16:00"
-          />
+        <VStack spacing={6} mb={6} alignItems="stretch">
+          {questionDetail.replies?.map((reply) => (
+            <QuestionReply
+              key={reply.id}
+              reply={reply.reply}
+              userName={reply.user?.name}
+              role={getUserRole(reply.user?.role)}
+              date={reply.created_at}
+            />
+          ))}
         </VStack>
         <Flex>
           <Image
@@ -79,9 +146,17 @@ const ForumQuestionDetail = () => {
               resize="none"
               rows={5}
               mb={4}
+              onChange={(e) => setReply(e.target.value)}
             />
             <Flex>
-              <Button ml="auto" colorScheme="blue" px={8}>
+              <Button
+                ml="auto"
+                colorScheme="blue"
+                px={8}
+                isDisabled={!reply}
+                onClick={handleSubmitReply}
+                isLoading={isSubmitting}
+              >
                 Kirim
               </Button>
             </Flex>

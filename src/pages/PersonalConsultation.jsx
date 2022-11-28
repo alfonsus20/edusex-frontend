@@ -110,7 +110,7 @@ const PersonalConsultation = () => {
                   numberOfUnreadMessage={1}
                   time={dayjs(room.updated_at)
                     .utc(true)
-                    .utcOffset(0)
+                    .utcOffset(7)
                     .format("HH:mm")}
                   avatar={room.psikolog?.avatar_url}
                   path={`/personal-consultation/${room.id}`}
