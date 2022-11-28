@@ -1,9 +1,23 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { getTopicsWithProgress } from "../api-fetch/topic";
 import CardTopicProgress from "../components/CardTopicProgress";
-import { useTopicContext } from "../context/topicContext";
 
 const Topic = () => {
-  const { topics } = useTopicContext();
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    const fetchTopicWithProgress = async () => {
+      try {
+        const { data } = await getTopicsWithProgress();
+        setTopics(data.data);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+
+    fetchTopicWithProgress();
+  }, []);
 
   return (
     <Box pt={8} pb={12}>
@@ -26,8 +40,8 @@ const Topic = () => {
             key={topic.id}
             id={topic.id}
             topic={topic.name}
-            finishedMaterials={2}
-            totalMaterials={4}
+            finishedMaterials={topic.finished_material}
+            totalMaterials={topic.total_material}
             image={topic.icon_url}
           />
         ))}
