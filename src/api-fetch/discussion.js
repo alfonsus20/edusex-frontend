@@ -6,6 +6,9 @@ export const askQuestion = (data) =>
 export const getMyQuestions = () =>
   axiosInstance.get("/discussion/my-questions");
 
+  export const getAllQuestions = () =>
+  axiosInstance.get("/discussion");
+
 export const getQuestionDetail = (id) => axiosInstance.get(`/discussion/${id}`);
 
 export const postQuestionReply = (data, id) =>

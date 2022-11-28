@@ -146,6 +146,7 @@ const ForumQuestionDetail = () => {
               resize="none"
               rows={5}
               mb={4}
+              value={reply}
               onChange={(e) => setReply(e.target.value)}
             />
             <Flex>

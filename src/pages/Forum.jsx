@@ -18,8 +18,50 @@ import { RiPencilFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
 import CardDiscussion from "../components/CardDiscussion";
 import { Link } from "react-router-dom";
+import { getAllQuestions } from "../api-fetch/discussion";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTopicContext } from "../context/topicContext";
 
 const Forum = () => {
+  const [questions, setQuestions] = useState([]);
+  const [filterTopicIndex, setFilterTopicIndex] = useState(0);
+  const [filterKeyword, setFilterKeyword] = useState("");
+  const { topics } = useTopicContext();
+  const searchRef = useRef();
+
+  useEffect(() => {
+    const fetchAllQuestions = async () => {
+      try {
+        const { data } = await getAllQuestions();
+        setQuestions(data.data);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    fetchAllQuestions();
+  }, []);
+
+  const filteredQuestions = useMemo(() => {
+    let returnedValue = [...questions];
+    if (filterTopicIndex !== 0) {
+      returnedValue = returnedValue.filter(
+        (question) => question.topic?.id === topics[filterTopicIndex - 1]?.id
+      );
+    }
+
+    if (filterKeyword) {
+      returnedValue = returnedValue.filter((question) =>
+        question.question?.includes(filterKeyword)
+      );
+    }
+
+    return returnedValue;
+  }, [questions, filterTopicIndex, filterKeyword]);
+
+  const handleSearchByKeyword = useCallback(() => {
+    setFilterKeyword(searchRef.current.value);
+  }, []);
+
   return (
     <Box pt={8} pb={12} mx="auto" maxW="6xl">
       <Heading size="lg" mb={4}>
@@ -56,17 +98,30 @@ const Forum = () => {
               pointerEvents="none"
               children={<Icon as={FaSearch} color="gray.300" />}
             />
-            <Input mr={4} placeholder="Cari pertanyaan...." />
+            <Input mr={4} ref={searchRef} placeholder="Cari pertanyaan...." />
           </InputGroup>
-          <Button colorScheme="orange" px={10}>
+          <Button colorScheme="orange" px={10} onClick={handleSearchByKeyword}>
             Cari
           </Button>
         </Flex>
         <Flex alignItems="center">
           <Text mr={3}>Topik: </Text>
-          <Tabs variant="soft-rounded" colorScheme="orange">
+          <Tabs
+            variant="soft-rounded"
+            colorScheme="orange"
+            onChange={(val) => setFilterTopicIndex(val)}
+          >
             <TabList gap={2}>
-              {[1, 2, 3, 4, 5].map((item) => (
+              <Tab
+                px={6}
+                py={1}
+                color="orange.500"
+                border="2px"
+                _selected={{ bg: "orange.500", color: "white" }}
+              >
+                Semua
+              </Tab>
+              {topics.map((topic) => (
                 <Tab
                   px={6}
                   py={1}
@@ -74,7 +129,7 @@ const Forum = () => {
                   border="2px"
                   _selected={{ bg: "orange.500", color: "white" }}
                 >
-                  Tab {item}
+                  {topic.name}
                 </Tab>
               ))}
             </TabList>
@@ -82,30 +137,20 @@ const Forum = () => {
         </Flex>
       </Box>
       <Box>
-        <CardDiscussion
-          questionerName="Alfonsus"
-          time="20 menit yang lalu"
-          question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
-          numberOfRespond={1}
-          psychologistName="William"
-          questionId={1}
-        />
-        <CardDiscussion
-          questionerName="Alfonsus"
-          time="20 menit yang lalu"
-          question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
-          numberOfRespond={1}
-          psychologistName="William"
-          questionId={1}
-        />
-        <CardDiscussion
-          questionerName="Alfonsus"
-          time="20 menit yang lalu"
-          question="Bagaimana mencegah terjadinya penyakit HIV/AIDS?"
-          numberOfRespond={1}
-          psychologistName="William"
-          questionId={1}
-        />
+        {filteredQuestions.map((question) => (
+          <CardDiscussion
+            key={question.id}
+            questionerName={question.user?.name}
+            time={question.created_at}
+            question={question.question}
+            numberOfRespond={question.replies?.length}
+            psychologistName={
+              question.replies?.find((reply) => reply.user?.role === "psikolog")
+                ?.user?.name
+            }
+            questionId={question.id}
+          />
+        ))}
       </Box>
     </Box>
   );
