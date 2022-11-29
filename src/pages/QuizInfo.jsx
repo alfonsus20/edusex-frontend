@@ -8,17 +8,31 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableContainer,
   Badge,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { getQuizInfo } from "../api-fetch/quiz";
 
 const QuizInfo = () => {
-  const { materialId } = useParams();
+  const { quizId } = useParams();
+  const [quiz, setQuiz] = useState({});
+
+  useEffect(() => {
+    const fetchQuizInfo = async () => {
+      try {
+        const { data } = await getQuizInfo(quizId);
+        setQuiz(data.data);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    fetchQuizInfo();
+  }, []);
 
   return (
     <Box mx="auto" maxW="6xl" pt={8}>
@@ -32,8 +46,9 @@ const QuizInfo = () => {
             baru saja kamu pelajari.{" "}
           </Text>
           <Text>
-            Terdapat 5 pertanyaan yang harus dikerjakan dalam kuis ini dengan
-            syarat nilai kelulusan <strong>80%</strong>
+            Terdapat {quiz.questions} pertanyaan yang harus dikerjakan dalam
+            kuis ini dengan syarat nilai kelulusan{" "}
+            <strong>{quiz.min_score}%</strong>
           </Text>
           <Text>
             Kamu dianggap telah menyelesaikan materi ini apabila telah memenuhi
@@ -49,7 +64,7 @@ const QuizInfo = () => {
             size="lg"
             px={12}
             as={Link}
-            to={`/material/${materialId}/quiz`}
+            to={`/quiz/${quizId}/do`}
           >
             Mulai
           </Button>
@@ -70,24 +85,32 @@ const QuizInfo = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {[1, 2, 3, 4, 5].map((item, idx) => (
-                <Tr key={idx}>
-                  <Td>{idx + 1}.</Td>
-                  <Td>10 September 2022, 11:20</Td>
-                  <Td>80/100</Td>
-                  <Td>
-                    <Badge
-                      colorScheme="green"
-                      variant="solid"
-                      fontSize="md"
-                      px={6}
-                      py={2}
-                    >
-                      Lulus
-                    </Badge>
+              {quiz.attempts?.length === 0 ? (
+                <Tr textAlign="center">
+                  <Td colSpan={4} textAlign="center">
+                    Belum ada data
                   </Td>
                 </Tr>
-              ))}
+              ) : (
+                quiz.attempts?.map((item, idx) => (
+                  <Tr key={idx}>
+                    <Td>{idx + 1}.</Td>
+                    <Td>10 September 2022, 11:20</Td>
+                    <Td>80/100</Td>
+                    <Td>
+                      <Badge
+                        colorScheme="green"
+                        variant="solid"
+                        fontSize="md"
+                        px={6}
+                        py={2}
+                      >
+                        Lulus
+                      </Badge>
+                    </Td>
+                  </Tr>
+                ))
+              )}
             </Tbody>
           </Table>
         </TableContainer>

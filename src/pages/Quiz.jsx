@@ -9,8 +9,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Progress,
   Text,
@@ -18,9 +16,66 @@ import {
 } from "@chakra-ui/react";
 import trueAnswerImage from "../assets/true_ans.png";
 import falseAnswerImage from "../assets/false_ans.png";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getQuizQuestions, submitQuizAnswers } from "../api-fetch/quiz";
 
 const Quiz = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { quizId } = useParams();
+  const [pageIndex, setPageIndex] = useState(0);
+  const [questions, setQuestions] = useState([]);
+  const [modalType, setModalType] = useState("");
+  const [currentScore, setCurrentScore] = useState(0);
+  const currentQuestion = questions[pageIndex] || {};
+  const [answers, setAnswers] = useState([]);
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchQuizQuestions = async () => {
+      try {
+        const { data } = await getQuizQuestions(quizId);
+        console.log({ data });
+        setQuestions(data.data.questions);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    fetchQuizQuestions();
+  }, []);
+
+  const saveAnswers = (optionId, isTrue) => {
+    setAnswers((prev) => [
+      ...prev,
+      { question_id: currentQuestion.id, option_id: optionId },
+    ]);
+
+    if (isTrue) {
+      setCurrentScore((prev) => prev + Math.ceil(100 / questions.length));
+    }
+
+    setModalType(isTrue ? "true_answer" : "false_answer");
+    onOpen();
+  };
+
+  const continueToNextQuestion = () => {
+    setPageIndex((prev) => prev + 1);
+    setModalType("");
+    onClose();
+  };
+
+  const submitAnswer = async () => {
+    try {
+      setIsSubmitting(true);
+      const { data } = await submitQuizAnswers(+quizId, { answers });
+      navigate(`/quiz/${data.data.id}/result`);
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Box mx="auto" maxW="7xl" pt={8} pb={12}>
@@ -31,38 +86,60 @@ const Quiz = () => {
           fontSize="xl"
           mb={3}
         >
-          <Text>Pertanyaan 1</Text>
+          <Text>Pertanyaan {pageIndex + 1}</Text>
           <Text>
             Score :{" "}
             <Text as="span" color="blue.400">
-              20
+              {currentScore}
             </Text>
           </Text>
         </Flex>
-        <Progress value={20} rounded="md" />
+        <Progress
+          value={
+            questions?.length > 0
+              ? ((pageIndex + 1) * 100) / questions.length
+              : 0
+          }
+          rounded="md"
+        />
       </Box>
       <Box mt={6}>
         <Heading size="lg" mb={6}>
-          Mimpi basah biasanya mulai dialami pada usia?
+          {currentQuestion.question}
         </Heading>
         <Grid gridTemplateColumns="repeat(2, 1fr)" rowGap={8} columnGap={12}>
-          {[1, 2, 3].map((x) => (
+          {currentQuestion.options?.map((option) => (
             <GridItem
-              bg="green.500"
+              key={option.id}
+              bg={
+                answers[pageIndex]
+                  ? answers[pageIndex].option_id === option.id
+                    ? option.is_true
+                      ? "green.500"
+                      : "red.400"
+                    : "white"
+                  : "white"
+              }
               px={6}
               py={12}
               fontSize="xl"
               textAlign="center"
               cursor="pointer"
-              color="white"
+              color={
+                answers[pageIndex]
+                  ? answers[pageIndex].option_id === option.id
+                    ? "white"
+                    : "black"
+                  : "black"
+              }
               rounded="md"
               _hover={{ shadow: "xl" }}
               display="flex"
               justifyContent="center"
               alignItems="center"
-              onClick={onOpen}
+              onClick={() => saveAnswers(option.id, option.is_true)}
             >
-              Pilihan {x}
+              {option.option}
             </GridItem>
           ))}
         </Grid>
@@ -79,7 +156,7 @@ const Quiz = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalBody px={10} py={8}>
-            {true ? (
+            {modalType === "true_answer" ? (
               <>
                 <Heading
                   color="blue.400"
@@ -99,8 +176,20 @@ const Quiz = () => {
                   mx="auto"
                   mb={4}
                 />
-                <Button w="full" colorScheme="blue" size="lg" onClick={onClose}>
-                  Berikutnya
+                <Button
+                  w="full"
+                  colorScheme="blue"
+                  size="lg"
+                  onClick={
+                    pageIndex === questions.length - 1
+                      ? submitAnswer
+                      : continueToNextQuestion
+                  }
+                  isLoading={isSubmitting}
+                >
+                  {pageIndex === questions.length - 1
+                    ? "Akhiri Kuis"
+                    : "Berikutnya"}
                 </Button>
               </>
             ) : (
@@ -123,8 +212,20 @@ const Quiz = () => {
                   mx="auto"
                   mb={4}
                 />
-                <Button w="full" colorScheme="red" size="lg" onClick={onClose}>
-                  Berikutnya
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  size="lg"
+                  onClick={
+                    pageIndex === questions.length - 1
+                      ? submitAnswer
+                      : continueToNextQuestion
+                  }
+                  isLoading={isSubmitting}
+                >
+                  {pageIndex === questions.length - 1
+                    ? "Akhiri Kuis"
+                    : "Berikutnya"}
                 </Button>
               </>
             )}
