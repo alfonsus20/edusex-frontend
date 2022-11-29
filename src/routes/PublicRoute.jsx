@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
-const AuthRoute = () => {
+const PublicRoute = () => {
   const { isAuthenticated, userInfo } = useAuthContext();
 
   if (isAuthenticated) {
@@ -14,6 +14,7 @@ const AuthRoute = () => {
     return <Navigate to="/" />;
   }
 
-  return <Outlet />;
+  return <Navigate to="/login" />;
 };
-export default AuthRoute;
+
+export default PublicRoute;

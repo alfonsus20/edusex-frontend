@@ -18,9 +18,13 @@ export const setAuthToken = (token) => {
   setDefaultToken();
 };
 
+export const setRole = (role) => localStorage.setItem("role", role);
+
 export const removeAuthToken = () => {
   localStorage.removeItem("token");
   delete axiosInstance.defaults.headers.common["Authorization"];
 };
 
-export const pusherInstance = new Pusher(import.meta.env.VITE_PUSHER_KEY, { cluster: "ap1" })
+export const pusherInstance = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
+  cluster: "ap1",
+});

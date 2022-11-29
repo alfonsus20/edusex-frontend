@@ -21,16 +21,60 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { deleteMaterial, getAllMaterials } from "../api-fetch/material";
 
 const AdminMaterialManagement = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [materials, setMaterials] = useState([]);
+  const [deletedMaterialId, setDeletedMaterialId] = useState(null);
+  const toast = useToast();
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const openDeleteModal = () => {
-    onOpen();
+  const fetchAllMaterials = async () => {
+    try {
+      const { data } = await getAllMaterials();
+      setMaterials(data.data);
+    } catch (error) {
+      console.log({ error });
+    }
   };
+
+  const openDeleteModal = (materialId) => {
+    onOpen();
+    setDeletedMaterialId(materialId);
+  };
+
+  const closeDeleteModal = (materialId) => {
+    onClose();
+    setDeletedMaterialId(null);
+  };
+
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true);
+      await deleteMaterial(deletedMaterialId);
+      toast({
+        status: "success",
+        title: "Sukses",
+        description: "Materi berhasil dihapus",
+      });
+      closeDeleteModal();
+      fetchAllMaterials();
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllMaterials();
+  }, []);
 
   return (
     <Box>
@@ -60,29 +104,32 @@ const AdminMaterialManagement = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {[1, 2, 3, 4, 5].map((item, idx) => (
+            {materials.map((material, idx) => (
               <Tr key={idx}>
                 <Td>{idx + 1}.</Td>
-                <Td>Testing**</Td>
+                <Td>{material.title}</Td>
                 <Td>
                   <Image
-                    src="https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/material-ilustration/Basketball-rafiki%201.png?t=2022-11-19T09%3A13%3A39.663Z"
+                    src={material.illustration_url}
                     w={32}
                     alt="ilustrasi"
                   />
                 </Td>
-                <Td>Kesetaraan Gender</Td>
+                <Td>{material.topic?.name}</Td>
                 <Td>
                   <ButtonGroup>
                     <Button
                       colorScheme="yellow"
                       as={Link}
-                      to={`/admin/material-management/1/edit`}
+                      to={`/admin/material-management/${material.id}/edit`}
                       color="white"
                     >
                       Edit
                     </Button>
-                    <Button colorScheme="red" onClick={() => openDeleteModal()}>
+                    <Button
+                      colorScheme="red"
+                      onClick={() => openDeleteModal(material.id)}
+                    >
                       Hapus
                     </Button>
                   </ButtonGroup>
@@ -92,7 +139,7 @@ const AdminMaterialManagement = () => {
           </Tbody>
         </Table>
       </TableContainer>{" "}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered size="sm">
+      <Modal onClose={closeDeleteModal} isOpen={isOpen} isCentered size="sm">
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
@@ -104,8 +151,15 @@ const AdminMaterialManagement = () => {
           </ModalBody>
           <ModalFooter>
             <ButtonGroup>
-              <Button onClick={onClose}>Tidak</Button>
-              <Button colorScheme="red" px={6}>
+              <Button onClick={closeDeleteModal} isDisabled={isDeleting}>
+                Tidak
+              </Button>
+              <Button
+                colorScheme="red"
+                px={6}
+                onClick={handleDelete}
+                isLoading={isDeleting}
+              >
                 Ya
               </Button>
             </ButtonGroup>

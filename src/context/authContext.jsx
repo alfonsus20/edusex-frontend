@@ -6,6 +6,7 @@ import {
   removeAuthToken,
   setAuthToken,
   setDefaultToken,
+  setRole,
 } from "../utils/helper";
 
 const defaultValue = {
@@ -57,6 +58,7 @@ export const AuthWrapper = ({ children }) => {
     if (!!localStorage.getItem("token")) {
       setIsAuthenticated(true);
       setDefaultToken();
+      setUserInfo({ role: localStorage.getItem("role") });
     }
   }, []);
 
@@ -66,6 +68,7 @@ export const AuthWrapper = ({ children }) => {
         try {
           const { data } = await getProfile();
           setUserInfo(data.data);
+          setRole(data.data.role);
         } catch (error) {
           console.log({ error });
         }

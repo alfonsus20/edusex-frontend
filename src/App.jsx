@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Forum from "./pages/Forum";
@@ -17,7 +17,7 @@ import QuizInfo from "./pages/QuizInfo";
 import QuizResult from "./pages/QuizResult";
 import Register from "./pages/Register";
 import Topic from "./pages/Topic";
-import AdminRoute from "./routes/AdminRoute";
+import RoleBasedRoute from "./routes/RoleBasedRoute";
 import PsikologDiscussion from "./pages/PsikologDiscussion";
 import PsikologRoute from "./routes/PsikologRoute";
 import PsikologQuestionDetail from "./pages/PsikologQuestionDetail";
@@ -29,6 +29,7 @@ import AdminPsikologManagement from "./pages/AdminPsikologManagement";
 import AdminPsikologForm from "./pages/AdminPsikologForm";
 import AdminMaterialForm from "./pages/AdminMaterialForm";
 import AuthRoute from "./routes/AuthRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 function App() {
   return (
@@ -36,37 +37,42 @@ function App() {
       <Navbar />
       <Box minH="calc(100vh - 140px)">
         <Routes>
+          <Route
+            path="/admin"
+            element={<Navigate to="/admin/material-management" />}
+          />
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
-          <Route path="/" element={<Home />} />
-          <Route path="/topic" element={<Topic />} />
-          <Route path="/topic/:topicId/material" element={<Material />} />
-          <Route path="/material/:materialId" element={<MaterialDetail />} />
-          <Route
-            path="/quiz/:quizId/quiz-info"
-            element={<QuizInfo />}
-          />
-          <Route path="/quiz/:quizId/do" element={<Quiz />} />
-          <Route path="/quiz/:attemptId/result" element={<QuizResult />} />
-          <Route path="/forum" element={<Forum />} />
-          <Route
-            path="/forum/questions/:questionId"
-            element={<ForumQuestionDetail />}
-          />
-          <Route path="/forum/ask" element={<ForumAskQuestion />} />
-          <Route path="/forum/my-questions" element={<ForumMyQuestions />} />
-          <Route
-            path="/personal-consultation"
-            element={<PersonalConsultation />}
-          />
-          <Route
-            path="/personal-consultation/:roomId"
-            element={<PersonalConsultation />}
-          />
-          <Route path="/profile" element={<Profile />} />
-          <Route element={<PsikologRoute />}>
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+          <Route element={<RoleBasedRoute role="user" />}>
+            <Route path="/topic" element={<Topic />} />
+            <Route path="/topic/:topicId/material" element={<Material />} />
+            <Route path="/material/:materialId" element={<MaterialDetail />} />
+            <Route path="/quiz/:quizId/quiz-info" element={<QuizInfo />} />
+            <Route path="/quiz/:quizId/do" element={<Quiz />} />
+            <Route path="/quiz/:attemptId/result" element={<QuizResult />} />
+            <Route path="/forum" element={<Forum />} />
+            <Route
+              path="/forum/questions/:questionId"
+              element={<ForumQuestionDetail />}
+            />
+            <Route path="/forum/ask" element={<ForumAskQuestion />} />
+            <Route path="/forum/my-questions" element={<ForumMyQuestions />} />
+            <Route
+              path="/personal-consultation"
+              element={<PersonalConsultation />}
+            />
+            <Route
+              path="/personal-consultation/:roomId"
+              element={<PersonalConsultation />}
+            />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route element={<RoleBasedRoute role="psikolog" />}>
             <Route
               path="/psikolog/discussion"
               element={<PsikologDiscussion />}
@@ -89,7 +95,7 @@ function App() {
             />
             <Route path="/psikolog/profile" element={<PsikologProfile />} />
           </Route>
-          <Route element={<AdminRoute />}>
+          <Route element={<RoleBasedRoute role="admin" />}>
             <Route
               path="/admin/material-management"
               element={<AdminMaterialManagement />}

@@ -14,20 +14,22 @@ const Navbar = () => {
         <Link to="/">
           <Image src={logo} alt="logo" width={28} height={12} />
         </Link>
-        <HStack fontWeight={500} spacing={6}>
-          <Link to="/">
-            <Text>Beranda</Text>
-          </Link>
-          <Link to="/topic">
-            <Text>Topik Materi</Text>
-          </Link>
-          <Link to="/forum">
-            <Text>Forum Diskusi</Text>
-          </Link>
-          <Link to="/personal-consultation">
-            <Text>Konsultasi Personal</Text>
-          </Link>
-        </HStack>
+        {userInfo.role === "user" && (
+          <HStack fontWeight={500} spacing={6}>
+            <Link to="/">
+              <Text>Beranda</Text>
+            </Link>
+            <Link to="/topic">
+              <Text>Topik Materi</Text>
+            </Link>
+            <Link to="/forum">
+              <Text>Forum Diskusi</Text>
+            </Link>
+            <Link to="/personal-consultation">
+              <Text>Konsultasi Personal</Text>
+            </Link>
+          </HStack>
+        )}
         {isAuthenticated ? (
           <Flex alignItems="center">
             <Image
