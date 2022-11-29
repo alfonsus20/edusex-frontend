@@ -60,7 +60,7 @@ const QuizResult = () => {
           </CircularProgress>
         </Flex>
         <Text
-          color="blue.400"
+          color={result.status === "success" ? "blue.400" : "red.400"}
           textAlign="center"
           fontSize="2xl"
           fontWeight="semibold"

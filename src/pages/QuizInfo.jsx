@@ -17,6 +17,10 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getQuizInfo } from "../api-fetch/quiz";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
+
+dayjs.locale("id");
 
 const QuizInfo = () => {
   const { quizId } = useParams();
@@ -38,7 +42,7 @@ const QuizInfo = () => {
     <Box mx="auto" maxW="6xl" pt={8}>
       <Box mb={6}>
         <Heading fontWeight="semibold" as="h1" fontSize="3xl" mb={4}>
-          Kuis Materi “Kenapa Seseorang Bisa Mimpi Basah? Begini Penjelasannya”
+          Kuis Materi "{quiz.material?.title}"
         </Heading>
         <VStack alignItems="flex-start" spacing={4} fontSize="lg" mb={4}>
           <Text>
@@ -92,21 +96,38 @@ const QuizInfo = () => {
                   </Td>
                 </Tr>
               ) : (
-                quiz.attempts?.map((item, idx) => (
+                quiz.attempts?.map((attempt, idx) => (
                   <Tr key={idx}>
                     <Td>{idx + 1}.</Td>
-                    <Td>10 September 2022, 11:20</Td>
-                    <Td>80/100</Td>
                     <Td>
-                      <Badge
-                        colorScheme="green"
-                        variant="solid"
-                        fontSize="md"
-                        px={6}
-                        py={2}
-                      >
-                        Lulus
-                      </Badge>
+                      {dayjs(attempt.created_at)
+                        .utc(true)
+                        .tz("Asia/Jakarta")
+                        .format("dddd, DD MMMM YYYY HH:mm")}
+                    </Td>
+                    <Td>{attempt.score}/100</Td>
+                    <Td>
+                      {attempt.status === "success" ? (
+                        <Badge
+                          colorScheme="green"
+                          variant="solid"
+                          fontSize="sm"
+                          px={6}
+                          py={2}
+                        >
+                          Lulus
+                        </Badge>
+                      ) : (
+                        <Badge
+                          colorScheme="red"
+                          variant="solid"
+                          fontSize="sm"
+                          px={6}
+                          py={2}
+                        >
+                          Tidak Lulus
+                        </Badge>
+                      )}
                     </Td>
                   </Tr>
                 ))
