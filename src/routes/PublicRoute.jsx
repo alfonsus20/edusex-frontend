@@ -11,10 +11,10 @@ const PublicRoute = () => {
     if (userInfo.role === "psikolog") {
       return <Navigate to="/psikolog" />;
     }
-    return <Navigate to="/" />;
+    return <Outlet />;
   }
 
-  return <Navigate to="/login" />;
+  return <Outlet />;
 };
 
 export default PublicRoute;

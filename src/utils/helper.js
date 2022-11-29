@@ -20,6 +20,8 @@ export const setAuthToken = (token) => {
 
 export const setRole = (role) => localStorage.setItem("role", role);
 
+export const removeRole = () => localStorage.removeItem("role");
+
 export const removeAuthToken = () => {
   localStorage.removeItem("token");
   delete axiosInstance.defaults.headers.common["Authorization"];

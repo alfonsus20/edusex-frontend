@@ -4,6 +4,7 @@ import { getProfile } from "../api-fetch/profile";
 import useError from "../hooks/useError";
 import {
   removeAuthToken,
+  removeRole,
   setAuthToken,
   setDefaultToken,
   setRole,
@@ -80,6 +81,7 @@ export const AuthWrapper = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     removeAuthToken();
+    removeRole();
   };
 
   return (
