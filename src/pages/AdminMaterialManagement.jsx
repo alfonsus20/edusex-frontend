@@ -49,7 +49,7 @@ const AdminMaterialManagement = () => {
     setDeletedMaterialId(materialId);
   };
 
-  const closeDeleteModal = (materialId) => {
+  const closeDeleteModal = () => {
     onClose();
     setDeletedMaterialId(null);
   };
