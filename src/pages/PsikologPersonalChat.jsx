@@ -11,15 +11,10 @@ import {
 import ChatRoom from "../components/ChatRoom";
 import { FaSearch } from "react-icons/fa";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { pusherInstance } from "../utils/helper";
 import { useAuthContext } from "../context/authContext";
 import { getChatRooms } from "../api-fetch/personal-consultation";
 import { useEffect, useMemo, useRef, useState } from "react";
-
-dayjs.extend(timezone);
-dayjs.extend(utc);
 
 const PsikologPersonalChat = () => {
   const [rooms, setRooms] = useState([]);
@@ -89,10 +84,7 @@ const PsikologPersonalChat = () => {
               name={room.user?.name}
               lastMessage={room.last_message}
               numberOfUnreadMessage={room.unread_chats}
-              time={dayjs(room.updated_at)
-                .utc(true)
-                .utcOffset(7)
-                .format("HH:mm")}
+              time={dayjs(room.updated_at).format("HH:mm")}
               avatar={room.user?.avatar_url}
               path={`/psikolog/personal-chat/${room.id}`}
             />

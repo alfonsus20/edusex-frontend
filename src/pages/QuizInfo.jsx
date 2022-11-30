@@ -100,10 +100,9 @@ const QuizInfo = () => {
                   <Tr key={idx}>
                     <Td>{idx + 1}.</Td>
                     <Td>
-                      {dayjs(attempt.created_at)
-                        .utc(true)
-                        .tz("Asia/Jakarta")
-                        .format("dddd, DD MMMM YYYY HH:mm")}
+                      {dayjs(attempt.created_at).format(
+                        "dddd, DD MMMM YYYY HH:mm"
+                      )}
                     </Td>
                     <Td>{attempt.score}/100</Td>
                     <Td>

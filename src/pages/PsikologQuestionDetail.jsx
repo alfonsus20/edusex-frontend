@@ -11,7 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getQuestionDetail, postQuestionReply } from "../api-fetch/discussion";
 import QuestionReply from "../components/QuestionReply";
 import { useAuthContext } from "../context/authContext";
@@ -23,7 +23,6 @@ dayjs.locale("id");
 
 const PsikologQuestionDetail = () => {
   const { questionId } = useParams();
-  const navigate = useNavigate();
   const [questionDetail, setQuestionDetail] = useState({});
   const { userInfo } = useAuthContext();
   const [reply, setReply] = useState("");
@@ -95,17 +94,9 @@ const PsikologQuestionDetail = () => {
           </Box>
           <Box textAlign="right">
             <Text>
-              {dayjs(questionDetail.created_at)
-                .utc(true)
-                .tz("Asia/Jakarta")
-                .format("DD MMMM YYYY")}
+              {dayjs(questionDetail.created_at).format("DD MMMM YYYY")}
             </Text>
-            <Text>
-              {dayjs(questionDetail.created_at)
-                .utc(true)
-                .tz("Asia/Jakarta")
-                .format("HH:mm")}
-            </Text>
+            <Text>{dayjs(questionDetail.created_at).format("HH:mm")}</Text>
           </Box>
         </Flex>
         <Text>{questionDetail.question}</Text>
