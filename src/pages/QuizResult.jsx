@@ -77,6 +77,7 @@ const QuizResult = () => {
             <QuizExplanation
               userAnswerId={answer.option?.id}
               number={index + 1}
+              question={answer.question?.question}
               options={answer.question?.options}
               explanation={answer.question?.explanation}
             />

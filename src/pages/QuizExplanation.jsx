@@ -1,7 +1,13 @@
 import { Box, Flex, Icon, Text, VStack } from "@chakra-ui/react";
 import { FaCheckCircle, FaRegTimesCircle, FaRegCircle } from "react-icons/fa";
 
-const QuizExplanation = ({ number, userAnswerId, options, explanation }) => {
+const QuizExplanation = ({
+  number,
+  userAnswerId,
+  options,
+  explanation,
+  question,
+}) => {
   const getColorAndIcon = (optionId, isTrueAnswer) => {
     let icon = null;
     let color = "";
@@ -24,7 +30,7 @@ const QuizExplanation = ({ number, userAnswerId, options, explanation }) => {
     <Flex fontSize="lg">
       <Box mr={4}>{number}.</Box>
       <Box flex="auto">
-        <Text mb={3}>Mimpi basah biasanya dimulai pada usia berapa?</Text>
+        <Text mb={3}>{question}</Text>
         <VStack alignItems="stretch" mb={3}>
           {options?.map((option) => {
             const { icon, color } = getColorAndIcon(option.id, option.is_true);
