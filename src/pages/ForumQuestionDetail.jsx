@@ -133,7 +133,7 @@ const ForumQuestionDetail = () => {
             w={14}
             height={14}
             rounded="full"
-            src={DEFAULT_AVATAR}
+            src={userInfo.avatar_url || DEFAULT_AVATAR}
             alt="avatar"
             mr={4}
           />

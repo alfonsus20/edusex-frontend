@@ -19,7 +19,6 @@ import Register from "./pages/Register";
 import Topic from "./pages/Topic";
 import RoleBasedRoute from "./routes/RoleBasedRoute";
 import PsikologDiscussion from "./pages/PsikologDiscussion";
-import PsikologRoute from "./routes/PsikologRoute";
 import PsikologQuestionDetail from "./pages/PsikologQuestionDetail";
 import PsikologProfile from "./pages/PsikologProfile";
 import PsikologPersonalChat from "./pages/PsikologPersonalChat";
@@ -40,6 +39,10 @@ function App() {
           <Route
             path="/admin"
             element={<Navigate to="/admin/material-management" />}
+          />
+          <Route
+            path="/psikolog"
+            element={<Navigate to="/psikolog/discussion" />}
           />
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<Login />} />
