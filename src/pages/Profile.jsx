@@ -10,27 +10,76 @@ import {
   Input,
   Progress,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import goldTrophy from "../assets/trophy/gold.png";
 import silverTrophy from "../assets/trophy/silver.png";
 import bronzeTrophy from "../assets/trophy/bronze.png";
-import { FaCheck, FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { DEFAULT_AVATAR } from "../utils/constant";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useAuthContext } from "../context/authContext";
+import { getImageUrl } from "../api-fetch/upload";
+import { editProfile } from "../api-fetch/profile";
+import ProgressCheck from "../components/ProgressCheck";
 
 const Profile = () => {
   const [isNameFieldOpen, setIsNameFieldOpen] = useState(false);
+  const { userInfo, fetchProfile } = useAuthContext();
+  const toast = useToast();
+  const nameFieldRef = useRef();
 
   const showNameField = () => {
     setIsNameFieldOpen(true);
   };
 
-  const cancelUpdateName = () => {
+  const hideNameField = () => {
     setIsNameFieldOpen(false);
   };
 
-  const saveNameUpdate = () => {
-    setIsNameFieldOpen(false);
+  const saveNameUpdate = async () => {
+    try {
+      await editProfile({ name: nameFieldRef.current.value });
+      toast({
+        title: "Sukses",
+        description: "Nama berhasil diperbaharui",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
+
+    hideNameField();
+  };
+
+  const handleUpdateProfileImage = async (imageFile) => {
+    try {
+      const { data } = await getImageUrl(imageFile);
+      await editProfile({ avatar_url: data.data });
+      toast({
+        title: "Sukses",
+        description: "Gambar profil berhasil diperbaharui",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const handleDeleteProfileImage = async (imageFile) => {
+    try {
+      await editProfile({ avatar_url: "" });
+      toast({
+        title: "Sukses",
+        description: "Gambar profil berhasil dihapus",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   return (
@@ -83,40 +132,19 @@ const Profile = () => {
               alignItems="center"
             >
               <Box pos="absolute" w="full">
-                <Progress value={80} size="sm" />
+                <Progress
+                  value={(userInfo.progress?.passed_quiz * 100) / 8}
+                  size="sm"
+                />
               </Box>
               <Flex pos="relative" flexDir="column" w="18%" alignItems="center">
-                <Circle
-                  size="2rem"
-                  border="2px"
-                  bg="blue.400"
-                  borderColor="blue.400"
-                  my={1}
-                >
-                  <Icon as={FaCheck} fontSize="xs" color="white" />
-                </Circle>
+                <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 2} />
               </Flex>
               <Flex pos="relative" flexDir="column" w="18%" alignItems="center">
-                <Circle
-                  size="2rem"
-                  border="2px"
-                  bg="blue.400"
-                  borderColor="blue.400"
-                  my={1}
-                >
-                  <Icon as={FaCheck} fontSize="xs" color="white" />
-                </Circle>
+                <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 4} />
               </Flex>
               <Flex pos="relative" flexDir="column" w="18%" alignItems="center">
-                <Circle
-                  size="2rem"
-                  border="2px"
-                  bg="blue.400"
-                  borderColor="blue.400"
-                  my={1}
-                >
-                  <Icon as={FaCheck} fontSize="xs" color="white" />
-                </Circle>
+                <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 8} />
               </Flex>
             </Flex>
             <Flex justifyContent="space-around">
@@ -149,12 +177,29 @@ const Profile = () => {
               <Image
                 w={24}
                 h={24}
-                rounded="full"
-                src={DEFAULT_AVATAR}
+                src={userInfo.avatar_url || DEFAULT_AVATAR}
                 alt="avatar"
+                rounded="full"
+                objectFit="cover"
+                objectPosition="center"
                 mr={4}
               />
-              <Button colorScheme="blue" leftIcon={<Icon as={FaPencilAlt} />}>
+              <Input
+                hidden
+                id="avatar_image"
+                name="avatar_image"
+                accept="image/*"
+                type="file"
+                onChange={(e) => {
+                  handleUpdateProfileImage(e.target.files[0]);
+                }}
+              />
+              <Button
+                colorScheme="blue"
+                leftIcon={<Icon as={FaPencilAlt} />}
+                as="label"
+                htmlFor="avatar_image"
+              >
                 Ubah
               </Button>
             </Flex>
@@ -162,6 +207,7 @@ const Profile = () => {
               variant="ghost"
               colorScheme="blue"
               leftIcon={<Icon as={FaTrash} />}
+              onClick={handleDeleteProfileImage}
             >
               Hapus
             </Button>
@@ -178,32 +224,34 @@ const Profile = () => {
           >
             <Box>
               {!isNameFieldOpen ? (
-                <Text>Alfonsus Avianto Chandrawan</Text>
+                <Text>{userInfo.name}</Text>
               ) : (
                 <Flex gap={4}>
-                  <Input value="Alfonsus Avianto Chandrawan" />
+                  <Input ref={nameFieldRef} defaultValue={userInfo.name} />
                   <Button
                     colorScheme="blue"
                     variant="outline"
                     px={8}
-                    onClick={cancelUpdateName}
+                    onClick={hideNameField}
                   >
                     Batal
                   </Button>
-                  <Button colorScheme="blue" px={8}>
+                  <Button colorScheme="blue" px={8} onClick={saveNameUpdate}>
                     Simpan
                   </Button>
                 </Flex>
               )}
             </Box>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              leftIcon={<Icon as={FaPencilAlt} />}
-              onClick={showNameField}
-            >
-              Ubah
-            </Button>
+            {!isNameFieldOpen && (
+              <Button
+                variant="ghost"
+                colorScheme="blue"
+                leftIcon={<Icon as={FaPencilAlt} />}
+                onClick={showNameField}
+              >
+                Ubah
+              </Button>
+            )}
           </Flex>
         </Flex>
         <Divider />
@@ -215,7 +263,7 @@ const Profile = () => {
             justifyContent="space-between"
             w="75%"
           >
-            alfonschandrawan@gmail.com
+            {userInfo.email}
           </Flex>
         </Flex>
         <Divider />

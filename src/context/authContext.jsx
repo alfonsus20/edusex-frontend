@@ -17,6 +17,7 @@ const defaultValue = {
   register: () => {},
   logout: () => {},
   isSubmitting: false,
+  fetchProfile: () => {},
 };
 
 export const AuthContext = createContext(defaultValue);
@@ -55,6 +56,16 @@ export const AuthWrapper = ({ children }) => {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const { data } = await getProfile();
+      setUserInfo(data.data);
+      setRole(data.data.role);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   useMemo(() => {
     if (!!localStorage.getItem("token")) {
       setIsAuthenticated(true);
@@ -65,15 +76,6 @@ export const AuthWrapper = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const fetchProfile = async () => {
-        try {
-          const { data } = await getProfile();
-          setUserInfo(data.data);
-          setRole(data.data.role);
-        } catch (error) {
-          console.log({ error });
-        }
-      };
       fetchProfile();
     }
   }, [isAuthenticated]);
@@ -90,6 +92,7 @@ export const AuthWrapper = ({ children }) => {
         login,
         register,
         logout,
+        fetchProfile,
         isAuthenticated,
         userInfo,
         isSubmitting,

@@ -10,32 +10,77 @@ import {
   Input,
   Progress,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import goldTrophy from "../assets/trophy/gold.png";
-import silverTrophy from "../assets/trophy/silver.png";
-import bronzeTrophy from "../assets/trophy/bronze.png";
-import { FaCheck, FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { DEFAULT_AVATAR } from "../utils/constant";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { editProfile } from "../api-fetch/profile";
+import { getImageUrl } from "../api-fetch/upload";
+import { useAuthContext } from "../context/authContext";
 
 const PsikologProfile = () => {
   const [isNameFieldOpen, setIsNameFieldOpen] = useState(false);
+  const { userInfo, fetchProfile } = useAuthContext();
+  const toast = useToast();
+  const nameFieldRef = useRef();
 
   const showNameField = () => {
     setIsNameFieldOpen(true);
   };
 
-  const cancelUpdateName = () => {
+  const hideNameField = () => {
     setIsNameFieldOpen(false);
   };
 
-  const saveNameUpdate = () => {
-    setIsNameFieldOpen(false);
+  const saveNameUpdate = async () => {
+    try {
+      await editProfile({ name: nameFieldRef.current.value });
+      toast({
+        title: "Sukses",
+        description: "Nama berhasil diperbaharui",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
+
+    hideNameField();
+  };
+
+  const handleUpdateProfileImage = async (imageFile) => {
+    try {
+      const { data } = await getImageUrl(imageFile);
+      await editProfile({ avatar_url: data.data });
+      toast({
+        title: "Sukses",
+        description: "Gambar profil berhasil diperbaharui",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const handleDeleteProfileImage = async (imageFile) => {
+    try {
+      await editProfile({ avatar_url: "" });
+      toast({
+        title: "Sukses",
+        description: "Gambar profil berhasil dihapus",
+        status: "success",
+      });
+      fetchProfile();
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   return (
     <Box pb={8} mx="auto" maxW="6xl">
-      <Heading fontWeight='semibold' size="lg" mb={4} as="h1">
+      <Heading fontWeight="semibold" size="lg" mb={4} as="h1">
         Profil Saya
       </Heading>
       <Box>
@@ -47,11 +92,28 @@ const PsikologProfile = () => {
                 w={24}
                 h={24}
                 rounded="full"
-                src={DEFAULT_AVATAR}
+                src={userInfo.avatar_url || DEFAULT_AVATAR}
                 alt="avatar"
                 mr={4}
+                objectFit="cover"
+                objectPosition="center"
               />
-              <Button colorScheme="blue" leftIcon={<Icon as={FaPencilAlt} />}>
+              <Input
+                hidden
+                id="avatar_image"
+                name="avatar_image"
+                accept="image/*"
+                type="file"
+                onChange={(e) => {
+                  handleUpdateProfileImage(e.target.files[0]);
+                }}
+              />
+              <Button
+                colorScheme="blue"
+                leftIcon={<Icon as={FaPencilAlt} />}
+                as="label"
+                htmlFor="avatar_image"
+              >
                 Ubah
               </Button>
             </Flex>
@@ -75,32 +137,34 @@ const PsikologProfile = () => {
           >
             <Box>
               {!isNameFieldOpen ? (
-                <Text>Alfonsus Avianto Chandrawan</Text>
+                <Text>{userInfo.name}</Text>
               ) : (
                 <Flex gap={4}>
-                  <Input value="Alfonsus Avianto Chandrawan" />
+                  <Input ref={nameFieldRef} defaultValue={userInfo.name} />
                   <Button
                     colorScheme="blue"
                     variant="outline"
                     px={8}
-                    onClick={cancelUpdateName}
+                    onClick={hideNameField}
                   >
                     Batal
                   </Button>
-                  <Button colorScheme="blue" px={8}>
+                  <Button colorScheme="blue" px={8} onClick={saveNameUpdate}>
                     Simpan
                   </Button>
                 </Flex>
               )}
             </Box>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              leftIcon={<Icon as={FaPencilAlt} />}
-              onClick={showNameField}
-            >
-              Ubah
-            </Button>
+            {!isNameFieldOpen && (
+              <Button
+                variant="ghost"
+                colorScheme="blue"
+                leftIcon={<Icon as={FaPencilAlt} />}
+                onClick={showNameField}
+              >
+                Ubah
+              </Button>
+            )}
           </Flex>
         </Flex>
         <Divider />

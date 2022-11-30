@@ -75,7 +75,7 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
           />
         )}
         <Image
-          src={DEFAULT_AVATAR}
+          src={userToChat?.avatar_url || DEFAULT_AVATAR}
           alt="interlocutor avatar"
           rounded="full"
           objectFit="cover"

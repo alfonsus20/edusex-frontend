@@ -142,6 +142,9 @@ const Navbar = () => {
               width={9}
               height={9}
               marginRight={2}
+              rounded="full"
+              objectFit="cover"
+              objectPosition="center"
             />
             <Icon
               as={FaChevronDown}
@@ -168,13 +171,16 @@ const Navbar = () => {
                 </Box>
                 {userInfo.role !== "admin" && (
                   <>
-                    {" "}
                     <Divider />
                     <Flex
                       alignItems="center"
                       py={1}
                       as={Link}
-                      to="/profile"
+                      to={
+                        userInfo.role === "psikolog"
+                          ? "/psikolog/profile"
+                          : "/profile"
+                      }
                       cursor="pointer"
                       onClick={closeProfileDropdown}
                     >

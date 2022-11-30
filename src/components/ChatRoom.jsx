@@ -19,8 +19,10 @@ const ChatRoom = ({
         src={avatar || DEFAULT_AVATAR}
         alt="avatar"
         mr={4}
+        objectFit="cover"
+        objectPosition="center"
       />
-      <Box flex="auto" mr={2} overflow='hidden'>
+      <Box flex="auto" mr={2} overflow="hidden">
         <Text fontWeight="semibold" noOfLines={1}>
           {name}
         </Text>
