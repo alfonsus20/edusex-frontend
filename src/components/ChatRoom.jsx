@@ -20,7 +20,7 @@ const ChatRoom = ({
         alt="avatar"
         mr={4}
       />
-      <Box flex="auto" mr={2}>
+      <Box flex="auto" mr={2} overflow='hidden'>
         <Text fontWeight="semibold" noOfLines={1}>
           {name}
         </Text>
@@ -32,9 +32,17 @@ const ChatRoom = ({
         justifyContent="space-between"
       >
         <Text>{time}</Text>
-        <Circle size="1rem" color="white" bg="blue.400" p="10px" fontSize="xs">
-          {numberOfUnreadMessage}
-        </Circle>
+        {numberOfUnreadMessage > 0 && (
+          <Circle
+            size="1rem"
+            color="white"
+            bg="blue.400"
+            p="10px"
+            fontSize="xs"
+          >
+            {numberOfUnreadMessage}
+          </Circle>
+        )}
       </Flex>
     </Flex>
   );

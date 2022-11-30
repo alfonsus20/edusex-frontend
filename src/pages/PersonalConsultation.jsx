@@ -22,16 +22,20 @@ import { RiChatNewFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
 import ChatRoom from "../components/ChatRoom";
 import chooseChatImg from "../assets/choose-chat.svg";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import { DEFAULT_AVATAR } from "../utils/constant";
-import { getChatRooms } from "../api-fetch/personal-consultation";
-import { useEffect, useState } from "react";
+import {
+  createChatRoom,
+  getChatRooms,
+} from "../api-fetch/personal-consultation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "../context/authContext";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { pusherInstance } from "../utils/helper";
+import { getAllPsikolog } from "../api-fetch/psikolog";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -41,11 +45,23 @@ const PersonalConsultation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [rooms, setRooms] = useState([]);
   const { userInfo } = useAuthContext();
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [psikologList, setPsikologList] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchChatRooms = async () => {
+  const fetchChatRooms = useCallback(async () => {
     try {
       const { data } = await getChatRooms();
       setRooms(data.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  }, []);
+
+  const handleFetchPsikolog = async () => {
+    try {
+      const { data } = await getAllPsikolog();
+      setPsikologList(data.data);
     } catch (error) {
       console.log({ error });
     }
@@ -53,6 +69,7 @@ const PersonalConsultation = () => {
 
   useEffect(() => {
     fetchChatRooms();
+    handleFetchPsikolog();
   }, []);
 
   useEffect(() => {
@@ -63,9 +80,27 @@ const PersonalConsultation = () => {
     });
 
     return () => {
-      pusherInstance.unsubscribe(`room-${roomId}`);
+      pusherInstance.unsubscribe(`user-${userInfo.id}`);
     };
   }, [userInfo.id]);
+
+  const filteredRooms = useMemo(
+    () =>
+      rooms.filter((room) =>
+        room.psikolog.name.toLowerCase().includes(searchKeyword)
+      ),
+    [searchKeyword, rooms]
+  );
+
+  const handleCreateChatRoom = async (psikologId) => {
+    try {
+      const { data } = await createChatRoom({ psikolog_id: psikologId });
+      navigate(`/personal-consultation/${data.data.id}`);
+      onClose();
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   return (
     <Flex
@@ -93,7 +128,12 @@ const PersonalConsultation = () => {
                 pointerEvents="none"
                 children={<Icon as={FaSearch} color="gray.300" />}
               />
-              <Input mr={4} placeholder="Cari...." />
+              <Input
+                mr={4}
+                placeholder="Cari...."
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
             </InputGroup>
             <IconButton
               icon={<Icon as={RiChatNewFill} fontSize="xl" />}
@@ -102,12 +142,12 @@ const PersonalConsultation = () => {
             />
           </Flex>
           <Box overflow="hidden">
-            {rooms.map((room) => {
+            {filteredRooms.map((room) => {
               return (
                 <ChatRoom
                   name={room.psikolog?.name}
                   lastMessage={room.last_message || ""}
-                  numberOfUnreadMessage={1}
+                  numberOfUnreadMessage={room.unread_chats}
                   time={dayjs(room.updated_at)
                     .utc(true)
                     .utcOffset(7)
@@ -126,7 +166,7 @@ const PersonalConsultation = () => {
           flexDir="column"
         >
           {roomId ? (
-            <ChatPanel />
+            <ChatPanel cbFetchChatList={fetchChatRooms} />
           ) : (
             <>
               <Image
@@ -149,22 +189,30 @@ const PersonalConsultation = () => {
           <ModalHeader textAlign="center" fontSize="2xl">
             Daftar Psikolog
           </ModalHeader>
-          <ModalBody px={6} minH="xs">
-            <Flex alignItems="center" cursor="pointer" py={2}>
-              <Image
-                src={DEFAULT_AVATAR}
-                alt="avatar"
-                w={12}
-                h={12}
-                rounded="full"
-                objectFit="cover"
-                objectPosition="center"
-                mr={2}
-              />
-              <Text fontSize="lg" fontWeight="semibold">
-                William Chandrawan
-              </Text>
-            </Flex>
+          <ModalBody px={6} minH="xs" maxH="sm" overflow="auto">
+            {psikologList.map((psikolog) => (
+              <Flex alignItems="center" cursor="pointer" py={2}>
+                <Image
+                  src={psikolog.avatar_url || DEFAULT_AVATAR}
+                  alt="avatar"
+                  w={12}
+                  h={12}
+                  rounded="full"
+                  objectFit="cover"
+                  objectPosition="center"
+                  mr={2}
+                />
+                <Text
+                  key={psikolog.id}
+                  fontSize="lg"
+                  fontWeight="semibold"
+                  onClick={() => handleCreateChatRoom(psikolog.id)}
+                  cursor="pointer"
+                >
+                  {psikolog.name}
+                </Text>
+              </Flex>
+            ))}
             <Divider />
           </ModalBody>
         </ModalContent>

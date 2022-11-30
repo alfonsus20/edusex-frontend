@@ -14,14 +14,16 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pusherInstance } from "../utils/helper";
-import { getChatDetail } from "../api-fetch/personal-consultation";
+import { getChatDetail, sendChat } from "../api-fetch/personal-consultation";
 import { useAuthContext } from "../context/authContext";
 
-const ChatPanel = ({ withBackArrow = false }) => {
+const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
   const navigate = useNavigate();
   const { roomId } = useParams();
   const [chatDetail, setChatDetail] = useState({});
   const { userInfo } = useAuthContext();
+  const [message, setMessage] = useState("");
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
 
   const userToChat =
     userInfo.role === "user" ? chatDetail["psikolog"] : chatDetail["user"];
@@ -32,6 +34,18 @@ const ChatPanel = ({ withBackArrow = false }) => {
       setChatDetail(data.data);
     } catch (error) {
       console.log({ error });
+    }
+  };
+
+  const handleSendChat = async () => {
+    try {
+      setIsSendingMessage(true);
+      await sendChat({ room_id: +roomId, message });
+      setMessage("");
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsSendingMessage(false);
     }
   };
 
@@ -92,8 +106,17 @@ const ChatPanel = ({ withBackArrow = false }) => {
           mr={2}
           border="none"
           _focus={{ border: "none", boxShadow: "none" }}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
-        <Button colorScheme="blue">Kirim</Button>
+        <Button
+          colorScheme="blue"
+          isDisabled={!message}
+          isLoading={isSendingMessage}
+          onClick={handleSendChat}
+        >
+          Kirim
+        </Button>
       </Flex>
     </Flex>
   );
