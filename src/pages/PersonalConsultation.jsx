@@ -22,7 +22,7 @@ import { RiChatNewFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
 import ChatRoom from "../components/ChatRoom";
 import chooseChatImg from "../assets/choose-chat.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import { DEFAULT_AVATAR } from "../utils/constant";
 import {
@@ -148,7 +148,7 @@ const PersonalConsultation = () => {
                   name={room.psikolog?.name}
                   lastMessage={room.last_message || ""}
                   numberOfUnreadMessage={room.unread_chats}
-                  time={dayjs(room.updated_at).utc("z").local().format("HH:mm")}
+                  time={dayjs(room.updated_at).format("HH:mm")}
                   avatar={room.psikolog?.avatar_url}
                   path={`/personal-consultation/${room.id}`}
                 />
