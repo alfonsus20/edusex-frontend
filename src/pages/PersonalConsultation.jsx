@@ -32,13 +32,8 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "../context/authContext";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { pusherInstance } from "../utils/helper";
 import { getAllPsikolog } from "../api-fetch/psikolog";
-
-dayjs.extend(timezone);
-dayjs.extend(utc);
 
 const PersonalConsultation = () => {
   const { roomId } = useParams();

@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import { DEFAULT_AVATAR } from "../utils/constant";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 dayjs.locale("id");
-dayjs.extend(utc);
 
 const CardDiscussion = ({
   questionId,
@@ -54,7 +52,7 @@ const CardDiscussion = ({
           <Text fontSize="lg">
             <strong>{questionerName}</strong> •{" "}
             <Text as="span" fontSize="md">
-              {dayjs(time).utc(true).tz("Asia/Jakarta").toNow(true)}
+              {dayjs(time).toNow(true)}
             </Text>
           </Text>
           <Text color="blue.400" fontWeight="semibold">

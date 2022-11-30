@@ -20,10 +20,10 @@ const QuestionReply = ({ reply, userName, role, date, avatar }) => {
         </Box>
         <Box textAlign="right">
           <Text>
-            {dayjs(date).utc(true).tz("Asia/Jakarta").format("DD MMMM YYYY")}
+            {dayjs(date).format("DD MMMM YYYY")}
           </Text>
           <Text>
-            {dayjs(date).utc(true).tz("Asia/Jakarta").format("HH:mm")}
+            {dayjs(date).format("HH:mm")}
           </Text>
         </Box>
       </Flex>

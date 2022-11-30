@@ -98,17 +98,9 @@ const ForumQuestionDetail = () => {
           </Box>
           <Box textAlign="right">
             <Text>
-              {dayjs(questionDetail.created_at)
-                .utc(true)
-                .tz("Asia/Jakarta")
-                .format("DD MMMM YYYY")}
+              {dayjs(questionDetail.created_at).format("DD MMMM YYYY")}
             </Text>
-            <Text>
-              {dayjs(questionDetail.created_at)
-                .utc(true)
-                .tz("Asia/Jakarta")
-                .format("HH:mm")}
-            </Text>
+            <Text>{dayjs(questionDetail.created_at).format("HH:mm")}</Text>
           </Box>
         </Flex>
         <Text>{questionDetail.question}</Text>
