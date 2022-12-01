@@ -178,7 +178,7 @@ const PersonalConsultation = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader textAlign="center" fontSize="2xl">
+          <ModalHeader textAlign="center" fontSize="2xl" pb={0}>
             Daftar Psikolog
           </ModalHeader>
           <ModalBody px={6} minH="xs" maxH="sm" overflow="auto">

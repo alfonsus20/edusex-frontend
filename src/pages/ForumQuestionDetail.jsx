@@ -90,7 +90,7 @@ const ForumQuestionDetail = () => {
       <Box mb={4}>
         <Flex gap={4} mb={2} alignItems="center">
           <Circle size={14} bg="blue.200" fontSize="3xl" color="white">
-            {questionDetail.user?.name[0]}
+            {questionDetail.user?.name[0].toUpperCase()}
           </Circle>
           <Box flex="auto">
             <Text fontWeight="bold"> {questionDetail.user?.name}</Text>
@@ -117,6 +117,7 @@ const ForumQuestionDetail = () => {
               userName={reply.user?.name}
               role={getUserRole(reply.user?.role)}
               date={reply.created_at}
+              avatar={reply.user?.avatar_url}
             />
           ))}
         </VStack>
@@ -128,6 +129,8 @@ const ForumQuestionDetail = () => {
             src={userInfo.avatar_url || DEFAULT_AVATAR}
             alt="avatar"
             mr={4}
+            objectFit="cover"
+            objectPosition="center"
           />
           <Box flex="auto" pt={2}>
             <Text fontSize="lg" fontWeight="semibold" mb={3}>

@@ -8,14 +8,23 @@ import {
   Icon,
   Image,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { FaChevronDown, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { useAuthContext } from "../context/authContext";
 import { DEFAULT_AVATAR } from "../utils/constant";
 import useComponentVisible from "../hooks/useComponentVisible";
+import { useEffect, useMemo, useState } from "react";
+import { pusherInstance } from "../utils/helper";
+import {
+  getAllNotifications,
+  markAllNotificationAsRead,
+  readNotification,
+} from "../api-fetch/notification";
+import dayjs from "dayjs";
 
 const Navbar = () => {
   const { userInfo, isAuthenticated, logout } = useAuthContext();
@@ -29,6 +38,19 @@ const Navbar = () => {
     isComponentVisible: isNotificationDropdownVisible,
     setIsComponentVisible: setIsNotificationDropdownVisible,
   } = useComponentVisible();
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const [notifications, setNotifications] = useState([]);
+
+  const unreadNotifications = useMemo(
+    () =>
+      notifications.reduce(
+        (prev, notification) => prev + (notification.is_read === false ? 1 : 0),
+        0
+      ),
+    [notifications]
+  );
 
   const handleLogout = () => {
     logout();
@@ -49,6 +71,69 @@ const Navbar = () => {
 
   const closeNotificationDropdown = () => {
     setIsNotificationDropdownVisible(false);
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const { data } = await getAllNotifications();
+      setNotifications(data.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await markAllNotificationAsRead();
+      toast({
+        status: "success",
+        title: "Sukses",
+        description: "Semua notifikasi telah dibaca",
+      });
+      fetchNotifications();
+      closeNotificationDropdown();
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchNotifications();
+
+      const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
+
+      channel.bind("notification-received", fetchNotifications);
+
+      return () => {
+        pusherInstance.unsubscribe(`user-${userInfo.id}`);
+      };
+    }
+  }, [userInfo.id, isAuthenticated]);
+
+  const getNotificationLink = (type) => {
+    if (type === "discussion_forum") {
+      if (userInfo.role === "psikolog") {
+        return "/psikolog/discussion";
+      }
+      return "/forum";
+    } else {
+      if (userInfo.role === "psikolog") {
+        return "/psikolog/personal-chat";
+      }
+      return "/personal-consultation";
+    }
+  };
+
+  const handleReadNotification = async (id, type) => {
+    try {
+      await readNotification(id);
+      navigate(getNotificationLink(type));
+      closeNotificationDropdown();
+      fetchNotifications();
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   return (
@@ -83,19 +168,21 @@ const Navbar = () => {
                   onClick={openNotificationDropdown}
                   cursor="pointer"
                 />
-                <Circle
-                  bg="red.400"
-                  w={4}
-                  h={4}
-                  pos="absolute"
-                  top={0}
-                  p={2}
-                  fontSize="xs"
-                  right={-0.5}
-                  color="white"
-                >
-                  1
-                </Circle>
+                {unreadNotifications > 0 && (
+                  <Circle
+                    bg="red.400"
+                    w={4}
+                    h={4}
+                    pos="absolute"
+                    top={0}
+                    p={2}
+                    fontSize="xs"
+                    right={-0.5}
+                    color="white"
+                  >
+                    {unreadNotifications}
+                  </Circle>
+                )}
                 {isNotificationDropdownVisible && (
                   <Box
                     shadow="md"
@@ -119,18 +206,33 @@ const Navbar = () => {
                       py={2}
                     >
                       <Text fontWeight="bold">Notifikasi</Text>
-                      <Text color="blue.400">Tandai Semua Telah Dibaca</Text>
+                      <Text
+                        color="blue.400"
+                        onClick={handleMarkAllAsRead}
+                        cursor="pointer"
+                      >
+                        Tandai Semua Telah Dibaca
+                      </Text>
                     </Flex>
-                    {[1, 2, 3, 3, 3, 3].map((item) => (
-                      <Box py={2} bg="#E8EFFE" px={4}>
+                    {notifications.map((notification) => (
+                      <Box
+                        py={2}
+                        bg={notification.is_read ? "white" : "#E8EFFE"}
+                        px={4}
+                        onClick={() =>
+                          handleReadNotification(
+                            notification.id,
+                            notification.type
+                          )
+                        }
+                        cursor="pointer"
+                      >
                         <Text fontSize="xs" mb={1}>
-                          02 Nov 2022, 14:45 WIB
+                          {dayjs(notification.created_at).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
                         </Text>
-                        <Text>
-                          Pertanyaan kamu, “Bagaimana mencegah terjadinya
-                          penyakit HIV/AIDS?” telah dijawab oleh Psikolog
-                          William
-                        </Text>
+                        <Text>{notification.content}</Text>
                       </Box>
                     ))}
                   </Box>
