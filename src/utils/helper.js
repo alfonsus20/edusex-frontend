@@ -30,3 +30,11 @@ export const removeAuthToken = () => {
 export const pusherInstance = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
   cluster: "ap1",
 });
+
+export const checkYoutubeUrl = (url) => {
+  const match = url.match(
+    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
+  );
+
+  return match && match[2].length == 11;
+};
