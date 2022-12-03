@@ -29,12 +29,49 @@ import AdminPsikologForm from "./pages/AdminPsikologForm";
 import AdminMaterialForm from "./pages/AdminMaterialForm";
 import AuthRoute from "./routes/AuthRoute";
 import PublicRoute from "./routes/PublicRoute";
+import { useEffect, useState } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 
 function App() {
+  const {
+    offlineReady: [offlineReady, setOfflineReady],
+    needRefresh: [needRefresh, setNeedRefresh],
+
+    updateServiceWorker,
+  } = useRegisterSW({
+    onRegistered(r) {
+      // eslint-disable-next-line prefer-template
+      console.log("SW Registered: " + r);
+    },
+    onRegisterError(error) {
+      console.log("SW registration error", error);
+    },
+    onOfflineReady() {
+      console.log("offline ready");
+    },
+  });
+
+  const [online, setOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleConnectionChange = () => {
+      setOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleConnectionChange);
+    window.addEventListener("offline", handleConnectionChange);
+
+    return () => {
+      window.removeEventListener("online", handleConnectionChange);
+      window.removeEventListener("offline", handleConnectionChange);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Navbar />
       <Box minH="calc(100vh - 140px)">
+
         <Routes>
           <Route
             path="/admin"
