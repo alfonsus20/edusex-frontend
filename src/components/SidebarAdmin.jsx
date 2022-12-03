@@ -10,7 +10,8 @@ const PATHS = [
     pathname: "/admin/material-management",
     activePathPatterns: [
       "/admin/material-management",
-      "/admin/material-management/:questionId",
+      "/admin/material-management/add",
+      "/admin/material-management/:materialId/edit",
     ],
   },
   {

@@ -24,23 +24,30 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
 import { useTopicContext } from "../context/topicContext";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { checkYoutubeUrl } from "../utils/helper";
 import { getImageUrl } from "../api-fetch/upload";
-import { createMaterial } from "../api-fetch/material";
+import {
+  createMaterial,
+  editMaterial,
+  getMaterialByIdWithQuiz,
+} from "../api-fetch/material";
 
 const AdminMaterialForm = () => {
   const { materialId } = useParams();
   const { topics } = useTopicContext();
   const navigate = useNavigate();
   const toast = useToast();
+  const [isSaving, setIsSaving] = useState(false);
 
   const AddMaterialSchema = useMemo(
     () =>
       Yup.object({
         title: Yup.string().required(),
-        topic_id: Yup.number().oneOf(topics.map((topic) => topic.id)),
+        topic_id: Yup.number()
+          .oneOf(topics.map((topic) => topic.id))
+          .required(),
         content: Yup.string().required(),
         video_url: Yup.string()
           .required()
@@ -65,44 +72,68 @@ const AdminMaterialForm = () => {
                   })
                 )
                 .min(2)
-                .max(4),
+                .max(4)
+                .test({
+                  message: "Jawaban benar wajib diisi",
+                  name: "rightChoice",
+                  test: (val) => val.some((option) => option.is_true),
+                }),
             })
           )
           .min(5),
-        illustration_photo: Yup.mixed()
-          .required()
-          .test({
-            name: "test file type",
-            message: "Tipe file salah",
-            test: (val) => {
-              if (!val) return true;
-              return val.type.includes("image");
-            },
-          }),
+        illustration_photo: materialId
+          ? Yup.mixed().nullable()
+          : Yup.mixed()
+              .required()
+              .test({
+                name: "test file type",
+                message: "Tipe file salah",
+                test: (val) => {
+                  if (!val) return true;
+                  return val.type.includes("image");
+                },
+              }),
       }),
     [topics]
   );
 
   const handleSubmit = async (data) => {
     try {
-      const {
-        data: { data: imageUrl },
-      } = await getImageUrl(data.illustration_photo);
-
-      await createMaterial({
+      setIsSaving(true);
+      const fixedData = {
         ...data,
-        illustration_url: imageUrl,
         topic_id: +data.topic_id,
-      });
+      };
+
+      if (data.illustration_photo) {
+        const {
+          data: { data: imageUrl },
+        } = await getImageUrl(data.illustration_photo);
+
+        fixedData["illustration_url"] = imageUrl;
+      }
+
+      if (materialId) {
+        console.log({ quiz: { ...data.quiz, questions: data.quiz_questions } });
+        await editMaterial(materialId, {
+          ...fixedData,
+          quiz: { ...data.quiz, questions: data.quiz_questions },
+          topic: { id: +data.topic_id },
+        });
+      } else {
+        await createMaterial(fixedData);
+      }
 
       navigate("/admin/material-management");
       toast({
         status: "success",
         title: "Sukses",
-        description: "Materi berhasil dibuat",
+        description: `Materi berhasil ${materialId ? "diubah" : "dibuat"}`,
       });
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -111,8 +142,8 @@ const AdminMaterialForm = () => {
       title: "",
       topic_id: "",
       illustration_photo: null,
+      illustration_url: "",
       content: "",
-      link_foto_bundle: "",
       video_url: "",
       quiz_questions: [
         {
@@ -169,6 +200,29 @@ const AdminMaterialForm = () => {
     formik.setFieldValue(`quiz_questions`, newQuestions);
   };
 
+  useEffect(() => {
+    if (materialId) {
+      const handleFetchMaterial = async () => {
+        try {
+          const {
+            data: { data },
+          } = await getMaterialByIdWithQuiz(materialId);
+
+          formik.setValues({
+            ...data,
+            topic_id: data.topic.id.toString(),
+            quiz_questions: data.quiz.questions,
+          });
+        } catch (error) {
+          console.log({ error });
+        }
+      };
+      handleFetchMaterial();
+    }
+  }, [materialId]);
+
+  console.log({ error: formik.errors });
+
   return (
     <Box pb={10}>
       <Heading size="lg" fontWeight="semibold" mb={4}>
@@ -214,14 +268,24 @@ const AdminMaterialForm = () => {
               Ilustrasi
             </FormLabel>
             <Flex>
-              {formik.values.illustration_photo && (
+              {formik.values.illustration_photo ? (
                 <Image
                   my={8}
                   mx="auto"
                   src={URL.createObjectURL(formik.values.illustration_photo)}
                   alt="illustration photo"
-                  w={60}
+                  w={80}
                 />
+              ) : (
+                formik.values.illustration_url && (
+                  <Image
+                    my={8}
+                    mx="auto"
+                    src={formik.values.illustration_url}
+                    alt="illustration photo"
+                    w={80}
+                  />
+                )
               )}
             </Flex>
             <Input
@@ -265,6 +329,7 @@ const AdminMaterialForm = () => {
               id="video_url"
               onChange={formik.handleChange}
               placeholder="https://youtube.com/......."
+              value={formik.values.video_url}
             />
             <FormErrorMessage>{formik.errors.video_url}</FormErrorMessage>
           </FormControl>
@@ -279,7 +344,7 @@ const AdminMaterialForm = () => {
           Soal Kuis
         </Heading>
         <VStack alignItems="stretch" spacing={4}>
-          {formik.values.quiz_questions.map((question, idx) => (
+          {formik.values.quiz_questions?.map((question, idx) => (
             <Box px={6} py={4} borderWidth="2px" rounded="md" key={idx}>
               <Text fontWeight="semibold" mb={2}>
                 Soal {idx + 1}
@@ -371,10 +436,9 @@ const AdminMaterialForm = () => {
                 </Box>
                 <FormControl
                   isInvalid={
-                    !!(
-                      Array.isArray(formik.errors.quiz_questions) &&
-                      formik.errors.quiz_questions[idx]?.explanation
-                    )
+                    Array.isArray(formik.errors.quiz_questions) &&
+                    typeof formik.errors.quiz_questions[idx]?.options ===
+                      "string"
                   }
                 >
                   <Text mb={2} fontWeight={500}>
@@ -385,6 +449,9 @@ const AdminMaterialForm = () => {
                     onChange={(e) => {
                       handleChangeRightAnswer(e.target.value, idx);
                     }}
+                    value={formik.values.quiz_questions[idx].options?.findIndex(
+                      (option) => option.is_true
+                    )}
                   >
                     {formik.values.quiz_questions[idx].options?.map(
                       (option, optionIdx) => (
@@ -392,13 +459,10 @@ const AdminMaterialForm = () => {
                       )
                     )}
                   </Select>
-                  {!formik.values.quiz_questions[idx].options?.some(
-                    (option) => option.is_true
-                  ) && (
-                    <FormErrorMessage>
-                      Minimal satu pilihan jawaban benar
-                    </FormErrorMessage>
-                  )}
+                  <FormErrorMessage>
+                    {Array.isArray(formik.errors.quiz_questions) &&
+                      formik.errors.quiz_questions[idx]?.options}
+                  </FormErrorMessage>
                 </FormControl>
                 <FormControl
                   isInvalid={
@@ -452,16 +516,22 @@ const AdminMaterialForm = () => {
             </Box>
           ))}
         </VStack>
+        {typeof formik.errors.quiz_questions === "string" && (
+          <Text color="red.500" my={2}>
+            {formik.errors.quiz_questions}
+          </Text>
+        )}
         <ButtonGroup justifyContent="flex-end" w="full" mt={6}>
           <Button
             colorScheme="blue"
             variant="outline"
             px={6}
             onClick={() => navigate(-1)}
+            isDisabled={isSaving}
           >
             Batal
           </Button>
-          <Button colorScheme="blue" px={6} type="submit">
+          <Button colorScheme="blue" px={6} type="submit" isLoading={isSaving}>
             Simpan
           </Button>
         </ButtonGroup>
