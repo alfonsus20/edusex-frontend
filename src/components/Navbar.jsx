@@ -75,14 +75,13 @@ const Navbar = () => {
     setIsNotificationDropdownVisible(false);
   };
 
-  const showBrowserNotification = (notification) => {
-    console.log({notification,isPageVisible})
-    // if (!isPageVisible) {
-      new Notification("Edusex", {
-        body: notification.content,
-        icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
-      });
-    // }
+  const showBrowserNotification = async (notification) => {
+    const swReg = await navigator.serviceWorker.getRegistration();
+
+    swReg.showNotification("Edusex", {
+      body: notification.content,
+      icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
+    });
   };
 
   const fetchNotifications = async () => {
