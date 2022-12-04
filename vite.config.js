@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       injectManifest: {
-        globPatterns: ["**/*.{ico,png,svg,jpg,jpeg}"],
+        globPatterns: ["**/*.{html,css,js,ico,png,svg,jpg,jpeg}"],
       },
       manifest: {
         name: "Edusex",
