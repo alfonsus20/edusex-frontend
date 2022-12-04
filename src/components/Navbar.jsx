@@ -8,7 +8,16 @@ import {
   Icon,
   Image,
   Text,
+  useDisclosure,
   useToast,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -40,6 +49,11 @@ const Navbar = () => {
   } = useComponentVisible();
   const toast = useToast();
   const navigate = useNavigate();
+  const {
+    isOpen: isLogoutModalOpen,
+    onOpen: openLogoutModal,
+    onClose: closeLogoutModal,
+  } = useDisclosure();
 
   const [notifications, setNotifications] = useState([]);
 
@@ -52,9 +66,14 @@ const Navbar = () => {
     [notifications]
   );
 
+  const confirmLogout = () => {
+    openLogoutModal();
+    closeProfileDropdown();
+  };
+
   const handleLogout = () => {
     logout();
-    closeProfileDropdown();
+    closeLogoutModal();
   };
 
   const openProfileDropdown = () => {
@@ -228,6 +247,7 @@ const Navbar = () => {
                     </Flex>
                     {notifications.map((notification) => (
                       <Box
+                        key={notification.id}
                         py={2}
                         bg={notification.is_read ? "white" : "#E8EFFE"}
                         px={4}
@@ -308,7 +328,7 @@ const Navbar = () => {
                   alignItems="center"
                   color="red.400"
                   cursor="pointer"
-                  onClick={handleLogout}
+                  onClick={confirmLogout}
                   pt={1}
                 >
                   <Icon as={FaSignOutAlt} mr={2} />
@@ -323,6 +343,31 @@ const Navbar = () => {
           </Button>
         )}
       </Flex>
+      <Modal
+        onClose={closeLogoutModal}
+        isOpen={isLogoutModalOpen}
+        isCentered
+        size="sm"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalHeader textAlign="center" fontSize="2xl">
+            Logout
+          </ModalHeader>
+          <ModalBody px={6} fontSize="lg">
+            Apakah Anda yakin ingin keluar dari sistem?
+          </ModalBody>
+          <ModalFooter>
+            <ButtonGroup>
+              <Button onClick={closeLogoutModal}>Tidak</Button>
+              <Button colorScheme="red" px={6} onClick={handleLogout}>
+                Ya
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
