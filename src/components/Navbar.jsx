@@ -76,12 +76,14 @@ const Navbar = () => {
   };
 
   const showBrowserNotification = async (notification) => {
-    const swReg = await navigator.serviceWorker.getRegistration();
+    if (!isPageVisible) {
+      const swReg = await navigator.serviceWorker.getRegistration();
 
-    swReg.showNotification("Edusex", {
-      body: notification.content,
-      icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
-    });
+      swReg.showNotification("Edusex", {
+        body: notification.content,
+        icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
+      });
+    }
   };
 
   const fetchNotifications = async () => {
