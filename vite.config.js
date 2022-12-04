@@ -8,22 +8,6 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-      },
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) =>
-              ["script", "style", "font"].includes(request.destination),
-            handler: "StaleWhileRevalidate",
-            options: {
-              cacheName: "resource-cache",
-            },
-          },
-        ],
-      },
       manifest: {
         name: "Edusex",
         short_name: "Edusex",
@@ -160,6 +144,9 @@ export default defineConfig({
           },
         ],
       },
+      srcDir: "src",
+      strategies: "injectManifest",
+      filename: "sw.js",
     }),
   ],
 });

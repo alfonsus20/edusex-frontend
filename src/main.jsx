@@ -5,6 +5,7 @@ import App from "./App";
 import { AuthWrapper } from "./context/authContext";
 import { TopicWrapper } from "./context/topicContext";
 import "./index.css";
+import { initSW } from "./utils/helper";
 
 const theme = extendTheme({
   colors: {
@@ -45,3 +46,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </AuthWrapper>
   </ChakraProvider>
 );
+
+initSW();
