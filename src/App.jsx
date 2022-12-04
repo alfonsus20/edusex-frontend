@@ -54,9 +54,7 @@ function App() {
   const [online, setOnline] = useState(navigator.onLine);
 
   useEffect(() => {
-    if (!(Notification in window)) {
-      console.log("Browser doesn't support notification");
-    } else {
+    if (Notification.permission !== "granted") {
       Notification.requestPermission();
     }
 
