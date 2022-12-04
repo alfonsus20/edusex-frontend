@@ -73,6 +73,15 @@ const Navbar = () => {
     setIsNotificationDropdownVisible(false);
   };
 
+  const showBrowserNotification = (notification) => {
+    if (!document.hasFocus()) {
+      new Notification("Edusex", {
+        body: notification.content,
+        icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
+      });
+    }
+  };
+
   const fetchNotifications = async () => {
     try {
       const { data } = await getAllNotifications();
@@ -98,12 +107,15 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && userInfo.id) {
       fetchNotifications();
 
       const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
 
-      channel.bind("notification-received", fetchNotifications);
+      channel.bind("notification-received", (data) => {
+        fetchNotifications();
+        showBrowserNotification(data);
+      });
 
       return () => {
         pusherInstance.unsubscribe(`user-${userInfo.id}`);

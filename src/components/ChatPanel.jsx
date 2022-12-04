@@ -91,6 +91,7 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
       <Flex flex="auto" flexDir="column" py={2} px={4} overflowY="auto">
         {chatDetail.messages?.map((item) => (
           <ChatItem
+            key={item.id}
             message={item.message}
             ownerId={item.owner?.id}
             ownerAvatar={item.owner?.avatar_url}

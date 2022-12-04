@@ -140,6 +140,7 @@ const PersonalConsultation = () => {
             {filteredRooms.map((room) => {
               return (
                 <ChatRoom
+                  key={room.id}
                   name={room.psikolog?.name}
                   lastMessage={room.last_message || ""}
                   numberOfUnreadMessage={room.unread_chats}
@@ -183,7 +184,12 @@ const PersonalConsultation = () => {
           </ModalHeader>
           <ModalBody px={6} minH="xs" maxH="sm" overflow="auto">
             {psikologList.map((psikolog) => (
-              <Flex alignItems="center" cursor="pointer" py={2}>
+              <Flex
+                alignItems="center"
+                cursor="pointer"
+                py={2}
+                key={psikolog.id}
+              >
                 <Image
                   src={psikolog.avatar_url || DEFAULT_AVATAR}
                   alt="avatar"
