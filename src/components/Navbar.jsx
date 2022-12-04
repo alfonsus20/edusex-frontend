@@ -76,12 +76,13 @@ const Navbar = () => {
   };
 
   const showBrowserNotification = (notification) => {
-    if (!isPageVisible) {
+    console.log({notification,isPageVisible})
+    // if (!isPageVisible) {
       new Notification("Edusex", {
         body: notification.content,
         icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
       });
-    }
+    // }
   };
 
   const fetchNotifications = async () => {
