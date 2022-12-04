@@ -8,6 +8,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      injectManifest: {
+        globDirectory: "src/assets",
+        globPatterns: ["**/*.{ico,png,svg,jpg,jpeg}"],
+      },
       manifest: {
         name: "Edusex",
         short_name: "Edusex",

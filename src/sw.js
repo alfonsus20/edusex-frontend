@@ -9,10 +9,10 @@ registerRoute(
   createHandlerBoundToURL("/index.html")
 );
 
-registerRoute(
-  ({ request }) => request.destination === "image",
-  new StaleWhileRevalidate({ cacheName: "image-cache" })
-);
+// registerRoute(
+//   ({ request }) => request.destination === "image",
+//   new StaleWhileRevalidate({ cacheName: "image-cache" })
+// );
 
 registerRoute(
   new RegExp(/^https:\/\/fonts\.googleapis\.com\/.*/i),
