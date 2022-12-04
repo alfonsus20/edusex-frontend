@@ -9,7 +9,6 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       injectManifest: {
-        globDirectory: "src/assets",
         globPatterns: ["**/*.{ico,png,svg,jpg,jpeg}"],
       },
       manifest: {
