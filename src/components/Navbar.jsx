@@ -25,6 +25,7 @@ import {
   readNotification,
 } from "../api-fetch/notification";
 import dayjs from "dayjs";
+import { usePageVisibility } from "react-page-visibility";
 
 const Navbar = () => {
   const { userInfo, isAuthenticated, logout } = useAuthContext();
@@ -40,6 +41,7 @@ const Navbar = () => {
   } = useComponentVisible();
   const toast = useToast();
   const navigate = useNavigate();
+  const isPageVisible = usePageVisibility();
 
   const [notifications, setNotifications] = useState([]);
 
@@ -74,7 +76,7 @@ const Navbar = () => {
   };
 
   const showBrowserNotification = (notification) => {
-    if (!document.hasFocus()) {
+    if (!isPageVisible) {
       new Notification("Edusex", {
         body: notification.content,
         icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
