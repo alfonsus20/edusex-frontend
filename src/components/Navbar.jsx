@@ -76,6 +76,7 @@ const Navbar = () => {
   };
 
   const showBrowserNotification = async (notification) => {
+    console.log({isPageVisible,notification})
     if (!isPageVisible) {
       const swReg = await navigator.serviceWorker.getRegistration();
 
