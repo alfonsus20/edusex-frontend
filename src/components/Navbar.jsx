@@ -25,7 +25,6 @@ import {
   readNotification,
 } from "../api-fetch/notification";
 import dayjs from "dayjs";
-import { usePageVisibility } from "react-page-visibility";
 
 const Navbar = () => {
   const { userInfo, isAuthenticated, logout } = useAuthContext();
@@ -41,7 +40,6 @@ const Navbar = () => {
   } = useComponentVisible();
   const toast = useToast();
   const navigate = useNavigate();
-  const isPageVisible = usePageVisibility();
 
   const [notifications, setNotifications] = useState([]);
 
@@ -76,15 +74,12 @@ const Navbar = () => {
   };
 
   const showBrowserNotification = async (notification) => {
-    console.log({isPageVisible,notification})
-    if (!isPageVisible) {
-      const swReg = await navigator.serviceWorker.getRegistration();
+    const swReg = await navigator.serviceWorker.getRegistration();
 
-      swReg.showNotification("Edusex", {
-        body: notification.content,
-        icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
-      });
-    }
+    swReg.showNotification("Edusex", {
+      body: notification.content,
+      icon: "https://qdmpfooxehwcdufdlkhd.supabase.co/storage/v1/object/public/images/logo_square.png",
+    });
   };
 
   const fetchNotifications = async () => {
