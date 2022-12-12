@@ -224,7 +224,7 @@ const AdminMaterialForm = () => {
   console.log({ error: formik.errors });
 
   return (
-    <Box pb={10}>
+    <Box pb={10} px={4}>
       <Heading size="lg" fontWeight="semibold" mb={4}>
         {materialId ? "Edit" : "Tambah"} Materi
       </Heading>

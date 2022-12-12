@@ -58,7 +58,7 @@ const AdminPsikologForm = () => {
   });
 
   return (
-    <Box as="form" onSubmit={formik.handleSubmit}>
+    <Box as="form" mx={4} onSubmit={formik.handleSubmit}>
       <Heading size="lg" fontWeight="semibold" mb={6}>
         Tambah Psikolog
       </Heading>

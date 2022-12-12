@@ -29,7 +29,13 @@ const SidebarAdmin = () => {
   const { pathname } = useLocation();
 
   return (
-    <Box flex="0 0 240px" pos="sticky" top={20} h="fit-content">
+    <Box
+      flex="0 0 240px"
+      pos="sticky"
+      top={20}
+      h="fit-content"
+      display={{ base: "none", md: "block" }}
+    >
       {PATHS.map((path, idx) => {
         const isMatchCurrentPath = path.activePathPatterns.some((pattern) =>
           matchPath(pattern, pathname)

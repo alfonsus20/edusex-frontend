@@ -77,11 +77,11 @@ const AdminMaterialManagement = () => {
   }, []);
 
   return (
-    <Box>
+    <Box px={6}>
       <Heading size="lg" fontWeight="semibold" mb={6}>
         Manajemen Materi
       </Heading>
-      <Flex>
+      <Flex mb={4}>
         <Button
           leftIcon={<Icon as={AiOutlinePlus} />}
           colorScheme="blue"

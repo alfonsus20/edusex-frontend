@@ -36,7 +36,7 @@ const AdminPsikologManagement = () => {
   }, []);
 
   return (
-    <Box>
+    <Box px={6}>
       <Heading size="lg" fontWeight="semibold" mb={6}>
         Manajemen Psikolog
       </Heading>
@@ -71,7 +71,7 @@ const AdminPsikologManagement = () => {
                   <Image
                     src={psikolog.avatar_url || DEFAULT_AVATAR}
                     w={16}
-                    h={16}
+                    style={{aspectRatio : 1}}
                     alt="avatar"
                     rounded="full"
                     objectFit="cover"
