@@ -66,14 +66,13 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
 
   return (
     <Flex w="full" h="full" flexDir="column">
-      <Flex alignItems="center" px={4} py={2} gap={3}>
-        {withBackArrow && (
-          <IconButton
-            icon={<Icon as={AiOutlineArrowLeft} fontSize="xl" />}
-            onClick={() => navigate(-1)}
-            variant="unstyled"
-          />
-        )}
+      <Flex alignItems="center" px={{ base: 0, md: 4 }} py={2} gap={3}>
+        <IconButton
+          icon={<Icon as={AiOutlineArrowLeft} fontSize="xl" />}
+          onClick={() => navigate(-1)}
+          variant="unstyled"
+          display={{ base: "block", md: withBackArrow ? "block" : "none" }}
+        />
         <Image
           src={userToChat?.avatar_url || DEFAULT_AVATAR}
           alt="interlocutor avatar"

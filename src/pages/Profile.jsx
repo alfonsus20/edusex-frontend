@@ -83,7 +83,7 @@ const Profile = () => {
   };
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="6xl">
+    <Box pt={8} px={4} pb={12} mx="auto" maxW="6xl">
       <Heading size="lg" mb={4} as="h1">
         Profil Saya
       </Heading>
@@ -173,7 +173,7 @@ const Profile = () => {
         <Flex py={4} alignItems="center">
           <Box w="25%">Foto</Box>
           <Flex alignItems="center" justifyContent="space-between" w="75%">
-            <Flex alignItems="center">
+            <Flex alignItems="center" flexWrap="wrap" gap={3}>
               <Image
                 w={24}
                 h={24}
@@ -182,7 +182,6 @@ const Profile = () => {
                 rounded="full"
                 objectFit="cover"
                 objectPosition="center"
-                mr={4}
               />
               <Input
                 hidden
@@ -222,7 +221,7 @@ const Profile = () => {
             justifyContent="space-between"
             w="75%"
           >
-            <Box>
+            <Box noOfLines={1}>
               {!isNameFieldOpen ? (
                 <Text>{userInfo.name}</Text>
               ) : (
@@ -262,6 +261,7 @@ const Profile = () => {
             alignItems="center"
             justifyContent="space-between"
             w="75%"
+            noOfLines={1}
           >
             {userInfo.email}
           </Flex>

@@ -39,7 +39,7 @@ const QuizInfo = () => {
   }, []);
 
   return (
-    <Box mx="auto" maxW="6xl" pt={8}>
+    <Box mx="auto" maxW="6xl" pt={8} px={4}>
       <Box mb={6}>
         <Heading fontWeight="semibold" as="h1" fontSize="3xl" mb={4}>
           Kuis Materi "{quiz.material?.title}"

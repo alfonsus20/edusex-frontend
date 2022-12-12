@@ -31,7 +31,7 @@ const QuizResult = () => {
   }, []);
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="7xl">
+    <Box pt={8} pb={12} mx="auto" maxW="7xl" px={4}>
       <Box>
         <Heading size="lg" fontWeight="bold" textAlign="center" mb={6}>
           Skor Kamu

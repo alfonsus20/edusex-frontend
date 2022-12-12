@@ -43,8 +43,13 @@ const Register = () => {
         style={{ aspectRatio: "1/1" }}
         alt="register"
         width="50%"
+        display={{ base: "none", md: "block" }}
       />
-      <Flex width="50%" alignItems="center" justifyContent="center">
+      <Flex
+        width={{ base: "full", md: "50%" }}
+        alignItems="center"
+        justifyContent="center"
+      >
         <Box shadow="lg" w="full" maxW="md" px={8} py={10}>
           <Heading as="h2" size="xl" mb={8} fontWeight={500}>
             Register

@@ -313,10 +313,10 @@ const Navbar = () => {
                 pos="absolute"
                 bg="white"
                 top="100%"
-                right={{ base: "0", sm: "5.5rem" }}
+                right={{ base: "5.5rem" }}
                 rounded="md"
                 w="26rem"
-                maxW="full"
+                maxW="calc(100% - 5.5rem)"
                 ref={notificationDropdownRef}
                 fontSize="sm"
                 maxH="260px"

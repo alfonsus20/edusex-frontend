@@ -73,121 +73,126 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
-      <Box
-        display={online ? "block" : "flex"}
-        alignItems="stretch"
-        flexDir="column"
-        minH="calc(100vh - 140px)"
-      >
-        {online ? (
-          <Routes>
-            <Route
-              path="/admin"
-              element={<Navigate to="/admin/material-management" />}
-            />
-            <Route
-              path="/psikolog"
-              element={<Navigate to="/psikolog/discussion" />}
-            />
-            <Route element={<AuthRoute />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
-            <Route element={<PublicRoute />}>
-              <Route path="/" element={<Home />} />
-            </Route>
-            <Route element={<RoleBasedRoute role="user" />}>
-              <Route path="/topic" element={<Topic />} />
-              <Route path="/topic/:topicId/material" element={<Material />} />
+      <Flex flexDirection="column" minH="100vh">
+        <Navbar />
+        <Box
+          display={online ? "block" : "flex"}
+          flexDir="column"
+          flex="auto"
+          id="main"
+        >
+          {online ? (
+            <Routes>
               <Route
-                path="/material/:materialId"
-                element={<MaterialDetail />}
-              />
-              <Route path="/quiz/:quizId/quiz-info" element={<QuizInfo />} />
-              <Route path="/quiz/:quizId/do" element={<Quiz />} />
-              <Route path="/quiz/:attemptId/result" element={<QuizResult />} />
-              <Route path="/forum" element={<Forum />} />
-              <Route
-                path="/forum/questions/:questionId"
-                element={<ForumQuestionDetail />}
-              />
-              <Route path="/forum/ask" element={<ForumAskQuestion />} />
-              <Route
-                path="/forum/my-questions"
-                element={<ForumMyQuestions />}
+                path="/admin"
+                element={<Navigate to="/admin/material-management" />}
               />
               <Route
-                path="/personal-consultation"
-                element={<PersonalConsultation />}
+                path="/psikolog"
+                element={<Navigate to="/psikolog/discussion" />}
               />
-              <Route
-                path="/personal-consultation/:roomId"
-                element={<PersonalConsultation />}
-              />
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route element={<RoleBasedRoute role="psikolog" />}>
-              <Route
-                path="/psikolog/discussion"
-                element={<PsikologDiscussion />}
-              />
-              <Route
-                path="/psikolog/discussion/:questionId"
-                element={<PsikologQuestionDetail />}
-              />
-              <Route
-                path="/psikolog/discussion/:questionId"
-                element={<PsikologQuestionDetail />}
-              />
-              <Route
-                path="/psikolog/personal-chat"
-                element={<PsikologPersonalChat />}
-              />
-              <Route
-                path="/psikolog/personal-chat/:roomId"
-                element={<PsikologPersonalChatDetail />}
-              />
-              <Route path="/psikolog/profile" element={<PsikologProfile />} />
-            </Route>
-            <Route element={<RoleBasedRoute role="admin" />}>
-              <Route
-                path="/admin/material-management"
-                element={<AdminMaterialManagement />}
-              />
-              <Route
-                path="/admin/material-management/add"
-                element={<AdminMaterialForm />}
-              />
-              <Route
-                path="/admin/material-management/:materialId/edit"
-                element={<AdminMaterialForm />}
-              />
-              <Route
-                path="/admin/psikolog-management"
-                element={<AdminPsikologManagement />}
-              />
-              <Route
-                path="/admin/psikolog-management/new-psikolog"
-                element={<AdminPsikologForm />}
-              />
-            </Route>
-          </Routes>
-        ) : (
-          <Box py={20} mx="auto">
-            <Image src={offlinePic} alt="offline" w={80} h={80} />
-            <Text
-              color="blue.400"
-              textAlign="center"
-              fontWeight="semibold"
-              fontSize="xl"
-            >
-              Koneksi kamu terputus
-            </Text>
-          </Box>
-        )}
-      </Box>
-      <Footer />
+              <Route element={<AuthRoute />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Route>
+              <Route element={<PublicRoute />}>
+                <Route path="/" element={<Home />} />
+              </Route>
+              <Route element={<RoleBasedRoute role="user" />}>
+                <Route path="/topic" element={<Topic />} />
+                <Route path="/topic/:topicId/material" element={<Material />} />
+                <Route
+                  path="/material/:materialId"
+                  element={<MaterialDetail />}
+                />
+                <Route path="/quiz/:quizId/quiz-info" element={<QuizInfo />} />
+                <Route path="/quiz/:quizId/do" element={<Quiz />} />
+                <Route
+                  path="/quiz/:attemptId/result"
+                  element={<QuizResult />}
+                />
+                <Route path="/forum" element={<Forum />} />
+                <Route
+                  path="/forum/questions/:questionId"
+                  element={<ForumQuestionDetail />}
+                />
+                <Route path="/forum/ask" element={<ForumAskQuestion />} />
+                <Route
+                  path="/forum/my-questions"
+                  element={<ForumMyQuestions />}
+                />
+                <Route
+                  path="/personal-consultation"
+                  element={<PersonalConsultation />}
+                />
+                <Route
+                  path="/personal-consultation/:roomId"
+                  element={<PersonalConsultation />}
+                />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route element={<RoleBasedRoute role="psikolog" />}>
+                <Route
+                  path="/psikolog/discussion"
+                  element={<PsikologDiscussion />}
+                />
+                <Route
+                  path="/psikolog/discussion/:questionId"
+                  element={<PsikologQuestionDetail />}
+                />
+                <Route
+                  path="/psikolog/discussion/:questionId"
+                  element={<PsikologQuestionDetail />}
+                />
+                <Route
+                  path="/psikolog/personal-chat"
+                  element={<PsikologPersonalChat />}
+                />
+                <Route
+                  path="/psikolog/personal-chat/:roomId"
+                  element={<PsikologPersonalChatDetail />}
+                />
+                <Route path="/psikolog/profile" element={<PsikologProfile />} />
+              </Route>
+              <Route element={<RoleBasedRoute role="admin" />}>
+                <Route
+                  path="/admin/material-management"
+                  element={<AdminMaterialManagement />}
+                />
+                <Route
+                  path="/admin/material-management/add"
+                  element={<AdminMaterialForm />}
+                />
+                <Route
+                  path="/admin/material-management/:materialId/edit"
+                  element={<AdminMaterialForm />}
+                />
+                <Route
+                  path="/admin/psikolog-management"
+                  element={<AdminPsikologManagement />}
+                />
+                <Route
+                  path="/admin/psikolog-management/new-psikolog"
+                  element={<AdminPsikologForm />}
+                />
+              </Route>
+            </Routes>
+          ) : (
+            <Box py={20} mx="auto">
+              <Image src={offlinePic} alt="offline" w={80} h={80} />
+              <Text
+                color="blue.400"
+                textAlign="center"
+                fontWeight="semibold"
+                fontSize="xl"
+              >
+                Koneksi kamu terputus
+              </Text>
+            </Box>
+          )}
+        </Box>
+        <Footer />
+      </Flex>
     </BrowserRouter>
   );
 }

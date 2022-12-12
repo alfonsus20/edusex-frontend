@@ -104,22 +104,23 @@ const PersonalConsultation = () => {
   return (
     <Flex
       flexDir="column"
-      pt={4}
-      pb={6}
+      py={4}
       mx="auto"
       maxW="7xl"
-      h="calc(100vh - 140px)"
+      h={{ base: "calc(100vh - 100px)", md: "calc(100vh - 120px)" }}
+      px={4}
     >
       <Heading size="lg" mb={3}>
         Konsultasi Personal
       </Heading>
       <Flex overflow="hidden" flex="auto">
         <Box
-          w="40%"
+          w={{ base: "full", md: "40%" }}
           overflow="auto"
           p={2}
-          borderRight="2px"
-          borderColor="gray.200"
+          borderRight={{ md: "2px" }}
+          borderColor={{ md: "gray.200" }}
+          display={{ base: roomId ? "none" : "block", md: "block" }}
         >
           <Flex flex="auto">
             <InputGroup>
@@ -159,8 +160,9 @@ const PersonalConsultation = () => {
         <Flex
           alignItems="center"
           justifyContent="center"
-          w="60%"
+          w={{ base: "full", md: "60%" }}
           flexDir="column"
+          display={{ base: roomId ? "flex" : "none", md: "flex" }}
         >
           {roomId ? (
             <ChatPanel cbFetchChatList={fetchChatRooms} />

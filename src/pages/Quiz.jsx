@@ -78,7 +78,7 @@ const Quiz = () => {
   };
 
   return (
-    <Box mx="auto" maxW="7xl" pt={8} pb={12}>
+    <Box mx="auto" maxW="7xl" pt={8} pb={12} px={4}>
       <Box>
         <Flex
           fontWeight="bold"
@@ -107,7 +107,11 @@ const Quiz = () => {
         <Heading size="lg" mb={6}>
           {currentQuestion.question}
         </Heading>
-        <Grid gridTemplateColumns="repeat(2, 1fr)" rowGap={8} columnGap={12}>
+        <Grid
+          gridTemplateColumns={{ base: "repeat(1,1fr)", md: "repeat(2, 1fr)" }}
+          rowGap={8}
+          columnGap={12}
+        >
           {currentQuestion.options?.map((option) => (
             <GridItem
               key={option.id}
