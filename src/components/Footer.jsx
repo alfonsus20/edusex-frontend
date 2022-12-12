@@ -1,21 +1,21 @@
-import { Box, Flex, Icon } from "@chakra-ui/react";
-import { FaHeart } from "react-icons/fa";
+import { Box } from "@chakra-ui/react";
 
 const Footer = () => {
   return (
-    <Flex
+    <Box
       as="footer"
       textAlign="center"
       py={4}
       bgColor="#65789B"
       color="white"
-      alignItems="center"
-      justifyContent='center'
       fontWeight={600}
     >
-      Developed with <Icon as={FaHeart} color="red.400" mx={1} /> by Alfonsus
-      Avianto Chandrawan
-    </Flex>
+      Developed with{" "}
+      <Box as="span" color="red.400">
+        ❤
+      </Box>{" "}
+      by Alfonsus Avianto Chandrawan
+    </Box>
   );
 };
 

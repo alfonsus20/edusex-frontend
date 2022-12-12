@@ -6,7 +6,6 @@ const CardTopicMini = ({ image, topic }) => {
       shadow="md"
       p={4}
       borderRadius={6}
-      mx={12}
       my={4}
       cursor="pointer"
       maxW={48}

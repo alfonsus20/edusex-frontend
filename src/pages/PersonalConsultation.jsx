@@ -97,6 +97,10 @@ const PersonalConsultation = () => {
     }
   };
 
+  const handleSearchChat = (keyword) => {
+    setSearchKeyword(keyword);
+  };
+
   return (
     <Flex
       flexDir="column"
@@ -127,7 +131,7 @@ const PersonalConsultation = () => {
                 mr={4}
                 placeholder="Cari...."
                 value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
+                onChange={(e) => handleSearchChat(e.target.value)}
               />
             </InputGroup>
             <IconButton

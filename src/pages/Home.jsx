@@ -20,7 +20,7 @@ const Home = () => {
   const { topics } = useTopicContext();
 
   return (
-    <Box>
+    <Box px={4}>
       <Box position="relative" maxW="8xl" mx="auto" pb={12}>
         <Flex
           flexDirection="column"
@@ -46,34 +46,47 @@ const Home = () => {
             Ayo belajar tentang seksualitas sejak dini bersama Edusex yang siap
             memberikan kamu informasi yang lengkap seputar seksualitas
           </Box>
-          <Button colorScheme="blue" borderRadius="full" px={8}>
+          <Button
+            colorScheme="blue"
+            borderRadius="full"
+            px={8}
+            zIndex={10}
+            as={Link}
+            to="/topic"
+          >
             Lihat Materi
           </Button>
         </Flex>
-        <Flex justifyContent="center" columnGap={12} pos="relative">
+        <Flex
+          justifyContent="center"
+          columnGap={{ base: 4, md: 12 }}
+          pos="relative"
+        >
           <Image
             src={Home1Image}
             alt="home_1"
-            width={60}
-            height="23rem"
+            width="20%"
+            style={{ aspectRatio: "4/6" }}
             alignSelf="flex-start"
             zIndex={10}
+            display={{ base: "none", sm: "block" }}
           />
           <Image
             src={Home2Image}
             alt="home_2"
-            width={60}
+            width={{ base: "60%", sm: "20%" }}
+            style={{ aspectRatio: "4/6" }}
             mt={10}
             zIndex={10}
-            height="23rem"
           />
           <Image
             src={Home3Image}
             alt="home_3"
-            width={60}
-            height="23rem"
+            width="20%"
             alignSelf="flex-start"
             zIndex={10}
+            display={{ base: "none", sm: "block" }}
+            style={{ aspectRatio: "4/6" }}
           />
           <Circle
             bgColor="cyan.400"
@@ -88,6 +101,7 @@ const Home = () => {
             pos="absolute"
             top={-8}
             right={24}
+            display={{ base: "none", sm: "block" }}
           />
           <Circle
             bgColor="pink.400"
@@ -95,6 +109,7 @@ const Home = () => {
             pos="absolute"
             top={0}
             right="40%"
+            display={{ base: "none", sm: "block" }}
           />
           <Circle
             bgColor="purple.400"
@@ -116,6 +131,7 @@ const Home = () => {
             pos="absolute"
             top={-12}
             left={32}
+            display={{ base: "none", sm: "block" }}
           />
         </Flex>
       </Box>
@@ -132,6 +148,7 @@ const Home = () => {
           justifyContent="center"
           mx="auto"
           pos="relative"
+          gap={{ base: 4, lg: 8 }}
         >
           {topics.map((topic) => (
             <CardTopicMini
@@ -164,21 +181,29 @@ const Home = () => {
           />
         </Flex>
       </Box>
-      <Flex alignItems="center" maxW="7xl" mx="auto" py={12} px={4}>
+      <Flex
+        alignItems="center"
+        maxW="7xl"
+        mx="auto"
+        flexDirection={{ base: "column", sm: "row" }}
+        py={12}
+        px={4}
+        gap={{ base: "1rem", sm: "3rem", md: "6rem" }}
+      >
         <Image
           src={ForumDiskusiImage}
-          width="32rem"
+          width={{ base: "80%", sm: "40%" }}
+          aspectRatio={1}
           alt="konsultasi"
-          mr="6rem"
         />
-        <Box>
+        <Box width={{ base: "full", sm: "60%" }}>
           <Text color="yellow.400" fontWeight={700} mb={2}>
             FORUM DISKUSI
           </Text>
-          <Heading as="h3" size="xl" mb={2}>
+          <Heading as="h3" size={{ base: "lg", md: "xl" }} mb={2}>
             Konsultasi dengan Ahlinya
           </Heading>
-          <Text fontSize="xl" mb={4}>
+          <Text fontSize={{ base: "md", md: "lg" }} mb={4}>
             Kami menyediakan forum bagi kamu untuk bertanya dan berdiskusi
             bersama psikolog seputar seksualitas serta fitur konsultasi secara
             personal
@@ -187,7 +212,7 @@ const Home = () => {
             <Button
               colorScheme="yellow"
               rounded="full"
-              size="lg"
+              size={{ base: "md", md: "lg" }}
               px={6}
               color="white"
               as={Link}
@@ -199,7 +224,7 @@ const Home = () => {
               colorScheme="yellow"
               variant="outline"
               rounded="full"
-              size="lg"
+              size={{ base: "md", md: "lg" }}
               px={6}
               as={Link}
               to="/personal-consultation"
