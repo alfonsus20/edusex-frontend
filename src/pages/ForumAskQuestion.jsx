@@ -65,7 +65,7 @@ const ForumAskQuestion = () => {
   });
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="6xl">
+    <Box pt={8} px={4} pb={12} mx="auto" maxW="6xl">
       <Heading size="lg" mb={4} as="h1">
         Forum Diskusi
       </Heading>
@@ -74,8 +74,8 @@ const ForumAskQuestion = () => {
       </Heading>
       <Flex>
         <Image
-          w={14}
-          height={14}
+          w={{ base: 12, sm: 14 }}
+          h={{ base: 12, sm: 14 }}
           rounded="full"
           src={DEFAULT_AVATAR}
           alt="avatar"
@@ -119,7 +119,13 @@ const ForumAskQuestion = () => {
             <FormErrorMessage>{formik.errors.topic_id}</FormErrorMessage>
           </FormControl>
           <Flex>
-            <Button ml="auto" colorScheme="blue" px={8} type="submit" isLoading={isLoading}>
+            <Button
+              ml="auto"
+              colorScheme="blue"
+              px={8}
+              type="submit"
+              isLoading={isLoading}
+            >
               Kirim
             </Button>
           </Flex>

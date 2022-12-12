@@ -36,7 +36,7 @@ const MaterialDetail = () => {
 
   return (
     <Box>
-      <Box maxW="4xl" mx="auto">
+      <Box maxW="4xl" mx="auto" px={4}>
         <Box mb={4}>
           <Box mb={2}>
             <Heading as="h2" size="lg" mb={2}>
@@ -74,6 +74,7 @@ const MaterialDetail = () => {
         color="white"
         py={20}
         pos="relative"
+        px={4}
       >
         <Image
           src={ornament}
@@ -82,15 +83,17 @@ const MaterialDetail = () => {
           right={0}
           top={0}
           width={40}
+          display={{ base: "none", sm: "block" }}
         />
-        <Text mb={4} fontSize="3xl" fontWeight="semibold">
+        <Text mb={4} fontSize="3xl" fontWeight="semibold" zIndex={10}>
           Yuk, Kerjakan Mini Kuis
         </Text>
-        <Text mb={4} fontSize="lg" maxW="2xl" textAlign="center">
+        <Text mb={4} fontSize="lg" maxW="2xl" textAlign="center" zIndex={10}>
           Terdapat mini kuis yang dapat kamu kerjakan untuk menguji pemahamanmu
           terkait materi yang baru kamu pelajari
         </Text>
         <Button
+          zIndex={10}
           colorScheme="pink"
           rounded="full"
           px={6}

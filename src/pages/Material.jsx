@@ -50,12 +50,13 @@ const Material = () => {
 
   return (
     <Box>
-      <Box bg="#7262FD">
+      <Box bg="#7262FD" px={4}>
         <Flex
           alignItems="center"
           justifyContent="space-between"
           maxW="7xl"
           mx="auto"
+          minH='20rem'
         >
           <Box color="white" maxW="sm">
             <Heading mb={3} as="h2" fontWeight={500}>
@@ -64,13 +65,14 @@ const Material = () => {
             <Text>{topic.description}</Text>
           </Box>
           <Image
+            display={{ base: "none", sm: "block" }}
             src={topic.illustration_url}
             width={80}
             style={{ aspectRatio: 1 }}
           />
         </Flex>
       </Box>
-      <Box maxW="7xl" mx="auto" py={8}>
+      <Box maxW="7xl" mx="auto" py={8} px={4}>
         <Flex>
           <InputGroup>
             <InputLeftElement
@@ -85,7 +87,12 @@ const Material = () => {
         </Flex>
       </Box>
       <Grid
-        templateColumns="repeat(3, 1fr)"
+        px={4}
+        templateColumns={{
+          base: "repeat(1, 1fr)",
+          sm: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }}
         gap={8}
         maxW="7xl"
         mx="auto"

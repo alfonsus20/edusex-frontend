@@ -20,7 +20,7 @@ const Topic = () => {
   }, []);
 
   return (
-    <Box pt={8} pb={12}>
+    <Box pt={8} pb={12} px={4}>
       <Heading as="h2" size="xl" textAlign="center" mb={6}>
         <Text as="span" color="blue.400">
           Topik-Topik

@@ -26,20 +26,26 @@ const CardDiscussion = ({
       borderColor="gray.300"
       cursor="pointer"
       as={Link}
+      gap={{ base: 6, sm: 8 }}
       to={`/forum/questions/${questionId}`}
     >
-      <Box pos="relative" mr={8} alignSelf="flex-start">
-        <Circle size={16} bg="blue.200" fontSize="3xl" color="white">
+      <Box pos="relative" alignSelf="flex-start">
+        <Circle
+          size={{ base: 12, sm: 16 }}
+          bg="blue.200"
+          fontSize="3xl"
+          color="white"
+        >
           A
         </Circle>
-        {true && (
+        {psychologistName && (
           <Image
             src={psychologistAvatar || DEFAULT_AVATAR}
             objectPosition="center"
             objectFit="cover"
             alt="psychologist avatar"
-            w={12}
-            h={12}
+            w={{ base: 9, sm: 12 }}
+            h={{ base: 9, sm: 12 }}
             rounded="full"
             pos="absolute"
             bottom={-3}
@@ -48,7 +54,7 @@ const CardDiscussion = ({
         )}
       </Box>
       <Box flex="auto">
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" gap={2}>
           <Text fontSize="lg">
             <strong>{questionerName}</strong> •{" "}
             <Text as="span" fontSize="md">

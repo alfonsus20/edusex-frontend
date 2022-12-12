@@ -80,7 +80,7 @@ const ForumQuestionDetail = () => {
   }, []);
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="6xl">
+    <Box pt={8} pb={12} px={4} mx="auto" maxW="6xl">
       <Heading size="lg" mb={4} as="h1">
         Forum Diskusi
       </Heading>
@@ -93,7 +93,9 @@ const ForumQuestionDetail = () => {
             {questionDetail.user?.name[0].toUpperCase()}
           </Circle>
           <Box flex="auto">
-            <Text fontWeight="bold"> {questionDetail.user?.name}</Text>
+            <Text fontWeight="bold" noOfLines={1}>
+              {questionDetail.user?.name}
+            </Text>
             <Text>Penanya</Text>
           </Box>
           <Box textAlign="right">
@@ -123,8 +125,8 @@ const ForumQuestionDetail = () => {
         </VStack>
         <Flex>
           <Image
-            w={14}
-            height={14}
+            w={{ base: 12, sm: 14 }}
+            h={{ base: 12, sm: 14 }}
             rounded="full"
             src={userInfo.avatar_url || DEFAULT_AVATAR}
             alt="avatar"
@@ -159,16 +161,20 @@ const ForumQuestionDetail = () => {
           </Box>
         </Flex>
       </Box>
-      <Flex gap={6} justifyContent="center">
+      <Flex gap={{ base: 4, sm: 6 }} justifyContent="center">
         <Button
-          size="lg"
+          size={{ base: "md", sm: "lg" }}
           variant="outline"
           colorScheme="blue"
           onClick={() => navigate(-1)}
         >
           Kembali
         </Button>
-        <Button size="lg" colorScheme="blue" onClick={() => navigate("/forum")}>
+        <Button
+          size={{ base: "md", sm: "lg" }}
+          colorScheme="blue"
+          onClick={() => navigate("/forum")}
+        >
           Lihat Pertanyaan Lain
         </Button>
       </Flex>

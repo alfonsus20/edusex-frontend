@@ -19,7 +19,7 @@ const ForumMyQuestions = () => {
   }, []);
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="6xl">
+    <Box pt={8} px={4} pb={12} mx="auto" maxW="6xl">
       <Heading size="lg" mb={4} as="h1">
         Forum Diskusi
       </Heading>

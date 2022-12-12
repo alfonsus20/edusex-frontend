@@ -63,16 +63,21 @@ const Forum = () => {
   }, []);
 
   return (
-    <Box pt={8} pb={12} mx="auto" maxW="6xl">
+    <Box pt={8} pb={12} mx="auto" maxW="6xl" px={4}>
       <Heading size="lg" mb={4}>
         Forum Diskusi
       </Heading>
-      <ButtonGroup mb={8}>
+      <Flex
+        mb={8}
+        gap={4}
+        justifyContent={{ base: "center", sm: "flex-start" }}
+        flexWrap="wrap"
+      >
         <Button
           leftIcon={<Icon as={RiPencilFill} />}
           colorScheme="blue"
           variant="outline"
-          size="lg"
+          size={{ base: "md", sm: "lg" }}
           as={Link}
           to="/forum/ask"
         >
@@ -80,14 +85,14 @@ const Forum = () => {
         </Button>
         <Button
           colorScheme="blue"
-          size="lg"
+          size={{ base: "md", sm: "lg" }}
           leftIcon={<Icon as={BsChatSquareDotsFill} />}
           as={Link}
           to="/forum/my-questions"
         >
           Pertanyaan Saya
         </Button>
-      </ButtonGroup>
+      </Flex>
       <Box mb={4}>
         <Heading size="md" mb={4}>
           Diskusi Terbaru
@@ -110,6 +115,7 @@ const Forum = () => {
             variant="soft-rounded"
             colorScheme="orange"
             onChange={(val) => setFilterTopicIndex(val)}
+            overflowX="auto"
           >
             <TabList gap={2}>
               <Tab
@@ -127,6 +133,7 @@ const Forum = () => {
                   py={1}
                   color="orange.500"
                   border="2px"
+                  whiteSpace="nowrap"
                   _selected={{ bg: "orange.500", color: "white" }}
                 >
                   {topic.name}
