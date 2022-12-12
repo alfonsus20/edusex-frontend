@@ -35,7 +35,13 @@ const SidebarPsikolog = () => {
   const { pathname } = useLocation();
 
   return (
-    <Box flex="0 0 240px" pos="sticky" top={20} h="fit-content">
+    <Box
+      flex="0 0 240px"
+      display={{ base: "none", md: "block" }}
+      pos="sticky"
+      top={20}
+      h="fit-content"
+    >
       {PATHS.map((path, idx) => {
         const isMatchCurrentPath = path.activePathPatterns.some((pattern) =>
           matchPath(pattern, pathname)

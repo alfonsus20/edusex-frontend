@@ -173,7 +173,12 @@ const Profile = () => {
         <Flex py={4} alignItems="center">
           <Box w="25%">Foto</Box>
           <Flex alignItems="center" justifyContent="space-between" w="75%">
-            <Flex alignItems="center" flexWrap="wrap" gap={3}>
+            <Flex
+              alignItems="center"
+              flexWrap="wrap"
+              justifyContent="center"
+              gap={3}
+            >
               <Image
                 w={24}
                 h={24}
@@ -221,9 +226,9 @@ const Profile = () => {
             justifyContent="space-between"
             w="75%"
           >
-            <Box noOfLines={1}>
+            <Box>
               {!isNameFieldOpen ? (
-                <Text>{userInfo.name}</Text>
+                <Text noOfLines={1}>{userInfo.name}</Text>
               ) : (
                 <Flex gap={4}>
                   <Input ref={nameFieldRef} defaultValue={userInfo.name} />

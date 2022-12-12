@@ -14,7 +14,7 @@ const RoleBasedRoute = ({ role }) => {
       return (
         <Flex maxW="7xl" mx="auto" gap={4} pos="relative">
           {role === "admin" ? <SidebarAdmin /> : <SidebarPsikolog />}
-          <Box flex="auto">
+          <Box flex="auto" maxW="full">
             <Outlet />
           </Box>
         </Flex>

@@ -79,7 +79,7 @@ const PsikologProfile = () => {
   };
 
   return (
-    <Box pb={8} mx="auto" maxW="6xl">
+    <Box pb={8} px={4} mx="auto" maxW="6xl">
       <Heading fontWeight="semibold" size="lg" mb={4} as="h1">
         Profil Saya
       </Heading>
@@ -87,14 +87,18 @@ const PsikologProfile = () => {
         <Flex py={4} alignItems="center">
           <Box w="25%">Foto</Box>
           <Flex alignItems="center" justifyContent="space-between" w="75%">
-            <Flex alignItems="center">
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              flexWrap="wrap"
+              gap={3}
+            >
               <Image
                 w={24}
                 h={24}
                 rounded="full"
                 src={userInfo.avatar_url || DEFAULT_AVATAR}
                 alt="avatar"
-                mr={4}
                 objectFit="cover"
                 objectPosition="center"
               />
@@ -137,7 +141,7 @@ const PsikologProfile = () => {
           >
             <Box>
               {!isNameFieldOpen ? (
-                <Text>{userInfo.name}</Text>
+                <Text noOfLines={1}>{userInfo.name}</Text>
               ) : (
                 <Flex gap={4}>
                   <Input ref={nameFieldRef} defaultValue={userInfo.name} />
@@ -175,6 +179,7 @@ const PsikologProfile = () => {
             alignItems="center"
             justifyContent="space-between"
             w="75%"
+            noOfLines={1}
           >
             alfonschandrawan@gmail.com
           </Flex>

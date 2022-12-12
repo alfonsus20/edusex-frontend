@@ -31,7 +31,7 @@ const PsikologDiscussion = () => {
   }, []);
 
   return (
-    <Box>
+    <Box px={6}>
       <Heading size="lg" fontWeight="semibold" mb={6}>
         Pertanyaan Diskusi
       </Heading>

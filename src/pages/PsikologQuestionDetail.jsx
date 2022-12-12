@@ -79,7 +79,7 @@ const PsikologQuestionDetail = () => {
   }, []);
 
   return (
-    <Box pb={8}>
+    <Box pb={8} px={4}>
       <Heading size="lg" fontWeight="semibold" mb={6}>
         Jawab Pertanyaan
       </Heading>
@@ -119,8 +119,8 @@ const PsikologQuestionDetail = () => {
         </VStack>
         <Flex>
           <Image
-            w={14}
-            height={14}
+            w={{ base: 12, sm: 14 }}
+            h={{ base: 12, sm: 14 }}
             rounded="full"
             src={userInfo.avatar_url || DEFAULT_AVATAR}
             alt="avatar"

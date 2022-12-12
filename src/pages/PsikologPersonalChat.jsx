@@ -60,7 +60,7 @@ const PsikologPersonalChat = () => {
   );
 
   return (
-    <Box pb={8}>
+    <Box pb={8} px={4}>
       <Heading size="lg" fontWeight="semibold" mb={4}>
         Chat Personal
       </Heading>
