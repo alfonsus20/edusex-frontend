@@ -158,7 +158,7 @@ const Quiz = () => {
         size="lg"
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={4}>
           <ModalBody px={10} py={8}>
             {modalType === "true_answer" ? (
               <>

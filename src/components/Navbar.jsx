@@ -101,6 +101,7 @@ const Navbar = () => {
   };
 
   const openNotificationDropdown = () => {
+    fetchNotifications();
     setIsNotificationDropdownVisible(true);
   };
 
@@ -143,8 +144,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isAuthenticated && userInfo.id) {
-      fetchNotifications();
-
       const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
 
       channel.bind("notification-received", (data) => {
@@ -204,6 +203,7 @@ const Navbar = () => {
         zIndex={90}
         w="full"
         flexDirection="column"
+        bg="white"
       >
         <Flex
           w="full"
@@ -213,7 +213,6 @@ const Navbar = () => {
           px={4}
           maxW="8xl"
           mx="auto"
-          bg="white"
         >
           <Box as={Link} display={{ base: "none", md: "block" }} to="/">
             <Image src={logo} alt="logo" width={28} height={12} />
