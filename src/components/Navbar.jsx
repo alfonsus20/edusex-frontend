@@ -19,7 +19,7 @@ import {
   ModalOverlay,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { FaChevronDown, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -35,6 +35,13 @@ import {
 } from "../api-fetch/notification";
 import dayjs from "dayjs";
 import HamburgerMenu from "react-hamburger-menu";
+
+const ROUTES = [
+  { pathname: "/", name: "Beranda" },
+  { pathname: "/topic", name: "Topic Materi" },
+  { pathname: "/forum", name: "Forum Diskusi" },
+  { pathname: "/personal-consultation", name: "Konsultasi Personal" },
+];
 
 const Navbar = () => {
   const { userInfo, isAuthenticated, logout } = useAuthContext();
@@ -55,6 +62,7 @@ const Navbar = () => {
     onOpen: openLogoutModal,
     onClose: closeLogoutModal,
   } = useDisclosure();
+  const { pathname } = useLocation();
 
   const [notifications, setNotifications] = useState([]);
 
@@ -199,18 +207,29 @@ const Navbar = () => {
             spacing={6}
             display={{ base: "none", md: "flex" }}
           >
-            <Link to="/">
-              <Text>Beranda</Text>
-            </Link>
-            <Link to="/topic">
-              <Text>Topik Materi</Text>
-            </Link>
-            <Link to="/forum">
-              <Text>Forum Diskusi</Text>
-            </Link>
-            <Link to="/personal-consultation">
-              <Text>Konsultasi Personal</Text>
-            </Link>
+            {ROUTES.map((route, idx) => (
+              <Box as={Link} to={route.pathname} key={idx}>
+                <Text
+                  _after={{
+                    content: "''",
+                    w: 8,
+                    h: 1,
+                    bg: "blue.400",
+                    position: "absolute",
+                    top: "112%",
+                    right: 0,
+                    left: 0,
+                    mx: "auto",
+                    display: matchPath(route.pathname, pathname)
+                      ? "block"
+                      : "none",
+                  }}
+                  pos="relative"
+                >
+                  {route.name}
+                </Text>
+              </Box>
+            ))}
           </HStack>
         )}
         {isAuthenticated ? (

@@ -65,7 +65,7 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
   }, [roomId]);
 
   return (
-    <Flex w="full" h="full" flexDir="column">
+    <Flex w="full" h="full" flexDir="column" pb={3}>
       <Flex alignItems="center" px={{ base: 0, md: 4 }} py={2} gap={3}>
         <IconButton
           icon={<Icon as={AiOutlineArrowLeft} fontSize="xl" />}
