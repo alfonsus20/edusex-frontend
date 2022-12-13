@@ -1,29 +1,6 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
-import { MdOutlineGroup } from "react-icons/md";
-import { IoMdDocument } from "react-icons/io";
 import { Link, matchPath, useLocation } from "react-router-dom";
-
-const PATHS = [
-  {
-    icon: IoMdDocument,
-    text: "Manajemen Materi",
-    pathname: "/admin/material-management",
-    activePathPatterns: [
-      "/admin/material-management",
-      "/admin/material-management/add",
-      "/admin/material-management/:materialId/edit",
-    ],
-  },
-  {
-    icon: MdOutlineGroup,
-    text: "Manajemen Psikolog",
-    pathname: "/admin/psikolog-management",
-    activePathPatterns: [
-      "/admin/psikolog-management",
-      "/admin/psikolog-management/new-psikolog",
-    ],
-  },
-];
+import { ADMIN_PATHS } from "../utils/constant";
 
 const SidebarAdmin = () => {
   const { pathname } = useLocation();
@@ -36,7 +13,7 @@ const SidebarAdmin = () => {
       h="fit-content"
       display={{ base: "none", md: "block" }}
     >
-      {PATHS.map((path, idx) => {
+      {ADMIN_PATHS.map((path, idx) => {
         const isMatchCurrentPath = path.activePathPatterns.some((pattern) =>
           matchPath(pattern, pathname)
         );
@@ -52,7 +29,7 @@ const SidebarAdmin = () => {
             to={path.pathname}
           >
             <Icon as={path.icon} fontSize="xl" mr={2} />
-            <Text>{path.text}</Text>
+            <Text>{path.name}</Text>
           </Flex>
         );
       })}

@@ -1,35 +1,6 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react";
-import { MdOutlineGroup } from "react-icons/md";
-import { BiChat } from "react-icons/bi";
-import { FaRegUser } from "react-icons/fa";
 import { Link, matchPath, useLocation } from "react-router-dom";
-
-const PATHS = [
-  {
-    icon: MdOutlineGroup,
-    text: "Pertanyaan Diskusi",
-    pathname: "/psikolog/discussion",
-    activePathPatterns: [
-      "/psikolog/discussion",
-      "/psikolog/discussion/:questionId",
-    ],
-  },
-  {
-    icon: BiChat,
-    text: "Chat Personal",
-    pathname: "/psikolog/personal-chat",
-    activePathPatterns: [
-      "/psikolog/personal-chat",
-      "/psikolog/personal-chat/:roomId",
-    ],
-  },
-  {
-    icon: FaRegUser,
-    text: "Profil",
-    pathname: "/psikolog/profile",
-    activePathPatterns: ["/psikolog/profile"],
-  },
-];
+import { PSIKOLOG_PATHS } from "../utils/constant";
 
 const SidebarPsikolog = () => {
   const { pathname } = useLocation();
@@ -42,7 +13,7 @@ const SidebarPsikolog = () => {
       top={20}
       h="fit-content"
     >
-      {PATHS.map((path, idx) => {
+      {PSIKOLOG_PATHS.map((path, idx) => {
         const isMatchCurrentPath = path.activePathPatterns.some((pattern) =>
           matchPath(pattern, pathname)
         );
@@ -58,7 +29,7 @@ const SidebarPsikolog = () => {
             to={path.pathname}
           >
             <Icon as={path.icon} fontSize="xl" mr={2} />
-            <Text>{path.text}</Text>
+            <Text>{path.name}</Text>
           </Flex>
         );
       })}

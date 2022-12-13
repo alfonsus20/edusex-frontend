@@ -84,6 +84,7 @@ export const AuthWrapper = ({ children }) => {
     setIsAuthenticated(false);
     removeAuthToken();
     removeRole();
+    setUserInfo({});
   };
 
   return (

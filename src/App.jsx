@@ -80,6 +80,7 @@ function App() {
           flexDir="column"
           flex="auto"
           id="main"
+          pt={20}
         >
           {online ? (
             <Routes>
