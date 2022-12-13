@@ -204,7 +204,6 @@ const Navbar = () => {
         zIndex={90}
         w="full"
         flexDirection="column"
-        bg="red"
       >
         <Flex
           w="full"
