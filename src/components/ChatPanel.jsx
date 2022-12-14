@@ -32,6 +32,9 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
     try {
       const { data } = await getChatDetail(roomId);
       setChatDetail(data.data);
+      if(cbFetchChatList){
+        cbFetchChatList()
+      }
     } catch (error) {
       console.log({ error });
     }
