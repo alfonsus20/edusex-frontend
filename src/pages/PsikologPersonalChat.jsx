@@ -36,16 +36,14 @@ const PsikologPersonalChat = () => {
   }, []);
 
   useEffect(() => {
-    if (roomId) {
-      const channel = pusherInstance.subscribe(`room-${roomId}`);
+    const channel = pusherInstance.subscribe(`user-${userInfo.id}-room`);
 
-      channel.bind("personal-chat", fetchChatRooms);
+    channel.bind("fetch-chat-rooms", fetchChatRooms);
 
-      return () => {
-        pusherInstance.unsubscribe(`room-${roomId}`);
-      };
-    }
-  }, [userInfo.id, roomId]);
+    return () => {
+      pusherInstance.unsubscribe(`user-${userInfo.id}-room`);
+    };
+  }, [userInfo.id]);
 
   const handleSearch = () => {
     setSearchKeyword(searchRef.current.value);

@@ -12,7 +12,7 @@ import { DEFAULT_AVATAR } from "../utils/constant";
 import ChatItem from "./ChatItem";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,memo} from "react";
 import { pusherInstance } from "../utils/helper";
 import { getChatDetail, sendChat } from "../api-fetch/personal-consultation";
 import { useAuthContext } from "../context/authContext";
@@ -120,4 +120,4 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
   );
 };
 
-export default ChatPanel;
+export default memo(ChatPanel);
