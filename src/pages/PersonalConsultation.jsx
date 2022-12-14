@@ -77,7 +77,7 @@ const PersonalConsultation = () => {
         pusherInstance.unsubscribe(`room-${roomId}`);
       };
     }
-  }, [userInfo.id]);
+  }, [userInfo.id, roomId]);
 
   const filteredRooms = useMemo(
     () =>
