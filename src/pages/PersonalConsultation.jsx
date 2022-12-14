@@ -68,15 +68,15 @@ const PersonalConsultation = () => {
   }, []);
 
   useEffect(() => {
-    const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
+    if (roomId) {
+      const channel = pusherInstance.subscribe(`room-${roomId}`);
 
-    channel.bind("fetch-chat-rooms", () => {
-      fetchChatRooms();
-    });
+      channel.bind("personal-chat", fetchChatRooms);
 
-    return () => {
-      pusherInstance.unsubscribe(`user-${userInfo.id}`);
-    };
+      return () => {
+        pusherInstance.unsubscribe(`room-${roomId}`);
+      };
+    }
   }, [userInfo.id]);
 
   const filteredRooms = useMemo(

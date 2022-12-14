@@ -50,6 +50,9 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
   };
 
   useEffect(() => {
+    setChatDetail({});
+    fetchChatDetail();
+    
     const channel = pusherInstance.subscribe(`room-${roomId}`);
 
     channel.bind("personal-chat", fetchChatDetail);
@@ -57,11 +60,6 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
     return () => {
       pusherInstance.unsubscribe(`room-${roomId}`);
     };
-  }, [roomId]);
-
-  useEffect(() => {
-    setChatDetail({});
-    fetchChatDetail();
   }, [roomId]);
 
   return (

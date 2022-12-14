@@ -65,8 +65,6 @@ const Navbar = () => {
   } = useDisclosure();
   const {
     isOpen: isSidebarOpen,
-    onOpen: openSidebar,
-    onClose: closeSidebar,
     onToggle: toggleSidebar,
   } = useDisclosure();
   const { pathname } = useLocation();
@@ -144,6 +142,8 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isAuthenticated && userInfo.id) {
+      fetchNotifications();
+
       const channel = pusherInstance.subscribe(`user-${userInfo.id}`);
 
       channel.bind("notification-received", (data) => {
@@ -195,7 +195,6 @@ const Navbar = () => {
 
   return (
     <>
-      {" "}
       <Flex
         as="nav"
         pos="fixed"
