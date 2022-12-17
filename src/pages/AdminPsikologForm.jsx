@@ -36,7 +36,7 @@ const AdminPsikologForm = () => {
       toast({
         status: "success",
         title: "Sukses",
-        description: "Akun psikolog berhasil ditambahkan",
+        description: "Akun psikolog berhasil dibuat",
       });
       navigate("/admin/psikolog-management");
     } catch (error) {

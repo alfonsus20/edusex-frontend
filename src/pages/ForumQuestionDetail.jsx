@@ -64,7 +64,7 @@ const ForumQuestionDetail = () => {
       toast({
         status: "success",
         title: "Sukses",
-        description: "Balasan berhasil terkirim",
+        description: "Jawaban berhasil terkirim",
       });
       setReply("");
       await fetchQuestionDetail();

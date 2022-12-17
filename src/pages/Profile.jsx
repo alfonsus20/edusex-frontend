@@ -42,7 +42,7 @@ const Profile = () => {
       await editProfile({ name: nameFieldRef.current.value });
       toast({
         title: "Sukses",
-        description: "Nama berhasil diperbaharui",
+        description: "Nama berhasil diubah",
         status: "success",
       });
       fetchProfile();
@@ -59,7 +59,7 @@ const Profile = () => {
       await editProfile({ avatar_url: data.data });
       toast({
         title: "Sukses",
-        description: "Gambar profil berhasil diperbaharui",
+        description: "Foto berhasil diubah",
         status: "success",
       });
       fetchProfile();
