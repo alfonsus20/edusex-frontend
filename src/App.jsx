@@ -1,5 +1,11 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Forum from "./pages/Forum";
@@ -32,6 +38,16 @@ import PublicRoute from "./routes/PublicRoute";
 import { useEffect, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import offlinePic from "./assets/offline.svg";
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
   const {
@@ -73,6 +89,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Flex flexDirection="column" minH="100vh">
         <Navbar />
         <Box
