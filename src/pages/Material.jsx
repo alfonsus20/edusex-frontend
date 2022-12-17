@@ -48,6 +48,14 @@ const Material = () => {
     setSearchKeyword(searchBoxRef?.current.value);
   };
 
+  const renderMessage = () => {
+    if (searchKeyword) {
+      return "Materi tidak ditemukan";
+    }
+
+    return "Belum terdapat materi";
+  };
+
   return (
     <Box>
       <Box bg="#7262FD" px={4}>
@@ -56,7 +64,7 @@ const Material = () => {
           justifyContent="space-between"
           maxW="7xl"
           mx="auto"
-          minH='20rem'
+          minH="20rem"
         >
           <Box color="white" maxW="sm">
             <Heading mb={3} as="h2" fontWeight={500}>
@@ -86,27 +94,33 @@ const Material = () => {
           </Button>
         </Flex>
       </Box>
-      <Grid
-        px={4}
-        templateColumns={{
-          base: "repeat(1, 1fr)",
-          sm: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-        }}
-        gap={8}
-        maxW="7xl"
-        mx="auto"
-        pb={12}
-      >
-        {filteredTopics?.map((material) => (
-          <CardMaterial
-            key={material.id}
-            id={material.id}
-            title={material.title}
-            image={material.illustration_url}
-          />
+
+      {filteredTopics &&
+        (filteredTopics.length === 0 ? (
+          <Box textAlign="center" py={8}>{renderMessage()}</Box>
+        ) : (
+          <Grid
+            px={4}
+            templateColumns={{
+              base: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              lg: "repeat(3, 1fr)",
+            }}
+            gap={8}
+            maxW="7xl"
+            mx="auto"
+            pb={12}
+          >
+            {filteredTopics.map((material) => (
+              <CardMaterial
+                key={material.id}
+                id={material.id}
+                title={material.title}
+                image={material.illustration_url}
+              />
+            ))}
+          </Grid>
         ))}
-      </Grid>
     </Box>
   );
 };

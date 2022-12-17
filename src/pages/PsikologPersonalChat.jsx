@@ -7,6 +7,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Text,
 } from "@chakra-ui/react";
 import ChatRoom from "../components/ChatRoom";
 import { FaSearch } from "react-icons/fa";
@@ -57,6 +58,14 @@ const PsikologPersonalChat = () => {
     [searchKeyword, rooms]
   );
 
+  const renderMessage = () => {
+    if (searchKeyword) {
+      return "Chat tidak ditemukan";
+    }
+
+    return "Belum ada chat";
+  };
+
   return (
     <Box pb={8} px={4}>
       <Heading size="lg" fontWeight="semibold" mb={4}>
@@ -76,17 +85,21 @@ const PsikologPersonalChat = () => {
           </Button>
         </Flex>
         <Box>
-          {filteredRooms.map((room) => (
-            <ChatRoom
-              key={room.id}
-              name={room.user?.name}
-              lastMessage={room.last_message}
-              numberOfUnreadMessage={room.unread_chats}
-              time={dayjs(room.updated_at).format("HH:mm")}
-              avatar={room.user?.avatar_url}
-              path={`/psikolog/personal-chat/${room.id}`}
-            />
-          ))}
+          {filteredRooms.length === 0 ? (
+            <Text textAlign="center" py={4}>{renderMessage()}</Text>
+          ) : (
+            filteredRooms.map((room) => (
+              <ChatRoom
+                key={room.id}
+                name={room.user?.name}
+                lastMessage={room.last_message}
+                numberOfUnreadMessage={room.unread_chats}
+                time={dayjs(room.updated_at).format("HH:mm")}
+                avatar={room.user?.avatar_url}
+                path={`/psikolog/personal-chat/${room.id}`}
+              />
+            ))
+          )}
         </Box>
       </Box>
     </Box>

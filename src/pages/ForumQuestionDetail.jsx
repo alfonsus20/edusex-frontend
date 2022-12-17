@@ -112,16 +112,21 @@ const ForumQuestionDetail = () => {
           Balasan
         </Heading>
         <VStack spacing={6} mb={6} alignItems="stretch">
-          {questionDetail.replies?.map((reply) => (
-            <QuestionReply
-              key={reply.id}
-              reply={reply.reply}
-              userName={reply.user?.name}
-              role={getUserRole(reply.user?.role)}
-              date={reply.created_at}
-              avatar={reply.user?.avatar_url}
-            />
-          ))}
+          {questionDetail.replies &&
+            (questionDetail.replies.length === 0 ? (
+              <Text textAlign='center'>Belum ada jawaban</Text>
+            ) : (
+              questionDetail.replies?.map((reply) => (
+                <QuestionReply
+                  key={reply.id}
+                  reply={reply.reply}
+                  userName={reply.user?.name}
+                  role={getUserRole(reply.user?.role)}
+                  date={reply.created_at}
+                  avatar={reply.user?.avatar_url}
+                />
+              ))
+            ))}
         </VStack>
         <Flex>
           <Image

@@ -54,6 +54,7 @@ const ChatPanel = ({ withBackArrow = false, cbFetchChatList }) => {
 
   useEffect(() => {
     setChatDetail({});
+    setMessage("");
     fetchChatDetail();
     
     const channel = pusherInstance.subscribe(`room-${roomId}`);

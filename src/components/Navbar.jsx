@@ -63,10 +63,7 @@ const Navbar = () => {
     onOpen: openLogoutModal,
     onClose: closeLogoutModal,
   } = useDisclosure();
-  const {
-    isOpen: isSidebarOpen,
-    onToggle: toggleSidebar,
-  } = useDisclosure();
+  const { isOpen: isSidebarOpen, onToggle: toggleSidebar } = useDisclosure();
   const { pathname } = useLocation();
 
   const [notifications, setNotifications] = useState([]);
@@ -386,28 +383,32 @@ const Navbar = () => {
                       Tandai Semua Telah Dibaca
                     </Text>
                   </Flex>
-                  {notifications.map((notification) => (
-                    <Box
-                      key={notification.id}
-                      py={2}
-                      bg={notification.is_read ? "white" : "#E8EFFE"}
-                      px={4}
-                      onClick={() =>
-                        handleReadNotification(
-                          notification.id,
-                          notification.type
-                        )
-                      }
-                      cursor="pointer"
-                    >
-                      <Text fontSize="xs" mb={1}>
-                        {dayjs(notification.created_at).format(
-                          "DD-MM-YYYY HH:mm"
-                        )}
-                      </Text>
-                      <Text>{notification.content}</Text>
-                    </Box>
-                  ))}
+                  {notifications.length === 0 ? (
+                    <Text textAlign="center" py={4}>Belum ada notifikasi</Text>
+                  ) : (
+                    notifications.map((notification) => (
+                      <Box
+                        key={notification.id}
+                        py={2}
+                        bg={notification.is_read ? "white" : "#E8EFFE"}
+                        px={4}
+                        onClick={() =>
+                          handleReadNotification(
+                            notification.id,
+                            notification.type
+                          )
+                        }
+                        cursor="pointer"
+                      >
+                        <Text fontSize="xs" mb={1}>
+                          {dayjs(notification.created_at).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
+                        </Text>
+                        <Text>{notification.content}</Text>
+                      </Box>
+                    ))
+                  )}
                 </Box>
               )}
             </>

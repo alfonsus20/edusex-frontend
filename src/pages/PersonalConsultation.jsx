@@ -99,6 +99,14 @@ const PersonalConsultation = () => {
     setSearchKeyword(keyword);
   };
 
+  const renderMessage = () => {
+    if (searchKeyword) {
+      return "Chat tidak ditemukan";
+    }
+
+    return "Belum ada chat";
+  };
+
   return (
     <Flex
       flexDir="column"
@@ -140,19 +148,25 @@ const PersonalConsultation = () => {
             />
           </Flex>
           <Box overflow="hidden">
-            {filteredRooms.map((room) => {
-              return (
-                <ChatRoom
-                  key={room.id}
-                  name={room.psikolog?.name}
-                  lastMessage={room.last_message || ""}
-                  numberOfUnreadMessage={room.unread_chats}
-                  time={dayjs(room.updated_at).format("HH:mm")}
-                  avatar={room.psikolog?.avatar_url}
-                  path={`/personal-consultation/${room.id}`}
-                />
-              );
-            })}
+            {filteredRooms.length === 0 ? (
+              <Text textAlign="center" py={4}>
+                {renderMessage()}
+              </Text>
+            ) : (
+              filteredRooms.map((room) => {
+                return (
+                  <ChatRoom
+                    key={room.id}
+                    name={room.psikolog?.name}
+                    lastMessage={room.last_message || ""}
+                    numberOfUnreadMessage={room.unread_chats}
+                    time={dayjs(room.updated_at).format("HH:mm")}
+                    avatar={room.psikolog?.avatar_url}
+                    path={`/personal-consultation/${room.id}`}
+                  />
+                );
+              })
+            )}
           </Box>
         </Box>
         <Flex

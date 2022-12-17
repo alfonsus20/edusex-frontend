@@ -29,10 +29,10 @@ const ForumAskQuestion = () => {
   const AskQuestionSchema = useMemo(
     () =>
       Yup.object({
-        question: Yup.string().required(),
+        question: Yup.string().required("Pertanyaan wajib diisi"),
         topic_id: Yup.string()
           .oneOf(topics.map((topic) => `${topic.id}`))
-          .required(),
+          .required("Topik wajib dipilih"),
       }),
     [topics]
   );

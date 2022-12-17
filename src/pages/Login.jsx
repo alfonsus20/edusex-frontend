@@ -18,8 +18,8 @@ import { useAuthContext } from "../context/authContext";
 import * as Yup from "yup";
 
 const LoginSchema = Yup.object({
-  email: Yup.string().email().required(),
-  password: Yup.string().required(),
+  email: Yup.string().email("Masukan harus berupa email").required("Email diperlukan"),
+  password: Yup.string().required("Password diperlukan"),
 });
 
 const Login = () => {

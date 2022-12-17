@@ -104,38 +104,46 @@ const AdminMaterialManagement = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {materials.map((material, idx) => (
-              <Tr key={idx}>
-                <Td>{idx + 1}.</Td>
-                <Td>{material.title}</Td>
-                <Td>
-                  <Image
-                    src={material.illustration_url}
-                    w={32}
-                    alt="ilustrasi"
-                  />
-                </Td>
-                <Td>{material.topic?.name}</Td>
-                <Td>
-                  <ButtonGroup>
-                    <Button
-                      colorScheme="yellow"
-                      as={Link}
-                      to={`/admin/material-management/${material.id}/edit`}
-                      color="white"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      colorScheme="red"
-                      onClick={() => openDeleteModal(material.id)}
-                    >
-                      Hapus
-                    </Button>
-                  </ButtonGroup>
+            {materials.length === 0 ? (
+              <Tr>
+                <Td colSpan={5} textAlign="center">
+                  Belum terdapat materi
                 </Td>
               </Tr>
-            ))}
+            ) : (
+              materials.map((material, idx) => (
+                <Tr key={idx}>
+                  <Td>{idx + 1}.</Td>
+                  <Td>{material.title}</Td>
+                  <Td>
+                    <Image
+                      src={material.illustration_url}
+                      w={32}
+                      alt="ilustrasi"
+                    />
+                  </Td>
+                  <Td>{material.topic?.name}</Td>
+                  <Td>
+                    <ButtonGroup>
+                      <Button
+                        colorScheme="yellow"
+                        as={Link}
+                        to={`/admin/material-management/${material.id}/edit`}
+                        color="white"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        colorScheme="red"
+                        onClick={() => openDeleteModal(material.id)}
+                      >
+                        Hapus
+                      </Button>
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>{" "}

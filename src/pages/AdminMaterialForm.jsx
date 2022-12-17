@@ -34,6 +34,12 @@ import {
   getMaterialByIdWithQuiz,
 } from "../api-fetch/material";
 
+Yup.setLocale({
+  mixed: {
+    required: () => `Field wajib diisi`,
+  },
+});
+
 const AdminMaterialForm = () => {
   const { materialId } = useParams();
   const { topics } = useTopicContext();

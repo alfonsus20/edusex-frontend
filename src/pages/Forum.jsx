@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   Heading,
   Icon,
@@ -62,6 +61,18 @@ const Forum = () => {
     setFilterKeyword(searchRef.current.value);
   }, []);
 
+  const handleFilterByTopic = useCallback((val) => {
+    setFilterTopicIndex(val);
+  }, []);
+
+  const renderMessage = () => {
+    if (filterKeyword || filterTopicIndex !== 0) {
+      return "Pertanyaan tidak ditemukan";
+    }
+
+    return "";
+  };
+
   return (
     <Box pt={8} pb={12} mx="auto" maxW="6xl" px={4}>
       <Heading size="lg" mb={4}>
@@ -114,7 +125,7 @@ const Forum = () => {
           <Tabs
             variant="soft-rounded"
             colorScheme="orange"
-            onChange={(val) => setFilterTopicIndex(val)}
+            onChange={handleFilterByTopic}
             overflowX="auto"
           >
             <TabList gap={2}>
@@ -144,20 +155,27 @@ const Forum = () => {
         </Flex>
       </Box>
       <Box>
-        {filteredQuestions.map((question) => (
-          <CardDiscussion
-            key={question.id}
-            questionerName={question.user?.name}
-            time={question.created_at}
-            question={question.question}
-            numberOfRespond={question.replies?.length}
-            psychologistName={
-              question.replies?.find((reply) => reply.user?.role === "psikolog")
-                ?.user?.name
-            }
-            questionId={question.id}
-          />
-        ))}
+        {filteredQuestions.length === 0 ? (
+          <Text textAlign="center" py={4}>
+            {renderMessage()}
+          </Text>
+        ) : (
+          filteredQuestions.map((question) => (
+            <CardDiscussion
+              key={question.id}
+              questionerName={question.user?.name}
+              time={question.created_at}
+              question={question.question}
+              numberOfRespond={question.replies?.length}
+              psychologistName={
+                question.replies?.find(
+                  (reply) => reply.user?.role === "psikolog"
+                )?.user?.name
+              }
+              questionId={question.id}
+            />
+          ))
+        )}
       </Box>
     </Box>
   );

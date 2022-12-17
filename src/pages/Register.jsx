@@ -17,9 +17,11 @@ import { useAuthContext } from "../context/authContext";
 import * as Yup from "yup";
 
 const RegisterSchema = Yup.object({
-  email: Yup.string().email().required(),
-  password: Yup.string().required(),
-  name: Yup.string().required(),
+  email: Yup.string()
+    .email("Masukan harus berupa email")
+    .required("Email diperlukan"),
+  password: Yup.string().required("Password diperlukan"),
+  name: Yup.string().required("Nama diperlukan"),
 });
 
 const Register = () => {

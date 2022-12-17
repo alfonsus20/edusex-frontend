@@ -27,7 +27,7 @@ const RoleBasedRoute = ({ role }) => {
   if (!prevIsAuthenticated) {
     toast({
       status: "error",
-      title: "Forbidden",
+      title: "Unauthorized",
       description: "Login terlebih dahulu",
     });
   }
