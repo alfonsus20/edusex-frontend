@@ -53,7 +53,7 @@ const MaterialDetail = () => {
             mx="auto"
             mb={2}
           />
-          <Box dangerouslySetInnerHTML={{ __html: material.content }} />
+          <Box className="material-content" dangerouslySetInnerHTML={{ __html: material.content }} />
         </Box>
         <Heading as="h3" size="lg" mb={4}>
           Video

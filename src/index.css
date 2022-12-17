@@ -3,6 +3,11 @@
   padding: 0;
 }
 
+.material-content ul,
+.material-content ol {
+  padding-left: 1.2rem;
+}
+
 @media screen and (max-width: 1280px) {
   html {
     font-size: 90%;
