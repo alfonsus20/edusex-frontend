@@ -114,11 +114,13 @@ const AdminMaterialManagement = () => {
               materials.map((material, idx) => (
                 <Tr key={idx}>
                   <Td>{idx + 1}.</Td>
-                  <Td>{material.title}</Td>
-                  <Td>
+                  <Td maxW={40} whiteSpace="pre-wrap">
+                    {material.title}
+                  </Td>
+                  <Td minW={48} maxW={48}>
                     <Image
+                      w={48}
                       src={material.illustration_url}
-                      w={32}
                       alt="ilustrasi"
                     />
                   </Td>

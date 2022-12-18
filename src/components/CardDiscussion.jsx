@@ -4,13 +4,14 @@ import { DEFAULT_AVATAR } from "../utils/constant";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { sensorName } from "../utils/helper";
 
 dayjs.extend(relativeTime);
 dayjs.locale("id");
 
 const CardDiscussion = ({
   questionId,
-  questionerName,
+  questionerName = "",
   time,
   question,
   psychologistName,
@@ -36,7 +37,7 @@ const CardDiscussion = ({
           fontSize="3xl"
           color="white"
         >
-          A
+          {questionerName[0].toUpperCase()}
         </Circle>
         {psychologistName && (
           <Image
@@ -56,7 +57,7 @@ const CardDiscussion = ({
       <Box flex="auto">
         <Flex justifyContent="space-between" gap={2}>
           <Text fontSize="lg">
-            <strong>{questionerName}</strong> •{" "}
+            <strong>{sensorName(questionerName)}</strong> •{" "}
             <Text as="span" fontSize="md">
               {dayjs(time).toNow(true)}
             </Text>

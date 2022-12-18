@@ -52,3 +52,17 @@ export const initSW = () => {
     }
   });
 };
+
+export const sensorName = (str) =>
+  str
+    .split(" ")
+    .map((w) => w[0] + w.slice(1).replace(/[a-zA-Z.]/g, "*"))
+    .join(" ");
+
+export const showName = (userName = "", role) => {
+  if (role === "Psikolog") {
+    return userName;
+  }
+
+  return sensorName(userName);
+};

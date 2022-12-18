@@ -18,6 +18,7 @@ import { DEFAULT_AVATAR } from "../utils/constant";
 import { useAuthContext } from "../context/authContext";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import { showName } from "../utils/helper";
 
 dayjs.locale("id");
 
@@ -40,12 +41,12 @@ const ForumQuestionDetail = () => {
   }, []);
 
   const getUserRole = useCallback(
-    (role) => {
+    (role, answererId) => {
       switch (role) {
         case "psikolog":
           return "Psikolog";
         case "user":
-          if (questionDetail.user?.id === userInfo.id) {
+          if (questionDetail.user?.id === answererId) {
             return "Penanya";
           } else {
             return "Anggota";
@@ -94,7 +95,10 @@ const ForumQuestionDetail = () => {
           </Circle>
           <Box flex="auto">
             <Text fontWeight="bold" noOfLines={1}>
-              {questionDetail.user?.name}
+              {showName(
+                questionDetail.user?.name,
+                getUserRole(questionDetail.user?.role)
+              )}
             </Text>
             <Text>Penanya</Text>
           </Box>
@@ -114,14 +118,14 @@ const ForumQuestionDetail = () => {
         <VStack spacing={6} mb={6} alignItems="stretch">
           {questionDetail.replies &&
             (questionDetail.replies.length === 0 ? (
-              <Text textAlign='center'>Belum ada jawaban</Text>
+              <Text textAlign="center">Belum ada jawaban</Text>
             ) : (
               questionDetail.replies?.map((reply) => (
                 <QuestionReply
                   key={reply.id}
                   reply={reply.reply}
                   userName={reply.user?.name}
-                  role={getUserRole(reply.user?.role)}
+                  role={getUserRole(reply.user?.role, reply.user?.id)}
                   date={reply.created_at}
                   avatar={reply.user?.avatar_url}
                 />

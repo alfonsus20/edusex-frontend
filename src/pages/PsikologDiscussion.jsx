@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllQuestions } from "../api-fetch/discussion";
+import { sensorName } from "../utils/helper";
 
 const PsikologDiscussion = () => {
   const [questions, setQuestions] = useState([]);
@@ -50,7 +51,7 @@ const PsikologDiscussion = () => {
             {questions.map((question, idx) => (
               <Tr key={idx}>
                 <Td>{idx + 1}.</Td>
-                <Td>{question.user?.name}</Td>
+                <Td>{sensorName(question.user?.name)}</Td>
                 <Td>{question.question}</Td>
                 <Td>{question.replies?.length}</Td>
                 <Td>

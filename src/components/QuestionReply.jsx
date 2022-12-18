@@ -2,8 +2,9 @@ import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { DEFAULT_AVATAR } from "../utils/constant";
+import { showName } from "../utils/helper";
 
-const QuestionReply = ({ reply, userName, role, date, avatar }) => {
+const QuestionReply = ({ reply, userName = "", role, date, avatar }) => {
   return (
     <Box>
       <Flex gap={4} mb={2} alignItems="center">
@@ -23,7 +24,7 @@ const QuestionReply = ({ reply, userName, role, date, avatar }) => {
           </Circle>
         )}
         <Box flex="auto">
-          <Text fontWeight="bold">{userName}</Text>
+          <Text fontWeight="bold">{showName(userName, role)}</Text>
           <Text>{role}</Text>
         </Box>
         <Box textAlign="right">

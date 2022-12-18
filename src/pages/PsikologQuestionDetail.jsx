@@ -18,6 +18,7 @@ import { useAuthContext } from "../context/authContext";
 import { DEFAULT_AVATAR } from "../utils/constant";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import { showName } from "../utils/helper";
 
 dayjs.locale("id");
 
@@ -39,12 +40,12 @@ const PsikologQuestionDetail = () => {
   }, []);
 
   const getUserRole = useCallback(
-    (role) => {
+    (role, answererId) => {
       switch (role) {
         case "psikolog":
           return "Psikolog";
         case "user":
-          if (questionDetail.user?.id === userInfo.id) {
+          if (questionDetail.user?.id === answererId) {
             return "Penanya";
           } else {
             return "Anggota";
@@ -89,7 +90,12 @@ const PsikologQuestionDetail = () => {
             {questionDetail.user?.name[0].toUpperCase()}
           </Circle>
           <Box flex="auto">
-            <Text fontWeight="bold"> {questionDetail.user?.name}</Text>
+            <Text fontWeight="bold">
+              {showName(
+                questionDetail.user?.name,
+                getUserRole(questionDetail.user?.role)
+              )}
+            </Text>
             <Text>Penanya</Text>
           </Box>
           <Box textAlign="right">
@@ -115,7 +121,7 @@ const PsikologQuestionDetail = () => {
                   key={reply.id}
                   reply={reply.reply}
                   userName={reply.user?.name}
-                  role={getUserRole(reply.user?.role)}
+                  role={getUserRole(reply.user?.role, reply.user?.id)}
                   date={reply.created_at}
                   avatar={reply.user?.avatar_url}
                 />

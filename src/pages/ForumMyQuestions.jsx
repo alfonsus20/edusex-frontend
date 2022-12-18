@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getMyQuestions } from "../api-fetch/discussion";
 import CardDiscussion from "../components/CardDiscussion";
@@ -27,20 +27,27 @@ const ForumMyQuestions = () => {
         Pertanyaan Saya
       </Heading>
       <Box>
-        {questions.map((question) => (
-          <CardDiscussion
-            key={question.id}
-            questionerName={question.user?.name}
-            time={question.created_at}
-            question={question.question}
-            numberOfRespond={question.replies?.length}
-            psychologistName={
-              question.replies?.find((reply) => reply.user?.role === "psikolog")
-                ?.user?.name
-            }
-            questionId={question.id}
-          />
-        ))}
+        {questions.length === 0 ? (
+          <Text textAlign="center" py={4}>
+            Belum ada pertanyaan
+          </Text>
+        ) : (
+          questions.map((question) => (
+            <CardDiscussion
+              key={question.id}
+              questionerName={question.user?.name}
+              time={question.created_at}
+              question={question.question}
+              numberOfRespond={question.replies?.length}
+              psychologistName={
+                question.replies?.find(
+                  (reply) => reply.user?.role === "psikolog"
+                )?.user?.name
+              }
+              questionId={question.id}
+            />
+          ))
+        )}
       </Box>
     </Box>
   );
