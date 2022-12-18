@@ -181,7 +181,7 @@ const PsikologProfile = () => {
             w="75%"
             noOfLines={1}
           >
-            alfonschandrawan@gmail.com
+            {userInfo.email}
           </Flex>
         </Flex>
         <Divider />
