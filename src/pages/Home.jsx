@@ -153,6 +153,7 @@ const Home = () => {
           {topics.map((topic) => (
             <CardTopicMini
               key={topic.id}
+              id={topic.id}
               topic={topic.name}
               image={topic.icon_url}
             />

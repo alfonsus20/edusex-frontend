@@ -13,6 +13,7 @@ const ChatRoom = ({
   return (
     <Flex py={2} alignItems="center" cursor="pointer" as={Link} to={path}>
       <Image
+        flex="none"
         w={12}
         h={12}
         rounded="full"

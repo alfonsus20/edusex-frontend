@@ -144,7 +144,7 @@ const Profile = () => {
                 <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 4} />
               </Flex>
               <Flex pos="relative" flexDir="column" w="18%" alignItems="center">
-                <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 8} />
+                <ProgressCheck isPassed={userInfo.progress?.passed_quiz >= 6} />
               </Flex>
             </Flex>
             <Flex justifyContent="space-around">
@@ -163,7 +163,7 @@ const Profile = () => {
               <Box w="18%">
                 <Text textAlign="center">Sudah lulus</Text>
                 <Text textAlign="center" fontWeight="bold">
-                  8 kuis
+                  6 kuis
                 </Text>
               </Box>
             </Flex>
