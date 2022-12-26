@@ -9,6 +9,7 @@ import {
   setDefaultToken,
   setRole,
 } from "../utils/helper";
+import { useToast } from "@chakra-ui/react";
 
 const defaultValue = {
   isAuthenticated: false,
@@ -27,6 +28,7 @@ export const AuthWrapper = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { handleError } = useError();
+  const toast = useToast();
 
   const login = async (loginData) => {
     try {
@@ -35,6 +37,11 @@ export const AuthWrapper = ({ children }) => {
       setUserInfo(data.data.user);
       setAuthToken(data.data.token);
       setIsAuthenticated(true);
+      toast({
+        title: "Sukses",
+        description: "Login Berhasil",
+        status: "success",
+      });
     } catch (error) {
       handleError(error);
     } finally {
@@ -49,6 +56,11 @@ export const AuthWrapper = ({ children }) => {
       setUserInfo(data.data.user);
       setAuthToken(data.data.token);
       setIsAuthenticated(true);
+      toast({
+        title: "Sukses",
+        description: "Pendaftaran Berhasil",
+        status: "success",
+      });
     } catch (error) {
       handleError(error);
     } finally {
