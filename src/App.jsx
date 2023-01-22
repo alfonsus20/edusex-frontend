@@ -6,35 +6,53 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
+import loadable from "@loadable/component";
+
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import Forum from "./pages/Forum";
-import ForumAskQuestion from "./pages/ForumAskQuestion";
-import ForumMyQuestions from "./pages/ForumMyQuestions";
-import ForumQuestionDetail from "./pages/ForumQuestionDetail";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Material from "./pages/Material";
-import MaterialDetail from "./pages/MaterialDetail";
-import PersonalConsultation from "./pages/PersonalConsultation";
-import Profile from "./pages/Profile";
-import Quiz from "./pages/Quiz";
-import QuizInfo from "./pages/QuizInfo";
-import QuizResult from "./pages/QuizResult";
-import Register from "./pages/Register";
-import Topic from "./pages/Topic";
-import RoleBasedRoute from "./routes/RoleBasedRoute";
-import PsikologDiscussion from "./pages/PsikologDiscussion";
-import PsikologQuestionDetail from "./pages/PsikologQuestionDetail";
-import PsikologProfile from "./pages/PsikologProfile";
-import PsikologPersonalChat from "./pages/PsikologPersonalChat";
-import PsikologPersonalChatDetail from "./pages/PsikologPersonalChatDetail";
-import AdminMaterialManagement from "./pages/AdminMaterialManagement";
-import AdminPsikologManagement from "./pages/AdminPsikologManagement";
-import AdminPsikologForm from "./pages/AdminPsikologForm";
-import AdminMaterialForm from "./pages/AdminMaterialForm";
-import AuthRoute from "./routes/AuthRoute";
-import PublicRoute from "./routes/PublicRoute";
+
+const Forum = loadable(() => import("./pages/Forum"));
+const ForumAskQuestion = loadable(() => import("./pages/ForumAskQuestion"));
+const ForumMyQuestions = loadable(() => import("./pages/ForumMyQuestions"));
+const ForumQuestionDetail = loadable(() =>
+  import("./pages/ForumQuestionDetail")
+);
+const Home = loadable(() => import("./pages/Home"));
+const Login = loadable(() => import("./pages/Login"));
+const Material = loadable(() => import("./pages/Material"));
+const MaterialDetail = loadable(() => import("./pages/MaterialDetail"));
+const PersonalConsultation = loadable(() =>
+  import("./pages/PersonalConsultation")
+);
+const Profile = loadable(() => import("./pages/Profile"));
+const Quiz = loadable(() => import("./pages/Quiz"));
+const QuizInfo = loadable(() => import("./pages/QuizInfo"));
+const QuizResult = loadable(() => import("./pages/QuizResult"));
+const Register = loadable(() => import("./pages/Register"));
+const Topic = loadable(() => import("./pages/Topic"));
+const RoleBasedRoute = loadable(() => import("./routes/RoleBasedRoute"));
+const PsikologDiscussion = loadable(() => import("./pages/PsikologDiscussion"));
+const PsikologQuestionDetail = loadable(() =>
+  import("./pages/PsikologQuestionDetail")
+);
+const PsikologProfile = loadable(() => import("./pages/PsikologProfile"));
+const PsikologPersonalChat = loadable(() =>
+  import("./pages/PsikologPersonalChat")
+);
+const PsikologPersonalChatDetail = loadable(() =>
+  import("./pages/PsikologPersonalChatDetail")
+);
+const AdminMaterialManagement = loadable(() =>
+  import("./pages/AdminMaterialManagement")
+);
+const AdminPsikologManagement = loadable(() =>
+  import("./pages/AdminPsikologManagement")
+);
+const AdminPsikologForm = loadable(() => import("./pages/AdminPsikologForm"));
+const AdminMaterialForm = loadable(() => import("./pages/AdminMaterialForm"));
+const AuthRoute = loadable(() => import("./routes/AuthRoute"));
+const PublicRoute = loadable(() => import("./routes/PublicRoute"));
+
 import { useEffect, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import offlinePic from "./assets/offline.svg";
