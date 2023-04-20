@@ -33,6 +33,7 @@ export const pusherInstance = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
 
 export const checkYoutubeUrl = (url) => {
   const match = url.match(
+    // eslint-disable-next-line no-useless-escape
     /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/
   );
 
@@ -65,4 +66,32 @@ export const showName = (userName = "", role) => {
   }
 
   return sensorName(userName);
+};
+
+export const throttle = (cb, delay = 700) => {
+  let shouldWait = false;
+
+  return (...args) => {
+    if (shouldWait) return;
+
+    cb(...args);
+
+    shouldWait = true;
+
+    setTimeout(() => {
+      shouldWait = false;
+    }, delay);
+  };
+};
+
+export const debounce = (cb, delay = 1000) => {
+  let timer;
+  
+  return (...args) => {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
 };

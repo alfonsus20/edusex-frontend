@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   Flex,
   Heading,
   Icon,
@@ -9,31 +8,29 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { RiChatNewFill } from "react-icons/ri";
-import { FaSearch } from "react-icons/fa";
-import ChatRoom from "../components/ChatRoom";
-import chooseChatImg from "../assets/choose-chat.svg";
-import { useNavigate, useParams } from "react-router-dom";
-import ChatPanel from "../components/ChatPanel";
-import { DEFAULT_AVATAR } from "../utils/constant";
-import {
-  createChatRoom,
-  getChatRooms,
-} from "../api-fetch/personal-consultation";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAuthContext } from "../context/authContext";
 import dayjs from "dayjs";
-import { pusherInstance } from "../utils/helper";
-import { getAllPsikolog } from "../api-fetch/psikolog";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { FaSearch } from "react-icons/fa";
+import { RiChatNewFill } from "react-icons/ri";
+import { useParams } from "react-router-dom";
+import { getChatRooms } from "../api-fetch/personal-consultation";
+import chooseChatImg from "../assets/choose-chat.svg";
+import ChatPanel from "../components/ChatPanel";
+import ChatRoom from "../components/ChatRoom";
+import { useAuthContext } from "../context/authContext";
+import { debounce, pusherInstance } from "../utils/helper";
+
+const ModalPsikolog = lazy(() => import("../components/modals/ModalPsikolog"));
 
 const PersonalConsultation = () => {
   const { roomId } = useParams();
@@ -41,8 +38,7 @@ const PersonalConsultation = () => {
   const [rooms, setRooms] = useState([]);
   const { userInfo } = useAuthContext();
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [psikologList, setPsikologList] = useState([]);
-  const navigate = useNavigate();
+  const [searchTemp, setSearchTemp] = useState("");
 
   const fetchChatRooms = useCallback(async () => {
     try {
@@ -53,18 +49,8 @@ const PersonalConsultation = () => {
     }
   }, []);
 
-  const handleFetchPsikolog = async () => {
-    try {
-      const { data } = await getAllPsikolog();
-      setPsikologList(data.data);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   useEffect(() => {
     fetchChatRooms();
-    handleFetchPsikolog();
   }, []);
 
   useEffect(() => {
@@ -85,18 +71,8 @@ const PersonalConsultation = () => {
     [searchKeyword, rooms]
   );
 
-  const handleCreateChatRoom = async (psikologId) => {
-    try {
-      const { data } = await createChatRoom({ psikolog_id: psikologId });
-      navigate(`/personal-consultation/${data.data.id}`);
-      onClose();
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   const handleSearchChat = (keyword) => {
-    setSearchKeyword(keyword);
+    setSearchTemp(keyword);
   };
 
   const renderMessage = () => {
@@ -106,6 +82,12 @@ const PersonalConsultation = () => {
 
     return "Belum ada chat";
   };
+
+  useEffect(() => {
+    debounce(() => {
+      setSearchKeyword(searchTemp);
+    })();
+  }, [searchTemp]);
 
   return (
     <Flex
@@ -130,14 +112,13 @@ const PersonalConsultation = () => {
         >
           <Flex flex="auto">
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<Icon as={FaSearch} color="gray.300" />}
-              />
+              <InputLeftElement pointerEvents="none">
+                <Icon as={FaSearch} color="gray.300" />
+              </InputLeftElement>
               <Input
                 mr={4}
                 placeholder="Cari...."
-                value={searchKeyword}
+                value={searchTemp}
                 onChange={(e) => handleSearchChat(e.target.value)}
               />
             </InputGroup>
@@ -193,46 +174,8 @@ const PersonalConsultation = () => {
           )}
         </Flex>
       </Flex>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader textAlign="center" fontSize="2xl" pb={0}>
-            Daftar Psikolog
-          </ModalHeader>
-          <ModalBody px={6} minH="xs" maxH="sm" overflow="auto">
-            {psikologList.map((psikolog) => (
-              <Flex
-                alignItems="center"
-                cursor="pointer"
-                py={2}
-                key={psikolog.id}
-              >
-                <Image
-                  src={psikolog.avatar_url || DEFAULT_AVATAR}
-                  alt="avatar"
-                  w={12}
-                  h={12}
-                  rounded="full"
-                  objectFit="cover"
-                  objectPosition="center"
-                  mr={2}
-                />
-                <Text
-                  key={psikolog.id}
-                  fontSize="lg"
-                  fontWeight="semibold"
-                  onClick={() => handleCreateChatRoom(psikolog.id)}
-                  cursor="pointer"
-                >
-                  {psikolog.name}
-                </Text>
-              </Flex>
-            ))}
-            <Divider />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+
+      <Suspense>{isOpen && <ModalPsikolog onClose={onClose} />}</Suspense>
     </Flex>
   );
 };

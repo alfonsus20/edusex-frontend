@@ -6,13 +6,6 @@ import {
   Heading,
   Icon,
   Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Table,
   TableContainer,
   Tbody,
@@ -23,10 +16,13 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { deleteMaterial, getAllMaterials } from "../api-fetch/material";
+const ModalDeleteMaterial = lazy(() =>
+  import("../components/modals/ModalDeleteMaterial")
+);
 
 const AdminMaterialManagement = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -149,33 +145,15 @@ const AdminMaterialManagement = () => {
           </Tbody>
         </Table>
       </TableContainer>{" "}
-      <Modal onClose={closeDeleteModal} isOpen={isOpen} isCentered size="sm">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader textAlign="center" fontSize="2xl">
-            Hapus Materi
-          </ModalHeader>
-          <ModalBody px={6} fontSize="lg">
-            Apakah Anda yakin ingin menghapus materi ini?
-          </ModalBody>
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={closeDeleteModal} isDisabled={isDeleting}>
-                Tidak
-              </Button>
-              <Button
-                colorScheme="red"
-                px={6}
-                onClick={handleDelete}
-                isLoading={isDeleting}
-              >
-                Ya
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Suspense>
+        {isOpen && (
+          <ModalDeleteMaterial
+            onClose={closeDeleteModal}
+            handleDelete={handleDelete}
+            isDeleting={isDeleting}
+          />
+        )}
+      </Suspense>
     </Box>
   );
 };

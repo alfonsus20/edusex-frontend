@@ -66,7 +66,7 @@ const Home = () => {
             src={Home1Image}
             alt="home_1"
             width="20%"
-            style={{ aspectRatio: "4/6" }}
+            style={{ aspectRatio: 4 / 6 }}
             alignSelf="flex-start"
             zIndex={10}
             display={{ base: "none", sm: "block" }}

@@ -54,3 +54,10 @@ export const ADMIN_PATHS = [
     ],
   },
 ];
+
+export const ROUTES = [
+  { pathname: "/", name: "Beranda" },
+  { pathname: "/topic", name: "Topik Materi" },
+  { pathname: "/forum", name: "Forum Diskusi" },
+  { pathname: "/personal-consultation", name: "Konsultasi Personal" },
+];
