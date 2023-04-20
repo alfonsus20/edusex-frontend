@@ -11,7 +11,7 @@ import {
 import Home1Image from "../assets/home_1.png";
 import Home2Image from "../assets/home_2.png";
 import Home3Image from "../assets/home_3.png";
-import CardTopicMini from "../components/CardTopicMini";
+import CardTopicMini from "../components/card/CardTopicMini";
 import ForumDiskusiImage from "../assets/forum_diskusi.png";
 import { useTopicContext } from "../context/topicContext";
 import { Link } from "react-router-dom";

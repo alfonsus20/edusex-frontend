@@ -23,16 +23,16 @@ import { AiOutlinePlus } from "react-icons/ai";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as Yup from "yup";
-import { useTopicContext } from "../context/topicContext";
+import { useTopicContext } from "../../context/topicContext";
 import { useEffect, useMemo, useState } from "react";
 import { useFormik } from "formik";
-import { checkYoutubeUrl } from "../utils/helper";
-import { getImageUrl } from "../api-fetch/upload";
+import { checkYoutubeUrl } from "../../utils/helper";
+import { getImageUrl } from "../../api-fetch/upload";
 import {
   createMaterial,
   editMaterial,
   getMaterialByIdWithQuiz,
-} from "../api-fetch/material";
+} from "../../api-fetch/material";
 
 Yup.setLocale({
   mixed: {
@@ -461,7 +461,7 @@ const AdminMaterialForm = () => {
                   >
                     {formik.values.quiz_questions[idx].options?.map(
                       (option, optionIdx) => (
-                        <option value={optionIdx}>{option.option}</option>
+                        <option value={optionIdx} key={optionIdx}>{option.option}</option>
                       )
                     )}
                   </Select>

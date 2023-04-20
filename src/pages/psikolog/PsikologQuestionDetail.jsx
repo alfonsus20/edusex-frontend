@@ -12,13 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getQuestionDetail, postQuestionReply } from "../api-fetch/discussion";
-import QuestionReply from "../components/QuestionReply";
-import { useAuthContext } from "../context/authContext";
-import { DEFAULT_AVATAR } from "../utils/constant";
+import { getQuestionDetail, postQuestionReply } from "../../api-fetch/discussion";
+import QuestionReply from "../../components/QuestionReply";
+import { useAuthContext } from "../../context/authContext";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import { showName } from "../utils/helper";
+import { showName } from "../../utils/helper";
 
 dayjs.locale("id");
 

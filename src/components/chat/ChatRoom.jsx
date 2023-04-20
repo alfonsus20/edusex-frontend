@@ -1,6 +1,6 @@
 import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { DEFAULT_AVATAR } from "../utils/constant";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 
 const ChatRoom = ({
   name,

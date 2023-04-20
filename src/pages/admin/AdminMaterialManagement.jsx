@@ -19,9 +19,9 @@ import {
 import { Suspense, lazy, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { deleteMaterial, getAllMaterials } from "../api-fetch/material";
+import { deleteMaterial, getAllMaterials } from "../../api-fetch/material";
 const ModalDeleteMaterial = lazy(() =>
-  import("../components/modals/ModalDeleteMaterial")
+  import("../../components/modals/ModalDeleteMaterial")
 );
 
 const AdminMaterialManagement = () => {

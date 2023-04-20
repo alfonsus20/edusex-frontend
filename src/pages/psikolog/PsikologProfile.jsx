@@ -1,23 +1,21 @@
 import {
   Box,
   Button,
-  Circle,
   Divider,
   Flex,
   Heading,
   Icon,
   Image,
   Input,
-  Progress,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
-import { DEFAULT_AVATAR } from "../utils/constant";
 import { useRef, useState } from "react";
-import { editProfile } from "../api-fetch/profile";
-import { getImageUrl } from "../api-fetch/upload";
-import { useAuthContext } from "../context/authContext";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { editProfile } from "../../api-fetch/profile";
+import { getImageUrl } from "../../api-fetch/upload";
+import { useAuthContext } from "../../context/authContext";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 
 const PsikologProfile = () => {
   const [isNameFieldOpen, setIsNameFieldOpen] = useState(false);
@@ -64,7 +62,7 @@ const PsikologProfile = () => {
     }
   };
 
-  const handleDeleteProfileImage = async (imageFile) => {
+  const handleDeleteProfileImage = async () => {
     try {
       await editProfile({ avatar_url: "" });
       toast({
@@ -125,6 +123,7 @@ const PsikologProfile = () => {
               variant="ghost"
               colorScheme="blue"
               leftIcon={<Icon as={FaTrash} />}
+              onClick={handleDeleteProfileImage}
             >
               Hapus
             </Button>

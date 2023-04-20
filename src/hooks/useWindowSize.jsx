@@ -24,8 +24,6 @@ function useWindowSize() {
     };
   }, []);
 
-  console.log({ windowSize });
-
   return windowSize;
 }
 

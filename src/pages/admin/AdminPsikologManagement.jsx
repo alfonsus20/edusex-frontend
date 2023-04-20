@@ -16,8 +16,8 @@ import {
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { getAllPsikolog } from "../api-fetch/psikolog";
-import { DEFAULT_AVATAR } from "../utils/constant";
+import { getAllPsikolog } from "../../api-fetch/psikolog";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 
 const AdminPsikologManagement = () => {
   const [psikologList, setPsikologList] = useState([]);

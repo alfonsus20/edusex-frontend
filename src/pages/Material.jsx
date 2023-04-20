@@ -15,7 +15,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { getTopicById } from "../api-fetch/topic";
-import CardMaterial from "../components/CardMaterial";
+import CardMaterial from "../components/card/CardMaterial";
 
 const Material = () => {
   const { topicId } = useParams();
@@ -83,10 +83,9 @@ const Material = () => {
       <Box maxW="7xl" mx="auto" py={8} px={4}>
         <Flex>
           <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<Icon as={FaSearch} color="gray.300" />}
-            />
+            <InputLeftElement pointerEvents="none">
+              <Icon as={FaSearch} color="gray.300" />
+            </InputLeftElement>
             <Input ref={searchBoxRef} mr={4} placeholder="Cari materi...." />
           </InputGroup>
           <Button colorScheme="orange" px={10} onClick={handleSearch}>
@@ -97,7 +96,9 @@ const Material = () => {
 
       {filteredTopics &&
         (filteredTopics.length === 0 ? (
-          <Box textAlign="center" py={8}>{renderMessage()}</Box>
+          <Box textAlign="center" py={8}>
+            {renderMessage()}
+          </Box>
         ) : (
           <Grid
             px={4}

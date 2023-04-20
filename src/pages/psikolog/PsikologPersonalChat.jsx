@@ -9,12 +9,12 @@ import {
   InputLeftElement,
   Text,
 } from "@chakra-ui/react";
-import ChatRoom from "../components/ChatRoom";
+import ChatRoom from "../../components/chat/ChatRoom";
 import { FaSearch } from "react-icons/fa";
 import dayjs from "dayjs";
-import { pusherInstance } from "../utils/helper";
-import { useAuthContext } from "../context/authContext";
-import { getChatRooms } from "../api-fetch/personal-consultation";
+import { pusherInstance } from "../../utils/helper";
+import { useAuthContext } from "../../context/authContext";
+import { getChatRooms } from "../../api-fetch/personal-consultation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const PsikologPersonalChat = () => {
@@ -74,10 +74,9 @@ const PsikologPersonalChat = () => {
       <Box p={2}>
         <Flex flex="auto" mb={2}>
           <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<Icon as={FaSearch} color="gray.300" />}
-            />
+            <InputLeftElement pointerEvents="none">
+              <Icon as={FaSearch} color="gray.300" />
+            </InputLeftElement>
             <Input mr={4} ref={searchRef} placeholder="Cari...." />
           </InputGroup>
           <Button colorScheme="blue" onClick={handleSearch}>
@@ -86,7 +85,9 @@ const PsikologPersonalChat = () => {
         </Flex>
         <Box>
           {filteredRooms.length === 0 ? (
-            <Text textAlign="center" py={4}>{renderMessage()}</Text>
+            <Text textAlign="center" py={4}>
+              {renderMessage()}
+            </Text>
           ) : (
             filteredRooms.map((room) => (
               <ChatRoom

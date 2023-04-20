@@ -1,9 +1,9 @@
 import { Suspense, lazy } from "react";
 
-import useIsMobile from "../hooks/useIsMobile";
+import useIsMobile from "../../hooks/useIsMobile";
 
-const NavbarDesktop = lazy(() => import("./navbar/NavbarDesktop"));
-const NavbarMobile = lazy(() => import("./navbar/NavbarMobile"));
+const NavbarDesktop = lazy(() => import("./NavbarDesktop"));
+const NavbarMobile = lazy(() => import("./NavbarMobile"));
 
 const Navbar = () => {
   const { isMobile } = useIsMobile();

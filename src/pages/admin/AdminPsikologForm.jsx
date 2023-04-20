@@ -14,8 +14,8 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { createPsikologAccount } from "../api-fetch/psikolog";
-import useError from "../hooks/useError";
+import { createPsikologAccount } from "../../api-fetch/psikolog";
+import useError from "../../hooks/useError";
 
 const AddPsikologSchema = Yup.object({
   email: Yup.string().email().required(),

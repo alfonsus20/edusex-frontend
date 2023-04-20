@@ -1,10 +1,10 @@
 import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { DEFAULT_AVATAR } from "../utils/constant";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { sensorName } from "../utils/helper";
+import { sensorName } from "../../utils/helper";
 
 dayjs.extend(relativeTime);
 dayjs.locale("id");

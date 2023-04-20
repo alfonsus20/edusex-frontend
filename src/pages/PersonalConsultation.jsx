@@ -25,8 +25,8 @@ import { RiChatNewFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import { getChatRooms } from "../api-fetch/personal-consultation";
 import chooseChatImg from "../assets/choose-chat.svg";
-import ChatPanel from "../components/ChatPanel";
-import ChatRoom from "../components/ChatRoom";
+import ChatPanel from "../components/chat/ChatPanel";
+import ChatRoom from "../components/chat/ChatRoom";
 import { useAuthContext } from "../context/authContext";
 import { debounce, pusherInstance } from "../utils/helper";
 

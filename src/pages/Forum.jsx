@@ -15,11 +15,11 @@ import {
 import { BsChatSquareDotsFill } from "react-icons/bs";
 import { RiPencilFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
-import CardDiscussion from "../components/CardDiscussion";
 import { Link } from "react-router-dom";
 import { getAllQuestions } from "../api-fetch/discussion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTopicContext } from "../context/topicContext";
+import CardDiscussion from "../components/card/CardDiscussion";
 
 const Forum = () => {
   const [questions, setQuestions] = useState([]);
@@ -110,10 +110,9 @@ const Forum = () => {
         </Heading>
         <Flex mb={4}>
           <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<Icon as={FaSearch} color="gray.300" />}
-            />
+            <InputLeftElement pointerEvents="none">
+              <Icon as={FaSearch} color="gray.300" />
+            </InputLeftElement>
             <Input mr={4} ref={searchRef} placeholder="Cari pertanyaan...." />
           </InputGroup>
           <Button colorScheme="orange" px={10} onClick={handleSearchByKeyword}>
@@ -140,6 +139,7 @@ const Forum = () => {
               </Tab>
               {topics.map((topic) => (
                 <Tab
+                  key={topic.id}
                   px={6}
                   py={1}
                   color="orange.500"

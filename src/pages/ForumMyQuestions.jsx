@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getMyQuestions } from "../api-fetch/discussion";
-import CardDiscussion from "../components/CardDiscussion";
+import CardDiscussion from "../components/card/CardDiscussion";
 
 const ForumMyQuestions = () => {
   const [questions, setQuestions] = useState([]);

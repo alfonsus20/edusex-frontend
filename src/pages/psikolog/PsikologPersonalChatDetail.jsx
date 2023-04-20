@@ -1,5 +1,5 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
-import ChatPanel from "../components/ChatPanel";
+import ChatPanel from "../../components/chat/ChatPanel";
 
 const PsikologPersonalChatDetail = () => {
   return (

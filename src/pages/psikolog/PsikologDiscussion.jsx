@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllQuestions } from "../api-fetch/discussion";
-import { sensorName } from "../utils/helper";
+import { getAllQuestions } from "../../api-fetch/discussion";
+import { sensorName } from "../../utils/helper";
 
 const PsikologDiscussion = () => {
   const [questions, setQuestions] = useState([]);

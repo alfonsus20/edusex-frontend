@@ -13,7 +13,7 @@ import offlinePic from "./assets/offline.svg";
 
 import Footer from "./components/Footer";
 import LoadingScreen from "./components/LoadingScreen";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 
 const Forum = lazy(() => import("./pages/Forum"));
 const ForumAskQuestion = lazy(() => import("./pages/ForumAskQuestion"));
@@ -31,23 +31,27 @@ const QuizResult = lazy(() => import("./pages/QuizResult"));
 const Register = lazy(() => import("./pages/Register"));
 const Topic = lazy(() => import("./pages/Topic"));
 const RoleBasedRoute = lazy(() => import("./routes/RoleBasedRoute"));
-const PsikologDiscussion = lazy(() => import("./pages/PsikologDiscussion"));
-const PsikologQuestionDetail = lazy(() =>
-  import("./pages/PsikologQuestionDetail")
+const PsikologDiscussion = lazy(() =>
+  import("./pages/psikolog/PsikologDiscussion")
 );
-const PsikologProfile = lazy(() => import("./pages/PsikologProfile"));
-const PsikologPersonalChat = lazy(() => import("./pages/PsikologPersonalChat"));
+const PsikologQuestionDetail = lazy(() =>
+  import("./pages/psikolog/PsikologQuestionDetail")
+);
+const PsikologProfile = lazy(() => import("./pages/psikolog/PsikologProfile"));
+const PsikologPersonalChat = lazy(() =>
+  import("./pages/psikolog/PsikologPersonalChat")
+);
 const PsikologPersonalChatDetail = lazy(() =>
-  import("./pages/PsikologPersonalChatDetail")
+  import("./pages/psikolog/PsikologPersonalChatDetail")
 );
 const AdminMaterialManagement = lazy(() =>
-  import("./pages/AdminMaterialManagement")
+  import("./pages/admin/AdminMaterialManagement")
 );
 const AdminPsikologManagement = lazy(() =>
-  import("./pages/AdminPsikologManagement")
+  import("./pages/admin/AdminPsikologManagement")
 );
-const AdminPsikologForm = lazy(() => import("./pages/AdminPsikologForm"));
-const AdminMaterialForm = lazy(() => import("./pages/AdminMaterialForm"));
+const AdminPsikologForm = lazy(() => import("./pages/admin/AdminPsikologForm"));
+const AdminMaterialForm = lazy(() => import("./pages/admin/AdminMaterialForm"));
 const AuthRoute = lazy(() => import("./routes/AuthRoute"));
 const PublicRoute = lazy(() => import("./routes/PublicRoute"));
 
@@ -62,11 +66,7 @@ const ScrollToTop = () => {
 };
 
 function App() {
-  const {
-    offlineReady: [offlineReady, setOfflineReady],
-    needRefresh: [needRefresh, setNeedRefresh],
-    updateServiceWorker,
-  } = useRegisterSW({
+  useRegisterSW({
     onRegistered(r) {
       // eslint-disable-next-line prefer-template
       console.log("SW Registered: " + r);

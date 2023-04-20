@@ -1,7 +1,7 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { useAuthContext } from "../context/authContext";
-import { DEFAULT_AVATAR } from "../utils/constant";
+import { useAuthContext } from "../../context/authContext";
+import { DEFAULT_AVATAR } from "../../utils/constant";
 
 const ChatItem = ({ ownerId, ownerAvatar, message }) => {
   const {

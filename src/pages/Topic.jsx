@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getTopicsWithProgress } from "../api-fetch/topic";
-import CardTopicProgress from "../components/CardTopicProgress";
+import CardTopicProgress from "../components/card/CardTopicProgress";
 
 const Topic = () => {
   const [topics, setTopics] = useState([]);
