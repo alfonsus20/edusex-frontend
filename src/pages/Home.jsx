@@ -8,11 +8,11 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import Home1Image from "../assets/home_1.png";
-import Home2Image from "../assets/home_2.png";
-import Home3Image from "../assets/home_3.png";
+import Home1Image from "../assets/home_1.webp";
+import Home2Image from "../assets/home_2.webp";
+import Home3Image from "../assets/home_3.webp";
 import CardTopicMini from "../components/card/CardTopicMini";
-import ForumDiskusiImage from "../assets/forum_diskusi.png";
+import ForumDiskusiImage from "../assets/forum_diskusi.webp";
 import { useTopicContext } from "../context/topicContext";
 import { Link } from "react-router-dom";
 import usePreloadImages from "../hooks/usePreloadImages";
