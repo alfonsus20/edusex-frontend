@@ -15,9 +15,13 @@ import CardTopicMini from "../components/card/CardTopicMini";
 import ForumDiskusiImage from "../assets/forum_diskusi.png";
 import { useTopicContext } from "../context/topicContext";
 import { Link } from "react-router-dom";
+import usePreloadImages from "../hooks/usePreloadImages";
+
+const preloadedImages = [Home1Image, Home2Image, Home3Image];
 
 const Home = () => {
   const { topics } = useTopicContext();
+  usePreloadImages(preloadedImages);
 
   return (
     <Box px={4}>
