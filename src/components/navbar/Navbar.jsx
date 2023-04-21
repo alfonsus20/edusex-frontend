@@ -7,7 +7,6 @@ const NavbarMobile = lazy(() => import("./NavbarMobile"));
 
 const Navbar = () => {
   const { isMobile } = useIsMobile();
-
   return <Suspense>{isMobile ? <NavbarMobile /> : <NavbarDesktop />}</Suspense>;
 };
 

@@ -36,6 +36,7 @@ const QuizExplanation = ({
             const { icon, color } = getColorAndIcon(option.id, option.is_true);
             return (
               <Flex
+                key={option.id}
                 alignItems="center"
                 fontSize="lg"
                 border="2px"

@@ -2,7 +2,7 @@ import axiosInstance from "../utils/axiosInstance";
 
 export const getMaterialById = (id) => axiosInstance.get(`/material/${id}`);
 
-export const getAllMaterials = (id) => axiosInstance.get(`/material`);
+export const getAllMaterials = () => axiosInstance.get(`/material`);
 
 export const deleteMaterial = (id) => axiosInstance.delete(`/material/${id}`);
 

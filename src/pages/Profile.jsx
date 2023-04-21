@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Circle,
   Divider,
   Flex,
   Heading,
@@ -12,16 +11,16 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { editProfile } from "../api-fetch/profile";
+import { getImageUrl } from "../api-fetch/upload";
+import bronzeTrophy from "../assets/trophy/bronze.png";
 import goldTrophy from "../assets/trophy/gold.png";
 import silverTrophy from "../assets/trophy/silver.png";
-import bronzeTrophy from "../assets/trophy/bronze.png";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
-import { DEFAULT_AVATAR } from "../utils/constant";
-import { useRef, useState } from "react";
-import { useAuthContext } from "../context/authContext";
-import { getImageUrl } from "../api-fetch/upload";
-import { editProfile } from "../api-fetch/profile";
 import ProgressCheck from "../components/ProgressCheck";
+import { useAuthContext } from "../context/authContext";
+import { DEFAULT_AVATAR } from "../utils/constant";
 
 const Profile = () => {
   const [isNameFieldOpen, setIsNameFieldOpen] = useState(false);
@@ -68,7 +67,7 @@ const Profile = () => {
     }
   };
 
-  const handleDeleteProfileImage = async (imageFile) => {
+  const handleDeleteProfileImage = async () => {
     try {
       await editProfile({ avatar_url: "" });
       toast({

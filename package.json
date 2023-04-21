@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite --port 4000",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.1",
@@ -33,6 +35,7 @@
     "@vitejs/plugin-react": "^2.2.0",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
     "vite": "^3.2.3",
     "vite-plugin-pwa": "^0.13.3"
   }

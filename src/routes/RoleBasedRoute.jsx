@@ -1,8 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import SidebarPsikolog from "../components/SidebarPsikolog";
-import SidebarAdmin from "../components/SidebarAdmin";
 import { useAuthContext } from "../context/authContext";
 import { Box, Flex, usePrevious, useToast } from "@chakra-ui/react";
+import { Suspense, lazy } from "react";
+
+const SidebarPsikolog = lazy(() => import("../components/SidebarPsikolog"));
+const SidebarAdmin = lazy(() => import("../components/SidebarAdmin"));
 
 const RoleBasedRoute = ({ role }) => {
   const { isAuthenticated, userInfo } = useAuthContext();
@@ -13,8 +15,10 @@ const RoleBasedRoute = ({ role }) => {
     if (role === "admin" || role === "psikolog") {
       return (
         <Flex maxW="7xl" mx="auto" gap={4} pos="relative">
-          {role === "admin" ? <SidebarAdmin /> : <SidebarPsikolog />}
-          <Box flex="auto" overflowX='hidden'>
+          <Suspense>
+            {role === "admin" ? <SidebarAdmin /> : <SidebarPsikolog />}
+          </Suspense>
+          <Box flex="auto" overflowX="hidden">
             <Outlet />
           </Box>
         </Flex>
