@@ -1,6 +1,6 @@
 # Edusex Frontend Repository
 
-Edusex is a sexual eduction website for teenagers
+Edusex is a sexual education website for teenagers. This web app provides materials, discussion forums, and personal consultations with psychologists regarding anything related to sexuality. Every material is equipped with a quiz which can be done in order to test your understanding of the material that you have just read.
 
 ## Tech Stack
 ### Frontend
@@ -44,7 +44,7 @@ This diagram shows several features that exist in the website
   </tr>
   <tr>
     <td valign="center">1.</td>
-    <td valign="center" width="300">Topic List</td>
+    <td valign="center" width="300">Education Topic List</td>
     <td valign="center"><img src="https://user-images.githubusercontent.com/58034788/233788735-6352577d-38b6-4e35-93de-08ce00ae70d0.png" width="600"></td>
   </tr>
   <tr>
@@ -64,12 +64,12 @@ This diagram shows several features that exist in the website
   </tr>
   <tr>
     <td valign="center">5.</td>
-    <td valign="center">Quiz Result</td>
+    <td valign="center">Quiz Result and Answers</td>
     <td valign="center"><img src="https://user-images.githubusercontent.com/58034788/233788751-b4c95553-0d77-4ac7-9e4d-6b5c0f576978.png" width="600"></td>
   </tr>
   <tr>
     <td valign="center">6.</td>
-    <td valign="center">Private Consultation</td>
+    <td valign="center">Private Consultation with Psychologists</td>
     <td valign="center"><img src="https://user-images.githubusercontent.com/58034788/233788755-01301a2a-84db-48c6-af7b-fcac08f5a801.png" width="600"></td>
   </tr>
   <tr>
@@ -126,4 +126,4 @@ This diagram shows several features that exist in the website
 [Backend Repository](https://github.com/alfonsus20/edusex-backend)
 
 ## Journal Link
-You can view the journal of this research at this [link](https://j-ptiik.ub.ac.id/index.php/j-ptiik/article/view/12085).
+You can view the journal of this web application through this [link](https://j-ptiik.ub.ac.id/index.php/j-ptiik/article/view/12085).
