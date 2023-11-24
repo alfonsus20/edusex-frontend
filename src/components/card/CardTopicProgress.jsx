@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Progress, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Progress, Text, Skeleton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const CardTopicProgress = ({
@@ -7,34 +7,46 @@ const CardTopicProgress = ({
   image,
   finishedMaterials,
   totalMaterials,
+  isLoading = false,
 }) => {
   return (
-    <Box flex="0 1 25rem" as={Link} to={`/topic/${id}/material`}>
+    <Box
+      flex="0 1 25rem"
+      as={isLoading ? "div" : Link}
+      to={`/topic/${id}/material`}
+    >
       <Flex shadow="md" p={4} alignItems="center">
-        <Image src={image} alt={topic} width={32} height={32} mr={4} />
+        <Skeleton isLoaded={!isLoading} mr={2}>
+          <Image src={image} alt={topic} width={32} height={32} mr={4} />
+        </Skeleton>
         <Box flex="1 1 auto">
-          <Text fontWeight={600} fontSize="lg" mb={2}>
-            {topic}
-          </Text>
-          <Progress
-            size="xs"
-            value={
-              totalMaterials === 0
-                ? 0
-                : (finishedMaterials / totalMaterials) * 100
-            }
-            mb={1}
-          />
-          <Text color="gray.600" fontSize="sm">
-            <Text as="span" fontWeight={600}>
-              {finishedMaterials}
+          <Skeleton minH={6} mb={2} isLoaded={!isLoading}>
+            <Text fontWeight={600} fontSize="lg">
+              {topic}
+            </Text>
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} minH={2} mb={2}>
+            <Progress
+              size="xs"
+              value={
+                totalMaterials === 0
+                  ? 0
+                  : (finishedMaterials / totalMaterials) * 100
+              }
+            />
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} minH={2}>
+            <Text color="gray.600" fontSize="sm">
+              <Text as="span" fontWeight={600}>
+                {finishedMaterials}
+              </Text>{" "}
+              dari{" "}
+              <Text as="span" fontWeight={600}>
+                {totalMaterials}
+              </Text>{" "}
+              sudah diselesaikan
             </Text>{" "}
-            dari{" "}
-            <Text as="span" fontWeight={600}>
-              {totalMaterials}
-            </Text>{" "}
-            sudah diselesaikan
-          </Text>
+          </Skeleton>
         </Box>
       </Flex>
     </Box>

@@ -2,17 +2,22 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getTopicsWithProgress } from "../api-fetch/topic";
 import CardTopicProgress from "../components/card/CardTopicProgress";
+import { generateSkeletons } from "../utils/helper";
 
 const Topic = () => {
   const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTopicWithProgress = async () => {
       try {
+        setIsLoading(true);
         const { data } = await getTopicsWithProgress();
         setTopics(data.data);
       } catch (error) {
         console.log({ error });
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -35,16 +40,18 @@ const Topic = () => {
         gap={6}
         justifyContent="center"
       >
-        {topics.map((topic) => (
-          <CardTopicProgress
-            key={topic.id}
-            id={topic.id}
-            topic={topic.name}
-            finishedMaterials={topic.finished_material}
-            totalMaterials={topic.total_material}
-            image={topic.icon_url}
-          />
-        ))}
+        {isLoading
+          ? generateSkeletons(9, CardTopicProgress)
+          : topics.map((topic) => (
+              <CardTopicProgress
+                key={topic.id}
+                id={topic.id}
+                topic={topic.name}
+                finishedMaterials={topic.finished_material}
+                totalMaterials={topic.total_material}
+                image={topic.icon_url}
+              />
+            ))}
       </Flex>
     </Box>
   );

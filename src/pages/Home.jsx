@@ -16,11 +16,12 @@ import ForumDiskusiImage from "../assets/forum_diskusi.webp";
 import { useTopicContext } from "../context/topicContext";
 import { Link } from "react-router-dom";
 import usePreloadImages from "../hooks/usePreloadImages";
+import { generateSkeletons } from "../utils/helper";
 
 const preloadedImages = [Home1Image, Home2Image, Home3Image];
 
 const Home = () => {
-  const { topics } = useTopicContext();
+  const { topics, isFetchingTopics } = useTopicContext();
   usePreloadImages(preloadedImages);
 
   return (
@@ -79,7 +80,7 @@ const Home = () => {
             src={Home2Image}
             alt="home_2"
             width={{ base: "60%", sm: "20%" }}
-            style={{ aspectRatio: "4/6" }}
+            style={{ aspectRatio: 4 / 6 }}
             mt={10}
             zIndex={10}
           />
@@ -90,7 +91,7 @@ const Home = () => {
             alignSelf="flex-start"
             zIndex={10}
             display={{ base: "none", sm: "block" }}
-            style={{ aspectRatio: "4/6" }}
+            style={{ aspectRatio: 4 / 6 }}
           />
           <Circle
             bgColor="cyan.400"
@@ -154,14 +155,17 @@ const Home = () => {
           pos="relative"
           gap={{ base: 4, lg: 8 }}
         >
-          {topics.map((topic) => (
-            <CardTopicMini
-              key={topic.id}
-              id={topic.id}
-              topic={topic.name}
-              image={topic.icon_url}
-            />
-          ))}
+          {isFetchingTopics
+            ? generateSkeletons(10, CardTopicMini)
+            : topics.map((topic) => (
+                <CardTopicMini
+                  isLoading={isFetchingTopics}
+                  key={topic.id}
+                  id={topic.id}
+                  topic={topic.name}
+                  image={topic.icon_url}
+                />
+              ))}
           <Circle bg="cyan.400" size={8} pos="absolute" left={16} top={-8} />
           <Circle
             bg="purple.400"

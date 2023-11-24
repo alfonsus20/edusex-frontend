@@ -20,6 +20,7 @@ import { getAllQuestions } from "../api-fetch/discussion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTopicContext } from "../context/topicContext";
 import CardDiscussion from "../components/card/CardDiscussion";
+import { generateSkeletons } from "../utils/helper";
 
 const Forum = () => {
   const [questions, setQuestions] = useState([]);
@@ -27,14 +28,18 @@ const Forum = () => {
   const [filterKeyword, setFilterKeyword] = useState("");
   const { topics } = useTopicContext();
   const searchRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchAllQuestions = async () => {
       try {
+        setIsLoading(true);
         const { data } = await getAllQuestions();
         setQuestions(data.data);
       } catch (error) {
         console.log({ error });
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAllQuestions();
@@ -155,7 +160,9 @@ const Forum = () => {
         </Flex>
       </Box>
       <Box>
-        {filteredQuestions.length === 0 ? (
+        {isLoading ? (
+          generateSkeletons(5, CardDiscussion)
+        ) : filteredQuestions.length === 0 ? (
           <Text textAlign="center" py={4}>
             {renderMessage()}
           </Text>

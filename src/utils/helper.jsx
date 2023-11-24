@@ -86,7 +86,7 @@ export const throttle = (cb, delay = 700) => {
 
 export const debounce = (cb, delay = 1000) => {
   let timer;
-  
+
   return (...args) => {
     clearTimeout(timer);
 
@@ -95,3 +95,8 @@ export const debounce = (cb, delay = 1000) => {
     }, delay);
   };
 };
+
+export const generateSkeletons = (length, Element) =>
+  new Array(length)
+    .fill(length)
+    .map((_, idx) => <Element isLoading key={idx} />);

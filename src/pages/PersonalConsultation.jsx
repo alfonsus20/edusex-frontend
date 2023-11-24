@@ -95,7 +95,7 @@ const PersonalConsultation = () => {
       py={4}
       mx="auto"
       maxW="7xl"
-      h={{ base: "calc(100vh - 100px)", md: "calc(100vh - 120px)" }}
+      h={{ base: "calc(100vh - 110px)", md: "calc(100vh - 136px)" }}
       px={4}
     >
       <Heading size="lg" mb={3}>

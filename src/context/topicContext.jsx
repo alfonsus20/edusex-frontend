@@ -10,21 +10,27 @@ export const TopicContext = createContext(defaultValues);
 
 export const TopicWrapper = ({ children }) => {
   const [topics, setTopics] = useState([]);
+  const [isFetchingTopics, setIsFetchingTopics] = useState(false);
 
   useEffect(() => {
     const fetchTopics = async () => {
       try {
+        setIsFetchingTopics(true);
         const { data } = await fetchAllTopics();
         setTopics(data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsFetchingTopics(false);
       }
     };
     fetchTopics();
   }, []);
 
   return (
-    <TopicContext.Provider value={{ topics }}>{children}</TopicContext.Provider>
+    <TopicContext.Provider value={{ topics, isFetchingTopics }}>
+      {children}
+    </TopicContext.Provider>
   );
 };
 

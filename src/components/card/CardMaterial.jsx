@@ -1,4 +1,4 @@
-import { Box, GridItem, Image, Text } from "@chakra-ui/react";
+import { GridItem, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const CardMaterial = ({ image, id, title }) => {

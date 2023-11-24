@@ -1,4 +1,12 @@
-import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Circle,
+  Flex,
+  Image,
+  Text,
+  Skeleton,
+  SkeletonCircle,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { DEFAULT_AVATAR } from "../../utils/constant";
 import dayjs from "dayjs";
@@ -17,6 +25,7 @@ const CardDiscussion = ({
   psychologistName,
   psychologistAvatar,
   numberOfRespond,
+  isLoading = false,
 }) => {
   return (
     <Flex
@@ -25,20 +34,22 @@ const CardDiscussion = ({
       pt={4}
       pb={5}
       borderColor="gray.300"
-      cursor="pointer"
-      as={Link}
+      _disabled={isLoading}
+      as={isLoading ? "div" : Link}
       gap={{ base: 6, sm: 8 }}
       to={`/forum/questions/${questionId}`}
     >
       <Box pos="relative" alignSelf="flex-start">
-        <Circle
-          size={{ base: 12, sm: 16 }}
-          bg="blue.200"
-          fontSize="3xl"
-          color="white"
-        >
-          {questionerName[0].toUpperCase()}
-        </Circle>
+        <SkeletonCircle size={{ base: 12, sm: 16 }} isLoaded={!isLoading}>
+          <Circle
+            size={{ base: 12, sm: 16 }}
+            bg="blue.200"
+            fontSize="3xl"
+            color="white"
+          >
+            {questionerName[0]?.toUpperCase()}
+          </Circle>
+        </SkeletonCircle>
         {psychologistName && (
           <Image
             src={psychologistAvatar || DEFAULT_AVATAR}
@@ -56,17 +67,23 @@ const CardDiscussion = ({
       </Box>
       <Box flex="auto">
         <Flex justifyContent="space-between" gap={2}>
-          <Text fontSize="lg">
-            <strong>{sensorName(questionerName)}</strong> •{" "}
-            <Text as="span" fontSize="md">
-              {dayjs(time).toNow(true)}
+          <Skeleton isLoaded={!isLoading} w="full" maxW="300px" mb={2}>
+            <Text fontSize="lg">
+              <strong>{sensorName(questionerName)}</strong> •{" "}
+              <Text as="span" fontSize="md">
+                {dayjs(time).toNow(true)}
+              </Text>
             </Text>
-          </Text>
-          <Text color="blue.400" fontWeight="semibold">
-            {numberOfRespond} balasan
-          </Text>
+          </Skeleton>{" "}
+          <Skeleton isLoaded={!isLoading} mb={2}>
+            <Text color="blue.400" fontWeight="semibold">
+              {numberOfRespond} balasan
+            </Text>{" "}
+          </Skeleton>
         </Flex>
-        <Text>{question}</Text>
+        <Skeleton isLoaded={!isLoading} minH={4}>
+          <Text>{question}</Text>
+        </Skeleton>
         {psychologistName && (
           <Text color="blue.400">Dijawab oleh Psikolog {psychologistName}</Text>
         )}
