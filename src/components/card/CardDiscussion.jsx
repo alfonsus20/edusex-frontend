@@ -76,7 +76,7 @@ const CardDiscussion = ({
             </Text>
           </Skeleton>{" "}
           <Skeleton isLoaded={!isLoading} mb={2}>
-            <Text color="blue.400" fontWeight="semibold">
+            <Text color="blue.400" fontWeight="semibold" whiteSpace='nowrap'>
               {numberOfRespond} balasan
             </Text>{" "}
           </Skeleton>

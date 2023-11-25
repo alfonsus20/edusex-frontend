@@ -10,6 +10,7 @@ import {
   InputLeftElement,
   Text,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import {
@@ -28,7 +29,9 @@ import chooseChatImg from "../assets/choose-chat.svg";
 import ChatPanel from "../components/chat/ChatPanel";
 import ChatRoom from "../components/chat/ChatRoom";
 import { useAuthContext } from "../context/authContext";
-import { debounce, pusherInstance } from "../utils/helper";
+import { debounce, generateSkeletons, pusherInstance } from "../utils/helper";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const ModalPsikolog = lazy(() => import("../components/modals/ModalPsikolog"));
 
@@ -39,6 +42,7 @@ const PersonalConsultation = () => {
   const { userInfo } = useAuthContext();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchTemp, setSearchTemp] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchChatRooms = useCallback(async () => {
     try {
@@ -46,6 +50,8 @@ const PersonalConsultation = () => {
       setRooms(data.data);
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -122,14 +128,18 @@ const PersonalConsultation = () => {
                 onChange={(e) => handleSearchChat(e.target.value)}
               />
             </InputGroup>
-            <IconButton
-              icon={<Icon as={RiChatNewFill} fontSize="xl" />}
-              colorScheme="blue"
-              onClick={onOpen}
-            />
+            <Tooltip hasArrow label="Chat dengan psikolog">
+              <IconButton
+                icon={<Icon as={RiChatNewFill} fontSize="xl" />}
+                colorScheme="blue"
+                onClick={onOpen}
+              />
+            </Tooltip>
           </Flex>
           <Box overflow="hidden">
-            {filteredRooms.length === 0 ? (
+            {isLoading ? (
+              generateSkeletons(5, ChatRoom)
+            ) : filteredRooms.length === 0 ? (
               <Text textAlign="center" py={4}>
                 {renderMessage()}
               </Text>
@@ -141,7 +151,7 @@ const PersonalConsultation = () => {
                     name={room.psikolog?.name}
                     lastMessage={room.last_message || ""}
                     numberOfUnreadMessage={room.unread_chats}
-                    time={dayjs(room.updated_at).format("HH:mm")}
+                    time={dayjs(room.updated_at).toNow("HH:mm")}
                     avatar={room.psikolog?.avatar_url}
                     path={`/personal-consultation/${room.id}`}
                   />

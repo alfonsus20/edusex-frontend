@@ -6,6 +6,8 @@ import {
   Heading,
   Image,
   Text,
+  Skeleton,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { getEmbedYoutubeURL } from "../utils/helper";
@@ -20,6 +22,7 @@ dayjs.locale("id");
 const MaterialDetail = () => {
   const { materialId } = useParams();
   const [material, setMaterial] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMaterial = async () => {
@@ -28,6 +31,8 @@ const MaterialDetail = () => {
         setMaterial(data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -39,32 +44,45 @@ const MaterialDetail = () => {
       <Box maxW="4xl" mx="auto" px={4}>
         <Box mb={4}>
           <Box mb={2}>
-            <Heading as="h2" size="lg" mb={2}>
-              {material.title}
-            </Heading>
-            <Text>
-              {dayjs(material.created_at).format("dddd, DD MMMM YYYY")}
-            </Text>
+            <Skeleton isLoaded={!isLoading} minHeight={10} mb={2}>
+              <Heading as="h2" size="lg">
+                {material.title}
+              </Heading>
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading} maxW={60}>
+              <Text>
+                {dayjs(material.created_at).format("dddd, DD MMMM YYYY")}
+              </Text>
+            </Skeleton>
           </Box>
-          <Image
-            src={material.illustration_url}
-            w="full"
-            style={{ aspectRatio: "16/9" }}
-            mx="auto"
-            mb={2}
-          />
-          <Box className="material-content" dangerouslySetInnerHTML={{ __html: material.content }} />
+          <Skeleton isLoaded={!isLoading} mb={4}>
+            <Image
+              src={material.illustration_url}
+              w="full"
+              style={{ aspectRatio: "16/9" }}
+              mx="auto"
+              mb={2}
+            />
+          </Skeleton>
+          <SkeletonText isLoaded={!isLoading} skeletonHeight={4} noOfLines={12}>
+            <Box
+              className="material-content"
+              dangerouslySetInnerHTML={{ __html: material.content }}
+            />
+          </SkeletonText>
         </Box>
         <Heading as="h3" size="lg" mb={4}>
           Video
         </Heading>
-        <AspectRatio w="full" ratio={16 / 9} mb={10}>
-          <iframe
-            title="video"
-            src={getEmbedYoutubeURL(material.video_url || "")}
-            allowFullScreen
-          />
-        </AspectRatio>
+        <Skeleton isLoaded={!isLoading}>
+          <AspectRatio w="full" ratio={16 / 9} mb={10}>
+            <iframe
+              title="video"
+              src={getEmbedYoutubeURL(material.video_url || "")}
+              allowFullScreen
+            />
+          </AspectRatio>
+        </Skeleton>
       </Box>
       <Flex
         flexDir="column"
@@ -97,7 +115,8 @@ const MaterialDetail = () => {
           colorScheme="pink"
           rounded="full"
           px={6}
-          as={Link}
+          as={isLoading ? "button" : Link}
+          disabled={isLoading}
           to={`/quiz/${material.quiz?.id}/quiz-info`}
         >
           Kerjakan Kuis

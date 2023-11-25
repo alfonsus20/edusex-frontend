@@ -2,17 +2,22 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getMyQuestions } from "../api-fetch/discussion";
 import CardDiscussion from "../components/card/CardDiscussion";
+import { generateSkeletons } from "../utils/helper";
 
 const ForumMyQuestions = () => {
   const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchMyQuestions = async () => {
       try {
+        setIsLoading(true);
         const { data } = await getMyQuestions();
         setQuestions(data.data);
       } catch (error) {
         console.log({ error });
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchMyQuestions();
@@ -27,7 +32,9 @@ const ForumMyQuestions = () => {
         Pertanyaan Saya
       </Heading>
       <Box>
-        {questions.length === 0 ? (
+        {isLoading ? (
+          generateSkeletons(4, CardDiscussion)
+        ) : questions.length === 0 ? (
           <Text textAlign="center" py={4}>
             Belum ada pertanyaan
           </Text>

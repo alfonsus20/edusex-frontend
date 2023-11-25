@@ -9,6 +9,9 @@ import {
   Textarea,
   useToast,
   VStack,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +21,7 @@ import { DEFAULT_AVATAR } from "../utils/constant";
 import { useAuthContext } from "../context/authContext";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import { showName } from "../utils/helper";
+import { generateSkeletons, showName } from "../utils/helper";
 
 dayjs.locale("id");
 
@@ -30,6 +33,7 @@ const ForumQuestionDetail = () => {
   const [reply, setReply] = useState("");
   const toast = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchQuestionDetail = useCallback(async () => {
     try {
@@ -37,6 +41,8 @@ const ForumQuestionDetail = () => {
       setQuestionDetail(data.data);
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -90,47 +96,61 @@ const ForumQuestionDetail = () => {
       </Heading>
       <Box mb={4}>
         <Flex gap={4} mb={2} alignItems="center">
-          <Circle size={14} bg="blue.200" fontSize="3xl" color="white">
-            {questionDetail.user?.name[0].toUpperCase()}
-          </Circle>
+          <SkeletonCircle isLoaded={!isLoading} size={14}>
+            <Circle size={14} bg="blue.200" fontSize="3xl" color="white">
+              {questionDetail.user?.name[0].toUpperCase()}
+            </Circle>
+          </SkeletonCircle>
           <Box flex="auto">
-            <Text fontWeight="bold" noOfLines={1}>
-              {showName(
-                questionDetail.user?.name,
-                getUserRole(questionDetail.user?.role)
-              )}
-            </Text>
-            <Text>Penanya</Text>
+            <Skeleton isLoaded={!isLoading} maxW={80} mb={2}>
+              <Text fontWeight="bold" noOfLines={1}>
+                {showName(
+                  questionDetail.user?.name,
+                  getUserRole(questionDetail.user?.role)
+                )}
+              </Text>
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading} maxW={40} height={4}>
+              <Text>Penanya</Text>
+            </Skeleton>
           </Box>
           <Box textAlign="right">
-            <Text>
-              {dayjs(questionDetail.created_at).format("DD MMMM YYYY")}
-            </Text>
-            <Text>{dayjs(questionDetail.created_at).format("HH:mm")}</Text>
+            <Skeleton isLoaded={!isLoading} maxW={80} mb={2}>
+              <Text>
+                {dayjs(questionDetail.created_at).format("DD MMMM YYYY")}
+              </Text>
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading} maxW={40} height={4}>
+              <Text>{dayjs(questionDetail.created_at).format("HH:mm")}</Text>
+            </Skeleton>
           </Box>
         </Flex>
-        <Text>{questionDetail.question}</Text>
+        <SkeletonText isLoaded={!isLoading} skeletonHeight={3}>
+          <Text>{questionDetail.question}</Text>
+        </SkeletonText>
       </Box>
       <Box ml={4} mb={8}>
         <Heading size="sm" mb={4}>
           Balasan
         </Heading>
         <VStack spacing={6} mb={6} alignItems="stretch">
-          {questionDetail.replies &&
-            (questionDetail.replies.length === 0 ? (
-              <Text textAlign="center">Belum ada jawaban</Text>
-            ) : (
-              questionDetail.replies?.map((reply) => (
-                <QuestionReply
-                  key={reply.id}
-                  reply={reply.reply}
-                  userName={reply.user?.name}
-                  role={getUserRole(reply.user?.role, reply.user?.id)}
-                  date={reply.created_at}
-                  avatar={reply.user?.avatar_url}
-                />
-              ))
-            ))}
+          {isLoading
+            ? generateSkeletons(4, QuestionReply)
+            : questionDetail.replies &&
+              (questionDetail.replies.length === 0 ? (
+                <Text textAlign="center">Belum ada jawaban</Text>
+              ) : (
+                questionDetail.replies?.map((reply) => (
+                  <QuestionReply
+                    key={reply.id}
+                    reply={reply.reply}
+                    userName={reply.user?.name}
+                    role={getUserRole(reply.user?.role, reply.user?.id)}
+                    date={reply.created_at}
+                    avatar={reply.user?.avatar_url}
+                  />
+                ))
+              ))}
         </VStack>
         <Flex>
           <Image
@@ -154,6 +174,7 @@ const ForumQuestionDetail = () => {
               mb={4}
               value={reply}
               onChange={(e) => setReply(e.target.value)}
+              disabled={isLoading}
             />
             <Flex>
               <Button

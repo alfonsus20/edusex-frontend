@@ -79,7 +79,7 @@ export const AuthWrapper = ({ children }) => {
   };
 
   useMemo(() => {
-    if (!!localStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       setIsAuthenticated(true);
       setDefaultToken();
       setUserInfo({ role: localStorage.getItem("role") });

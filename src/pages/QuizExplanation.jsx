@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Icon, Text, VStack, Skeleton } from "@chakra-ui/react";
 import { FaCheckCircle, FaRegTimesCircle, FaRegCircle } from "react-icons/fa";
 
 const QuizExplanation = ({
@@ -7,6 +7,7 @@ const QuizExplanation = ({
   options,
   explanation,
   question,
+  isLoading = false,
 }) => {
   const getColorAndIcon = (optionId, isTrueAnswer) => {
     let icon = null;
@@ -25,6 +26,10 @@ const QuizExplanation = ({
 
     return { icon, color };
   };
+
+  if (isLoading) {
+    return <Skeleton height={60} />;
+  }
 
   return (
     <Flex fontSize="lg">
