@@ -29,7 +29,7 @@ const ForumQuestionDetail = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const [questionDetail, setQuestionDetail] = useState({});
-  const { userInfo } = useAuthContext();
+  const { userInfo, isAuthenticated } = useAuthContext();
   const [reply, setReply] = useState("");
   const toast = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -168,13 +168,17 @@ const ForumQuestionDetail = () => {
               Berikan Komentar
             </Text>
             <Textarea
-              placeholder="Ketikkan komentarmu"
+              placeholder={
+                isAuthenticated
+                  ? "Ketikkan komentarmu"
+                  : "Login untuk berkomentar"
+              }
               resize="none"
               rows={5}
               mb={4}
               value={reply}
               onChange={(e) => setReply(e.target.value)}
-              disabled={isLoading}
+              disabled={isLoading || !isAuthenticated}
             />
             <Flex>
               <Button

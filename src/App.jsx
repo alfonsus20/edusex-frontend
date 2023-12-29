@@ -123,8 +123,6 @@ function App() {
                   </Route>
                   <Route element={<PublicRoute />}>
                     <Route path="/" element={<Home />} />
-                  </Route>
-                  <Route element={<RoleBasedRoute role="user" />}>
                     <Route path="/topic" element={<Topic />} />
                     <Route
                       path="/topic/:topicId/material"
@@ -134,6 +132,13 @@ function App() {
                       path="/material/:materialId"
                       element={<MaterialDetail />}
                     />
+                    <Route path="/forum" element={<Forum />} />
+                    <Route
+                      path="/forum/questions/:questionId"
+                      element={<ForumQuestionDetail />}
+                    />
+                  </Route>
+                  <Route element={<RoleBasedRoute role="user" />}>
                     <Route
                       path="/quiz/:quizId/quiz-info"
                       element={<QuizInfo />}
@@ -142,11 +147,6 @@ function App() {
                     <Route
                       path="/quiz/:attemptId/result"
                       element={<QuizResult />}
-                    />
-                    <Route path="/forum" element={<Forum />} />
-                    <Route
-                      path="/forum/questions/:questionId"
-                      element={<ForumQuestionDetail />}
                     />
                     <Route path="/forum/ask" element={<ForumAskQuestion />} />
                     <Route

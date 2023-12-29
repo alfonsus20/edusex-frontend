@@ -1,12 +1,16 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getTopicsWithProgress } from "../api-fetch/topic";
 import CardTopicProgress from "../components/card/CardTopicProgress";
 import { generateSkeletons } from "../utils/helper";
+import { useTopicContext } from "../context/topicContext";
+import { useAuthContext } from "../context/authContext";
 
 const Topic = () => {
   const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { topics: globalTopics, isFetchingTopics } = useTopicContext();
+  const { isAuthenticated } = useAuthContext();
 
   useEffect(() => {
     const fetchTopicWithProgress = async () => {
@@ -21,8 +25,14 @@ const Topic = () => {
       }
     };
 
-    fetchTopicWithProgress();
-  }, []);
+    if (isAuthenticated) {
+      fetchTopicWithProgress();
+    }
+  }, [isAuthenticated]);
+
+  const renderedTopics = useMemo(() => {
+    return isAuthenticated ? topics : globalTopics;
+  }, [isAuthenticated, topics, globalTopics]);
 
   return (
     <Box pt={8} pb={12} px={4}>
@@ -40,9 +50,9 @@ const Topic = () => {
         gap={6}
         justifyContent="center"
       >
-        {isLoading
+        {isLoading || isFetchingTopics
           ? generateSkeletons(9, CardTopicProgress)
-          : topics.map((topic) => (
+          : renderedTopics.map((topic) => (
               <CardTopicProgress
                 key={topic.id}
                 id={topic.id}

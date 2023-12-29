@@ -1,5 +1,7 @@
 import { Box, Flex, Image, Progress, Text, Skeleton } from "@chakra-ui/react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext";
 
 const CardTopicProgress = ({
   id,
@@ -9,6 +11,8 @@ const CardTopicProgress = ({
   totalMaterials,
   isLoading = false,
 }) => {
+  const { isAuthenticated } = useAuthContext();
+
   return (
     <Box
       flex="0 1 25rem"
@@ -25,28 +29,32 @@ const CardTopicProgress = ({
               {topic}
             </Text>
           </Skeleton>
-          <Skeleton isLoaded={!isLoading} minH={2} mb={2}>
-            <Progress
-              size="xs"
-              value={
-                totalMaterials === 0
-                  ? 0
-                  : (finishedMaterials / totalMaterials) * 100
-              }
-            />
-          </Skeleton>
-          <Skeleton isLoaded={!isLoading} minH={2}>
-            <Text color="gray.600" fontSize="sm">
-              <Text as="span" fontWeight={600}>
-                {finishedMaterials}
-              </Text>{" "}
-              dari{" "}
-              <Text as="span" fontWeight={600}>
-                {totalMaterials}
-              </Text>{" "}
-              sudah diselesaikan
-            </Text>{" "}
-          </Skeleton>
+          {isAuthenticated && (
+            <Fragment>
+              <Skeleton isLoaded={!isLoading} minH={2} mb={2}>
+                <Progress
+                  size="xs"
+                  value={
+                    totalMaterials === 0
+                      ? 0
+                      : (finishedMaterials / totalMaterials) * 100
+                  }
+                />
+              </Skeleton>
+              <Skeleton isLoaded={!isLoading} minH={2}>
+                <Text color="gray.600" fontSize="sm">
+                  <Text as="span" fontWeight={600}>
+                    {finishedMaterials}
+                  </Text>{" "}
+                  dari{" "}
+                  <Text as="span" fontWeight={600}>
+                    {totalMaterials}
+                  </Text>{" "}
+                  sudah diselesaikan
+                </Text>{" "}
+              </Skeleton>
+            </Fragment>
+          )}
         </Box>
       </Flex>
     </Box>
