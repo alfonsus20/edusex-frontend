@@ -100,3 +100,7 @@ export const generateSkeletons = (length, Element) =>
   new Array(length)
     .fill(length)
     .map((_, idx) => <Element isLoading key={idx} />);
+
+export const isValidObject = (value) => {
+  return value && typeof value === "object" && !Array.isArray(value);
+};
